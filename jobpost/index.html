@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>채용공고 추천 프롬프트 생성기</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#111827; --line:#1f2937; --text:#e5e7eb; --muted:#9ca3af;
+      --accent:#60a5fa; --bad:#ef4444; --chip:#0b1220; --soft:#ffffff12;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    .wrap{max-width:1120px; margin:0 auto; padding:18px;}
+    .title{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    h1{margin:0; font-size:20px;}
+    .sub{color:var(--muted); font-size:13px; margin-top:6px; line-height:1.4}
+    .grid{display:grid; grid-template-columns: 1fr; gap:12px; margin-top:14px;}
+    @media (min-width: 980px){ .grid{grid-template-columns: 430px 1fr;} }
+
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, #0f172a, #0b1220);
+      border:1px solid var(--line); border-radius:16px; padding:14px;
+      box-shadow:0 10px 30px #00000030;
+      overflow:hidden;
+    }
+    .card h2{margin:0 0 10px; font-size:15px;}
+    label{display:block; font-size:12px; color:var(--muted); margin:10px 0 6px;}
+    input, select, textarea{
+      width:100%; padding:10px 10px; border-radius:12px;
+      border:1px solid var(--line); background:#0b1220; color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:220px; resize:vertical; line-height:1.5}
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    .row3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.4}
+    .divider{height:1px; background:var(--line); margin:12px 0;}
+
+    .btn{
+      padding:10px 12px; border-radius:999px; border:1px solid var(--line);
+      background:var(--chip); color:var(--text); cursor:pointer; font-size:13px;
+      display:inline-flex; align-items:center; gap:8px;
+      user-select:none;
+      transition:transform .05s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .btn.primary{border-color:#2b4c7a; background:#0b1b33;}
+    .btn.bad{border-color:#7f1d1d; background:#2a0707;}
+    .btn:active{transform:translateY(1px)}
+    .btn[aria-pressed="true"]{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px #60a5fa22 inset;
+    }
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+
+    .pill{
+      font-size:12px; color:#cbd5e1; border:1px solid var(--line); background:var(--soft);
+      border-radius:999px; padding:6px 10px;
+    }
+    .outHead{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+    .small{font-size:12px; color:var(--muted)}
+
+    /* CTA buttons */
+    .ctaWrap{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .cta{
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid #1d4ed8;
+      background:linear-gradient(180deg, #1d4ed8, #1e40af);
+      color:#fff;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:800;
+      min-width: 120px;
+      box-shadow:0 10px 18px #00000040;
+      letter-spacing:.2px;
+    }
+    .cta:active{transform:translateY(1px)}
+    .cta.copy{
+      border-color:#047857;
+      background:linear-gradient(180deg, #10b981, #047857);
+      min-width: 120px;
+    }
+    .cta.done{
+      border-color:#14532d;
+      background:linear-gradient(180deg, #22c55e, #166534);
+      color:#052e1a;
+      box-shadow:0 10px 18px #00000030;
+    }
+
+    /* Meta bar under header */
+    .topMeta{
+      margin-top:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#0b1220;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .metaItem{
+      display:flex; gap:6px; align-items:center;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid var(--line);
+      background:var(--soft);
+      font-size:12px;
+      color:#cbd5e1;
+    }
+    .metaKey{color:var(--muted)}
+    .metaVal{color:#fff; font-weight:800}
+
+    .midNotice{
+      margin:10px 0 8px;
+      padding:10px 12px;
+      border:1px dashed #2b4c7a;
+      border-radius:12px;
+      background:#0b1b331a;
+      color:#cbd5e1;
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+    /* Bottom area */
+    .footArea{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+    .notice2{
+      color:var(--muted);
+      font-size:11.5px;
+      line-height:1.45;
+      max-width: 820px;
+    }
+    .credit{
+      text-align:right;
+      font-size:11.5px;
+      line-height:1.45;
+      color:#cbd5e1;
+      margin-left:auto;
+    }
+    .credit a{color:#93c5fd; text-decoration:none}
+    .credit a:hover{text-decoration:underline}
+
+    /* Ensure credit is the very bottom */
+    .creditBottom{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px dashed var(--line);
+      text-align:right;
+      font-size:11.5px;
+      line-height:1.45;
+      color:#cbd5e1;
+    }
+    .creditBottom a{color:#93c5fd; text-decoration:none}
+    .creditBottom a:hover{text-decoration:underline}
+
+    /* Selected prompt type on left */
+    .selRow{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px;}
+    .selTag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:var(--soft);
+      color:#cbd5e1;
+    }
+    .selTag strong{color:#fff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <div>
+        <h1>채용공고 추천 프롬프트 생성기</h1>
+        <div class="sub">
+          입력값 기반으로 LLM이 <b>최근 1개월 · 마감 제외</b> 공고를 수집/정규화하고<br/>
+          <b>전공 적합도 가중</b>로 Top30 정렬 + 연관 20개를 추가 추천하도록 프롬프트를 생성합니다.
+        </div>
+      </div>
+      <div class="tabs">
+        <span class="pill"><b>Top30</b> 표</span>
+        <span class="pill"><b>+20</b> 연관</span>
+        <span class="pill"><b>국내/외국계/글로벌</b></span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT -->
+      <div class="card">
+        <h2>입력</h2>
+
+        <div class="row">
+          <div>
+            <label>이름</label>
+            <input id="name" placeholder="예: 원준" />
+          </div>
+          <div>
+            <label>학력</label>
+            <select id="edu">
+              <option value="2년제">2년제</option>
+              <option value="4년제" selected>4년제</option>
+              <option value="석사">석사</option>
+              <option value="박사">박사</option>
+              <option value="무관">무관</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>전공</label>
+            <input id="major" placeholder="예: 산업공학 / 컴퓨터공학 / 경영학" />
+          </div>
+          <div>
+            <label>희망직무</label>
+            <input id="role" placeholder="예: 데이터분석 / 마케팅 / HR / 세일즈" />
+          </div>
+        </div>
+
+        <div class="row3">
+          <div>
+            <label>경력(년)</label>
+            <input id="exp" type="number" min="0" step="0.5" value="0" />
+          </div>
+          <div>
+            <label>근무지역</label>
+            <input id="location" placeholder="예: 서울 / 경기 / 원격" />
+          </div>
+          <div>
+            <label>언어</label>
+            <select id="lang">
+              <option value="ko" selected>한국어</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <label>보유역량/키워드(선택)</label>
+        <textarea id="skills" placeholder="예: SQL, Python, GA4, CRM, B2B 세일즈, 채용 브랜딩 등"></textarea>
+
+        <label>제외 키워드(선택)</label>
+        <input id="exclude" placeholder="예: 인턴, 계약직, 야간, 파견 등 (쉼표로 구분)" />
+
+        <div class="divider"></div>
+
+        <div class="small">공고 탐색 범위</div>
+        <div class="tabs" role="tablist" aria-label="공고 범위">
+          <button class="btn primary" id="btnKR" aria-pressed="true">🇰🇷 국내공고</button>
+          <button class="btn" id="btnForeign" aria-pressed="false">🏢 외국계공고(한국 근무)</button>
+          <button class="btn" id="btnGlobal" aria-pressed="false">🌍 글로벌공고</button>
+        </div>
+
+        <div class="hint">
+          <b>국내공고</b>: <u>국내 기업 중심</u>으로 검색/선별<br/>
+          <b>외국계공고</b>: <u>근무지는 한국</u>이지만 <u>외국계 기업 중심</u>으로 검색/선별<br/>
+          <b>글로벌공고</b>: 해외/원격 포함 글로벌 포지션(영문 JD 가능)
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="small">프롬프트 유형 선택 (선택만 되고, 생성은 오른쪽 상단 ‘생성’ 버튼으로 합니다)</div>
+        <div class="actions">
+          <button class="btn" id="selMajor">🎯 전공우선 채용공고</button>
+          <button class="btn" id="selMore">➕ 추가채용공고</button>
+          <button class="btn" id="sample">🧪 Sample</button>
+          <button class="btn bad" id="reset">↩︎ 초기화</button>
+        </div>
+
+        <div class="selRow">
+          <span class="selTag">선택됨: <strong id="selLabel">전공우선 채용공고</strong></span>
+          <span class="selTag">샘플: <strong id="sampleLabel">미적용</strong></span>
+        </div>
+
+        <div class="hint">
+          - 버튼은 <b>선택 상태만 변경</b>합니다. 실제 프롬프트 생성은 오른쪽 상단의 <b>생성</b>을 눌러주세요.
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="card">
+        <div class="outHead">
+          <div>
+            <h2 style="margin:0;">출력</h2>
+            <div class="small">생성된 프롬프트를 그대로 LLM(예: ChatGPT)에 붙여넣어 사용하세요.</div>
+          </div>
+          <div class="ctaWrap">
+            <span class="pill" id="modePill">모드: 국내공고</span>
+            <button class="cta" id="makeBtn">생성</button>
+            <button class="cta copy" id="copyBtn">복사</button>
+          </div>
+        </div>
+
+        <!-- 선택 정보 표시(학력/전공/직무 + 경력/근무지역/언어) -->
+        <div class="topMeta" id="metaBar" aria-live="polite">
+          <div class="metaItem"><span class="metaKey">학력</span><span class="metaVal" id="metaEdu">-</span></div>
+          <div class="metaItem"><span class="metaKey">전공</span><span class="metaVal" id="metaMajor">-</span></div>
+          <div class="metaItem"><span class="metaKey">직무</span><span class="metaVal" id="metaRole">-</span></div>
+          <div class="metaItem"><span class="metaKey">경력</span><span class="metaVal" id="metaExp">-</span></div>
+          <div class="metaItem"><span class="metaKey">근무지역</span><span class="metaVal" id="metaLoc">-</span></div>
+          <div class="metaItem"><span class="metaKey">언어</span><span class="metaVal" id="metaLang">-</span></div>
+        </div>
+
+        <div class="midNotice">
+          생성된 프롬프트를 복사해서 AI에 넣어 활용하시기 바랍니다.
+        </div>
+
+        <label>생성된 프롬프트</label>
+        <textarea class="mono" id="output" placeholder="오른쪽 상단 ‘생성’ 버튼을 눌러 프롬프트를 생성하세요."></textarea>
+
+        <div class="footArea">
+          <div class="notice2">
+            기업 채용공고는 수시로 수정되거나 마감되므로 AI를 통한 추출은 단순 참고용으로 활용하시기 바랍니다.<br/>
+            관련공고와 연계된 채용공고를 참고해서 본인에게 부족한 역량이 무엇인지를 항상 체크하시기 바랍니다.
+          </div>
+        </div>
+
+        <!-- Made by: 가장 아랫쪽(요청사항) -->
+        <div class="creditBottom">
+          Made by Kang wonjun (Linkedin Korea Patner)<br/>
+          <a href="https://www.linkedin.com/in/ceohr" target="_blank" rel="noopener">www.linkedin.com/in/ceohr</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ---------- State ----------
+  const state = {
+    mode: "KR",          // KR | FOREIGN | GLOBAL
+    promptType: "MAJOR", // MAJOR | MORE
+    sampleApplied: false
+  };
+
+  const el = (id) => document.getElementById(id);
+
+  function setMode(mode){
+    state.mode = mode;
+    const isKR = mode==="KR";
+    const isF  = mode==="FOREIGN";
+    const isG  = mode==="GLOBAL";
+
+    el("btnKR").setAttribute("aria-pressed", isKR);
+    el("btnForeign").setAttribute("aria-pressed", isF);
+    el("btnGlobal").setAttribute("aria-pressed", isG);
+
+    el("btnKR").className = "btn" + (isKR ? " primary" : "");
+    el("btnForeign").className = "btn" + (isF ? " primary" : "");
+    el("btnGlobal").className = "btn" + (isG ? " primary" : "");
+
+    el("modePill").textContent = "모드: " + (isKR ? "국내공고" : isF ? "외국계공고(한국 근무)" : "글로벌공고");
+  }
+
+  function readInput(){
+    return {
+      name: (el("name").value || "").trim(),
+      edu: el("edu").value,
+      major: (el("major").value || "").trim(),
+      role: (el("role").value || "").trim(),
+      exp: (el("exp").value || "0").toString().trim(),
+      location: (el("location").value || "").trim(),
+      lang: el("lang").value,
+      skills: (el("skills").value || "").trim(),
+      exclude: (el("exclude").value || "").trim(),
+      mode: state.mode
+    };
+  }
+
+  function updateMetaBar(input){
+    el("metaEdu").textContent = input.edu || "-";
+    el("metaMajor").textContent = input.major || "-";
+    el("metaRole").textContent = input.role || "-";
+    el("metaExp").textContent = (input.exp !== "" ? `${input.exp}년` : "-");
+    el("metaLoc").textContent = input.location || "-";
+    el("metaLang").textContent = (input.lang === "en" ? "English" : "한국어");
+  }
+
+  function setPromptType(type){
+    state.promptType = type;
+    const isMajor = type === "MAJOR";
+    const isMore  = type === "MORE";
+
+    el("selMajor").setAttribute("aria-pressed", isMajor);
+    el("selMore").setAttribute("aria-pressed", isMore);
+
+    el("selLabel").textContent = isMajor ? "전공우선 채용공고" : "추가채용공고";
+  }
+
+  function modeGuidance(mode){
+    // 사용자가 요청한 “국내 기업 중심 / 외국계(근무지 한국) 외국계 기업 중심”을 강하게 지시
+    if(mode==="KR"){
+      return {
+        label: "국내공고(국내 기업 중심)",
+        sources: [
+          "국내 기업 채용 페이지(회사 공식 채용 사이트 우선)",
+          "국내 채용 플랫폼(예: 원티드, 사람인, 잡코리아 등)에서 '국내 기업' 공고 중심",
+        ],
+        queryHint:
+          "외국계/글로벌 기업이 섞이면 제외 또는 후순위. 국내 기업(본사 한국) 중심으로 선별."
+      };
+    }
+    if(mode==="FOREIGN"){
+      return {
+        label: "외국계공고(근무지 한국, 외국계 기업 중심)",
+        sources: [
+          "한국 내 외국계 기업(지사/법인) 공식 채용 페이지",
+          "글로벌 플랫폼의 Korea/Seoul 필터 결과(단, 회사가 외국계인 공고 우선)",
+        ],
+        queryHint:
+          "근무지는 반드시 한국(Seoul/Korea 등)이어야 함. 회사가 외국계(본사 해외/다국적)인지 확인 후 포함."
+      };
+    }
+    return {
+      label: "글로벌공고(해외/원격 포함)",
+      sources: [
+        "글로벌 채용 플랫폼/기업 채용 페이지(영문 포함)",
+        "원격/해외 포지션 포함",
+      ],
+      queryHint:
+        "영문 JD 허용. 원격/비자/근무국가 등 조건을 메타로 표기."
+    };
+  }
+
+  function baseConstraintsText(input){
+    const g = modeGuidance(input.mode);
+    const excludeLine = input.exclude ? `- 제외 키워드: ${input.exclude}\n` : "";
+    const skillsLine = input.skills ? `- 보유역량/키워드: ${input.skills}\n` : "";
+
+    // 모드별 강제 조건을 추가로 명시
+    let modeHardRule = "";
+    if(input.mode === "KR"){
+      modeHardRule = `6) (국내공고 모드) 국내 기업(본사 한국) 공고 중심으로 구성. 외국계/해외본사 기업 공고는 제외 또는 최후순위.`;
+    } else if(input.mode === "FOREIGN"){
+      modeHardRule = `6) (외국계공고 모드) 근무지는 반드시 한국. 회사는 외국계(본사 해외/다국적)인 경우만 포함.`;
+    } else {
+      modeHardRule = `6) (글로벌공고 모드) 해외/원격 포함 가능. 근무국가/원격여부/비자요건이 있으면 함께 표기.`;
+    }
+
+    return `## 후보자 프로필
+- 이름: ${input.name || "(미입력)"}
+- 학력: ${input.edu}
+- 전공: ${input.major || "(미입력)"}
+- 희망직무: ${input.role || "(미입력)"}
+- 경력(년): ${input.exp}
+- 근무지역 선호: ${input.location || "(미입력)"}
+${skillsLine}${excludeLine}
+## 탐색 모드
+- 분류: ${g.label}
+- 권장 소스: ${g.sources.map(s=>`  - ${s}`).join("\n")}
+- 탐색 힌트: ${g.queryHint}
+
+## 필수 제약(강제)
+1) 최근 1개월 이내에 게시/업데이트된 공고만 포함(오늘 기준 30일 이내).
+2) 채용 종료/마감/Closed/Expired/모집완료 공고는 제외.
+3) 중복 공고(동일 회사+직무+링크)는 1개만 유지.
+4) 링크는 실제 공고 URL(바로 열리는 링크)로 제공.
+5) 결과는 반드시 표 형태로 출력.
+${modeHardRule}`;
+  }
+
+  function scoringRubric(){
+    return `## 스코어링(0~100) 규칙
+- 직무 적합도(0~40): JD 핵심업무/책임과 희망직무 일치
+- 전공 가점(0~25): 전공이 JD에서 '우대/필수/관련학과'로 직접 연결되는 정도
+- 스킬/키워드 매칭(0~20): 보유역량/키워드와 JD 요구역량 일치
+- 경력 적합(0~10): 경력연차/레벨(주니어/시니어) 정합성
+- 위치/근무형태(0~5): 지역/원격/하이브리드 선호 반영
+
+> 최종점수 = 위 항목 합. 동점이면 '전공 가점'이 높은 순으로 우선 정렬.`;
+  }
+
+  function tableSchemaTop30(){
+    return `## 출력 형식: Top30 표(필수)
+| 순위 | 회사 | 포지션 | 분류(국내/외국계/글로벌) | 근무지 | 경력/레벨 | 전공우대근거(한줄) | 핵심요약(2~3줄) | 적합도점수(0~100) | 링크 |
+|---:|---|---|---|---|---|---|---|---:|---|
+
+규칙:
+- '전공우대근거'는 JD에서 전공이 긍정적으로 작용하는 근거를 1줄로 요약.
+- '핵심요약'은 업무/요건/우대의 핵심만 압축.
+- 링크는 Markdown 링크: [공고보기](https://...)`;
+  }
+
+  function tableSchemaMore20(){
+    return `## 출력 형식: 추가 연관공고 20개(필수)
+| 번호 | 회사 | 포지션 | 왜 연관인가(한줄) | 링크 |
+|---:|---|---|---|---|
+
+규칙:
+- Top30과 완전히 동일한 공고는 제외.
+- '왜 연관인가'는 Top30 공통 키워드/스킬/업무와의 연결을 1줄로 설명.
+- 최근 1개월 + 마감 제외 유지.`;
+  }
+
+  function buildTop30Prompt(input){
+    return `당신은 채용공고 리서처이자 커리어 매칭 전문가입니다.
+사용자 프로필을 기반으로 "${input.role || "희망직무"}" 관련 공고를 수집/정규화하고,
+특히 "${input.major || "전공"}"이 '긍정적(우대/필수/관련학과)'으로 작용하는 공고를 우선 추천하세요.
+
+${baseConstraintsText(input)}
+
+${scoringRubric()}
+
+## 작업 지시
+A) 공고 수집
+- 위 '탐색 모드'에 맞게 웹에서 공고를 찾고, 각 공고의 게시일/업데이트일/마감여부를 확인하세요.
+- 1개월 조건을 충족하지 못하면 제외.
+
+B) 정규화
+- 회사명, 포지션명, 근무지, 경력/레벨, 전공 우대 근거, 핵심요약, 링크를 추출.
+
+C) 스코어링 및 정렬
+- 스코어링 규칙으로 0~100 점수 부여.
+- Top 30개를 점수 내림차순 정렬(동점이면 전공가점 높은 순).
+
+${tableSchemaTop30()}
+
+## 추가 요구
+- 표 아래에 "Top30에서 가장 많이 등장한 공통 요구역량 Top5"를 bullet로 요약하세요.
+- 불확실한 정보(게시일/마감여부 등)는 '확인불가'로 표기하고, 가능하면 교차확인하세요.
+
+이제 바로 실행해서 결과를 출력하세요.`;
+  }
+
+  function buildMore20Prompt(input){
+    return `당신은 방금 생성한 Top30 결과를 분석해 추가 공고를 확장 추천하는 전문가입니다.
+
+${baseConstraintsText(input)}
+
+## 작업 지시(추가채용공고)
+1) Top30에서 반복 출현한 키워드(업무/스킬/툴/도메인/산업)를 최소 10개 추출하세요.
+2) 그 키워드를 활용해 인접 직무/유사 역할로 검색 범위를 확장하세요.
+3) 최근 1개월 + 마감 제외 조건을 유지하며, Top30과 중복되지 않는 공고 20개를 찾으세요.
+
+${tableSchemaMore20()}
+
+## 품질 규칙
+- 링크가 유효하지 않거나 공고가 마감이면 제외.
+- 가능하면 서로 다른 회사 비중을 높이되(다양성), 적합도가 낮으면 억지로 포함하지 마세요.
+
+이제 바로 추가 20개를 출력하세요.`;
+  }
+
+  function resetCopyBtn(){
+    const b = el("copyBtn");
+    b.classList.remove("done");
+    b.textContent = "복사";
+  }
+
+  function setCopyDone(){
+    const b = el("copyBtn");
+    b.classList.add("done");
+    b.textContent = "복사완료";
+    setTimeout(()=> resetCopyBtn(), 1300);
+  }
+
+  async function copyTextWithFallback(text){
+    try{
+      if (navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    }catch(e){}
+
+    try{
+      const ta = el("output");
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      return !!document.execCommand("copy");
+    }catch(e){
+      return false;
+    }
+  }
+
+  async function copyOut(){
+    const text = (el("output").value || "").trim();
+    if(!text) return;
+
+    const ok = await copyTextWithFallback(text);
+    if(ok) setCopyDone();
+    else alert("복사에 실패했습니다. 출력창을 클릭 후 Ctrl+C로 복사해주세요.");
+  }
+
+  function generate(){
+    const input = readInput();
+    updateMetaBar(input);
+
+    const prompt =
+      state.promptType === "MAJOR"
+        ? buildTop30Prompt(input)
+        : buildMore20Prompt(input);
+
+    el("output").value = prompt;
+    resetCopyBtn();
+  }
+
+  function resetAll(){
+    el("name").value = "";
+    el("edu").value = "4년제";
+    el("major").value = "";
+    el("role").value = "";
+    el("exp").value = 0;
+    el("location").value = "";
+    el("lang").value = "ko";
+    el("skills").value = "";
+    el("exclude").value = "";
+    el("output").value = "";
+    state.promptType = "MAJOR";
+    state.sampleApplied = false;
+    el("sampleLabel").textContent = "미적용";
+    setMode("KR");
+    setPromptType("MAJOR");
+    updateMetaBar(readInput());
+    resetCopyBtn();
+  }
+
+  function applySampleOnly(){
+    el("name").value = "원준";
+    el("edu").value = "4년제";
+    el("major").value = "경영학";
+    el("role").value = "채용/HR(리크루팅)";
+    el("exp").value = 3;
+    el("location").value = "서울";
+    el("lang").value = "ko";
+    el("skills").value = "채용 프로세스 운영, 인터뷰 코디네이션, 채용 브랜딩, ATS, 데이터 기반 리포팅";
+    el("exclude").value = "인턴, 파견, 야간";
+    state.sampleApplied = true;
+    el("sampleLabel").textContent = "적용";
+    updateMetaBar(readInput());
+  }
+
+  // ---------- Wire up ----------
+  el("btnKR").addEventListener("click", ()=>setMode("KR"));
+  el("btnForeign").addEventListener("click", ()=>setMode("FOREIGN"));
+  el("btnGlobal").addEventListener("click", ()=>setMode("GLOBAL"));
+
+  el("selMajor").addEventListener("click", ()=>setPromptType("MAJOR"));
+  el("selMore").addEventListener("click", ()=>setPromptType("MORE"));
+  el("sample").addEventListener("click", applySampleOnly);
+
+  el("makeBtn").addEventListener("click", generate);
+  el("copyBtn").addEventListener("click", copyOut);
+  el("reset").addEventListener("click", resetAll);
+
+  // 메타바 실시간 갱신
+  ["edu","major","role","exp","location","lang"].forEach(id=>{
+    el(id).addEventListener("input", ()=>updateMetaBar(readInput()));
+    el(id).addEventListener("change", ()=>updateMetaBar(readInput()));
+  });
+
+  // init
+  setMode("KR");
+  setPromptType("MAJOR");
+  updateMetaBar(readInput());
+</script>
+</body>
+</html>
