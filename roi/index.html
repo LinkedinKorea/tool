@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>채용 ROI 계산기 | LinkedIn 솔루션 내부 설득용</title>
+  <style>
+    :root{--bg:#0b0f14;--card:#111827;--muted:#9ca3af;--text:#e5e7eb;--accent:#60a5fa;--line:#1f2937;--good:#34d399;--bad:#fb7185}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,Helvetica,Arial; background:linear-gradient(180deg,#070a0f, #0b0f14 40%); color:var(--text)}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 16px 56px}
+    .header{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .title h1{margin:0;font-size:22px;letter-spacing:-.2px}
+    .title p{margin:8px 0 0;color:var(--muted);line-height:1.5}
+    .pill{display:inline-flex;gap:8px;align-items:center;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:#cfe6ff;padding:8px 10px;border-radius:999px;font-size:12px}
+    .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-top:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .card{background:rgba(17,24,39,.72);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.25);overflow:hidden}
+    .card .hd{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .card .hd b{font-size:14px}
+    .card .bd{padding:14px 16px}
+
+    .form{display:grid;gap:12px}
+    .row{display:grid;grid-template-columns:1fr 180px;gap:12px;align-items:end}
+    @media (max-width:520px){.row{grid-template-columns:1fr}}
+    label{display:block;font-size:12px;color:#cbd5e1;margin-bottom:6px}
+    .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.35}
+    input{width:100%;padding:12px 12px;border-radius:12px;border:1px solid var(--line);background:#0b1220;color:var(--text);outline:none}
+    input:focus{border-color:rgba(96,165,250,.6);box-shadow:0 0 0 3px rgba(96,165,250,.14)}
+    .unit{font-size:12px;color:var(--muted);margin-left:8px}
+
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    button{appearance:none;border:1px solid var(--line);background:#0b1220;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:600;font-size:13px}
+    button.primary{border-color:rgba(96,165,250,.45);background:rgba(96,165,250,.14)}
+    button:hover{filter:brightness(1.07)}
+
+    .kpis{display:grid;gap:10px}
+    .kpi{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(11,18,32,.55)}
+    .kpi .t{font-size:12px;color:var(--muted)}
+    .kpi .v{font-size:18px;font-weight:800;margin-top:6px;letter-spacing:-.2px}
+    .kpi .s{font-size:12px;margin-top:6px;color:var(--muted);line-height:1.4}
+    .kpi.good .v{color:var(--good)}
+    .kpi.bad .v{color:var(--bad)}
+
+    .mini{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.55}
+    .hr{height:1px;background:var(--line);margin:14px 0}
+    .foot{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.6}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:rgba(17,24,39,.92);border:1px solid var(--line);padding:10px 12px;border-radius:12px;box-shadow:0 12px 24px rgba(0,0,0,.35);font-size:13px;display:none;z-index:9999}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">
+        <h1>채용 ROI 계산기 (LinkedIn 솔루션 내부 설득용)</h1>
+        <p>
+          6개 숫자만 입력하면 <b>기존 채용 비용</b>(헤드헌터 + 채용 지연 손실)과 <b>LinkedIn 솔루션 도입 시 절감 효과</b>를 즉시 계산합니다.
+          <br/>※ 본 계산기는 “추정치 기반” 도구입니다. 회사 상황에 맞게 손실 비용 가정을 조정하세요.
+        </p>
+      </div>
+      <div class="pill">⚡ 공식: <span class="mono">(연봉×수수료×인원) + (지연월×월손실×인원) − 솔루션비용</span></div>
+    </div>
+
+    <div class="grid">
+      <!-- Inputs -->
+      <div class="card">
+        <div class="hd">
+          <b>입력값</b>
+          <span class="unit">원(₩) / % / 명 / 개월</span>
+        </div>
+        <div class="bd">
+          <div class="form">
+            <div class="row">
+              <div>
+                <label for="salary">연봉 (1인 기준)</label>
+                <input id="salary" inputmode="numeric" placeholder="예: 70000000" />
+                <div class="hint">채용 대상 포지션의 연봉(또는 총보상)을 입력하세요.</div>
+              </div>
+              <div>
+                <label for="fee">헤드헌터 수수료율 (%)</label>
+                <input id="fee" inputmode="decimal" placeholder="예: 20" />
+                <div class="hint">통상 15~25% 범위가 많습니다.</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="hires">연간 채용 인원 (명)</label>
+                <input id="hires" inputmode="numeric" placeholder="예: 2" />
+                <div class="hint">해당 직군/포지션 기준 연간 채용 예정 인원.</div>
+              </div>
+              <div>
+                <label for="delay">채용 지연 월수 (개월)</label>
+                <input id="delay" inputmode="decimal" placeholder="예: 2" />
+                <div class="hint">"충원까지 지연된 평균 기간"을 입력하세요.</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="gap">월간 인재 공백 손실 비용 (원)</label>
+                <input id="gap" inputmode="numeric" placeholder="예: 5000000" />
+                <div class="hint">프로젝트 지연, 매출 기회 손실, 팀 생산성 저하 등 월 단위 손실 추정치.</div>
+              </div>
+              <div>
+                <label for="lic">LinkedIn 솔루션 연간 비용 (원)</label>
+                <input id="lic" inputmode="numeric" placeholder="예: 25000000" />
+                <div class="hint">연간 구독/라이선스 비용(부가세 제외/포함은 회사 기준으로 통일).</div>
+              </div>
+            </div>
+
+            <div class="btns">
+              <button class="primary" id="calc">계산하기</button>
+              <button id="sample">샘플 값 넣기</button>
+              <button id="reset">초기화</button>
+              <button id="copy">결과 요약 복사</button>
+              <button id="download">CSV 다운로드</button>
+            </div>
+
+            <div class="mini">
+              팁) 내부 보고서에는 <b>가정(월손실 산정 근거)</b>를 한 줄로 함께 적으면 설득력이 급상승합니다.
+              예: “프로젝트 1개월 지연 시 매출/성과 목표 미달 위험으로 월 500만원 손실 가정”.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="card">
+        <div class="hd">
+          <b>계산 결과</b>
+          <span class="unit">자동 업데이트</span>
+        </div>
+        <div class="bd">
+          <div class="kpis">
+            <div class="kpi" id="kpi1">
+              <div class="t">헤드헌터 총 비용 (연봉 × 수수료 × 인원)</div>
+              <div class="v" id="headhunt">-</div>
+              <div class="s" id="headhuntSub">-</div>
+            </div>
+            <div class="kpi" id="kpi2">
+              <div class="t">채용 지연 손실 비용 (지연월 × 월손실 × 인원)</div>
+              <div class="v" id="delaycost">-</div>
+              <div class="s" id="delaySub">-</div>
+            </div>
+            <div class="kpi" id="kpi3">
+              <div class="t">총 기존 채용 비용</div>
+              <div class="v" id="base">-</div>
+              <div class="s">= 헤드헌터 비용 + 지연 손실</div>
+            </div>
+            <div class="kpi" id="kpi4">
+              <div class="t">ROI 절감 효과</div>
+              <div class="v" id="roi">-</div>
+              <div class="s" id="roiSub">= 총 기존 비용 − 솔루션 비용</div>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+          <div class="mini" id="talktrack">
+            입력값을 넣으면, CFO/대표 설득에 바로 쓸 수 있는 요약 문구가 자동 생성됩니다.
+          </div>
+
+          <div class="foot">
+            <b>활용 가이드</b><br/>
+            1) 결과 요약을 복사해 내부 메일/보고서에 붙여넣기<br/>
+            2) “3개월 파일럿 + KPI(응답률/충원기간/헤드헌터 대체율)”로 제안하기<br/>
+            3) LinkedIn 기업용 솔루션은 <b>패시브 인재</b> 접근과 <b>스킬 기반 소싱</b>을 강화하는 데 유리합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot" style="margin-top:16px">
+      <b>면책</b>: 본 계산기는 의사결정을 돕기 위한 추정 도구입니다. 실제 비용/효과는 포지션, 채용 시장, 프로세스 성숙도, 운영 방식에 따라 달라질 수 있습니다.
+      <p><b>문의: 링크드인 기업용 솔루션은 Linkedin Korea Partner 에게 문의하시기 바랍니다. (02-6405-4446 / help@hrpoint.co.kr)</b></p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">복사되었습니다.</div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const fmtKRW = (n) => {
+      if (!isFinite(n)) return '-';
+      return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW', maximumFractionDigits: 0 }).format(n);
+    };
+
+    const toNum = (v) => {
+      if (v == null) return 0;
+      const s = String(v).replace(/[,\s]/g,'').trim();
+      if (s === '') return 0;
+      const x = Number(s);
+      return isFinite(x) ? x : 0;
+    };
+
+    const toast = (msg='복사되었습니다.') => {
+      const t = $('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(()=>{t.style.display='none';}, 1600);
+    };
+
+    const calc = () => {
+      const salary = toNum($('salary').value);
+      const feePct = toNum($('fee').value) / 100;
+      const hires = toNum($('hires').value);
+      const delayM = toNum($('delay').value);
+      const gap = toNum($('gap').value);
+      const lic = toNum($('lic').value);
+
+      const headhunt = salary * feePct * hires;
+      const delayCost = delayM * gap * hires;
+      const base = headhunt + delayCost;
+      const roi = base - lic;
+
+      $('headhunt').textContent = fmtKRW(headhunt);
+      $('delaycost').textContent = fmtKRW(delayCost);
+      $('base').textContent = fmtKRW(base);
+      $('roi').textContent = fmtKRW(roi);
+
+      $('headhuntSub').textContent = `= ${fmtKRW(salary)} × ${(feePct*100).toFixed(2)}% × ${hires}명`;
+      $('delaySub').textContent = `= ${delayM}개월 × ${fmtKRW(gap)} × ${hires}명`;
+      $('roiSub').textContent = `= ${fmtKRW(base)} − ${fmtKRW(lic)}`;
+
+      // Color hint
+      $('kpi4').classList.remove('good','bad');
+      if (roi > 0) $('kpi4').classList.add('good');
+      if (roi < 0) $('kpi4').classList.add('bad');
+
+      // Talk track
+      const headline = roi >= 0
+        ? `현재 가정 기준으로 LinkedIn 솔루션 도입 시 연간 ${fmtKRW(roi)} 절감(또는 기회비용 회피) 효과가 예상됩니다.`
+        : `현재 가정 기준으로는 연간 ${fmtKRW(Math.abs(roi))} 만큼 추가 투자로 보이지만, (응답률/충원기간 개선 등) KPI로 파일럿 검증을 권장합니다.`;
+
+      const text = `${headline}\n\n` +
+        `- 기존 채용 비용(추정): ${fmtKRW(base)} (헤드헌터 ${fmtKRW(headhunt)} + 지연손실 ${fmtKRW(delayCost)})\n` +
+        `- 솔루션 비용(연간): ${fmtKRW(lic)}\n` +
+        `- 제안: 3개월 파일럿으로 ‘헤드헌터 대체율/충원기간/응답률’ KPI를 검증 후 확대 도입`; 
+
+      $('talktrack').textContent = text;
+
+      return { salary, feePct, hires, delayM, gap, lic, headhunt, delayCost, base, roi, text };
+    };
+
+    const copySummary = async () => {
+      const r = calc();
+      try{
+        await navigator.clipboard.writeText(r.text);
+        toast('결과 요약이 복사되었습니다.');
+      }catch(e){
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = r.text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        toast('결과 요약이 복사되었습니다.');
+      }
+    };
+
+    const downloadCSV = () => {
+      const r = calc();
+      const rows = [
+        ['항목','값'],
+        ['연봉(1인)', r.salary],
+        ['헤드헌터 수수료율(%)', (r.feePct*100)],
+        ['연간 채용 인원(명)', r.hires],
+        ['채용 지연 월수(개월)', r.delayM],
+        ['월간 인재 공백 손실 비용(원)', r.gap],
+        ['LinkedIn 솔루션 연간 비용(원)', r.lic],
+        ['헤드헌터 총 비용(원)', r.headhunt],
+        ['채용 지연 손실 비용(원)', r.delayCost],
+        ['총 기존 채용 비용(원)', r.base],
+        ['ROI 절감 효과(원)', r.roi],
+      ];
+      const csv = rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob(["\ufeff"+csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'LinkedIn_ROI_Calculation.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    const setSample = () => {
+      $('salary').value = '70000000';
+      $('fee').value = '20';
+      $('hires').value = '2';
+      $('delay').value = '2';
+      $('gap').value = '5000000';
+      $('lic').value = '25000000';
+      calc();
+      toast('샘플 값을 입력했어요.');
+    };
+
+    const resetAll = () => {
+      ['salary','fee','hires','delay','gap','lic'].forEach(id=>$(id).value='');
+      calc();
+      toast('초기화 완료');
+    };
+
+    $('calc').addEventListener('click', (e)=>{e.preventDefault(); calc();});
+    $('sample').addEventListener('click', (e)=>{e.preventDefault(); setSample();});
+    $('reset').addEventListener('click', (e)=>{e.preventDefault(); resetAll();});
+    $('copy').addEventListener('click', (e)=>{e.preventDefault(); copySummary();});
+    $('download').addEventListener('click', (e)=>{e.preventDefault(); downloadCSV();});
+
+    // Recalculate on input
+    ['salary','fee','hires','delay','gap','lic'].forEach(id=>{
+      $(id).addEventListener('input', ()=>{calc();});
+    });
+
+    // Initial render
+    calc();
+  </script>
+</body>
+</html>
