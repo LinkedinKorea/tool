@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>취업 AI 프롬프트 생성기</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#0f172a; --card:#111827; --line:#243041;
+      --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa;
+      --shadow: 0 10px 28px rgba(0,0,0,.35);
+      --shadow2: 0 18px 45px rgba(0,0,0,.45);
+      --r:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#070a10,#0b0f14 30%, #070a10); color:var(--text);
+      font-family:system-ui,-apple-system,"Noto Sans KR","Apple SD Gothic Neo",Segoe UI,Roboto,Arial,sans-serif;}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px 16px 26px;}
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      padding:14px 14px;border:1px solid var(--line);background:rgba(17,24,39,.65);
+      border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter: blur(8px);
+    }
+    .brand{display:flex;align-items:center;gap:10px;}
+    .logo{
+      width:38px;height:38px;border-radius:12px;background:radial-gradient(circle at 30% 30%, #93c5fd, #2563eb 60%, #1e3a8a);
+      box-shadow:0 16px 30px rgba(96,165,250,.22), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .title{font-weight:900;letter-spacing:-.3px;}
+    .sub{color:var(--muted);font-size:12px;margin-top:2px; line-height:1.35}
+    .sub a{color:rgba(229,231,235,.78); text-decoration:none}
+    .sub a:hover{text-decoration:underline}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    button{
+      appearance:none;border:1px solid var(--line);background:#0b1220;color:var(--text);
+      padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:800;
+      transition:.15s transform,.15s opacity,.15s border-color,.15s box-shadow,.15s background;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.10);
+      white-space:nowrap;
+    }
+    button:hover{transform: translateY(-1px); border-color:#355070; box-shadow: 0 14px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12);}
+    button:active{transform: translateY(0px); opacity:.95; box-shadow: 0 8px 18px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);}
+    .btn-primary{
+      background:linear-gradient(180deg,#3b82f6,#1d4ed8);
+      border-color:#2b59c3;
+      box-shadow: 0 18px 40px rgba(37,99,235,.22), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .btn-primary:hover{box-shadow: 0 22px 55px rgba(37,99,235,.25), inset 0 1px 0 rgba(255,255,255,.25);}
+    .btn-ghost{background:transparent}
+    .btn-ok{
+      background:linear-gradient(180deg, rgba(34,197,94,.20), rgba(34,197,94,.10));
+      border-color:rgba(34,197,94,.25)
+    }
+
+    .grid{margin-top:16px; display:grid; grid-template-columns: 1fr; gap:14px;}
+    @media(min-width:980px){ .grid{grid-template-columns: 420px 1fr;} }
+    .card{
+      border:1px solid var(--line); background:rgba(17,24,39,.75);
+      border-radius:var(--r); box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0; padding:14px 14px; font-size:14px; letter-spacing:-.2px;
+      border-bottom:1px solid var(--line); background:rgba(15,23,42,.65);
+    }
+    .card .body{padding:14px;}
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
+    input{
+      width:100%; padding:11px 12px; border-radius:12px; border:1px solid #223042;
+      background:#0b1220; color:var(--text);
+      outline:none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    input:focus{border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.2), inset 0 1px 0 rgba(255,255,255,.10)}
+    .hint{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.55}
+
+    .tabs{
+      display:flex;gap:10px;flex-wrap:wrap; padding:12px; border-bottom:1px solid var(--line);
+      background:rgba(15,23,42,.65);
+    }
+    .tab{
+      position:relative;
+      font-size:13px; font-weight:900; padding:10px 12px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
+      cursor:pointer; user-select:none;
+      text-shadow:none;
+      box-shadow:
+        0 14px 28px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -10px 20px rgba(0,0,0,.22);
+      transform: translateY(0px);
+      transition:.14s transform,.14s box-shadow,.14s border-color,.14s filter;
+      white-space:nowrap;
+    }
+    .tab:hover{
+      transform: translateY(-2px);
+      border-color: rgba(96,165,250,.35);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.50),
+        inset 0 1px 0 rgba(255,255,255,.24),
+        inset 0 -10px 22px rgba(0,0,0,.24);
+      filter: brightness(1.06);
+    }
+    .tab:active{transform: translateY(0px); filter: brightness(0.98);}
+    .tab::after{
+      content:"";
+      position:absolute; left:14px; right:14px; top:7px; height:10px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,255,255,.25), rgba(255,255,255,0));
+      pointer-events:none;
+      opacity:.55;
+    }
+    .tab.active{
+      border-color: rgba(96,165,250,.55);
+      background:linear-gradient(180deg, rgba(96,165,250,.22), rgba(37,99,235,.10));
+      box-shadow:
+        0 20px 46px rgba(37,99,235,.20),
+        0 16px 32px rgba(0,0,0,.48),
+        inset 0 1px 0 rgba(255,255,255,.25),
+        inset 0 -12px 26px rgba(0,0,0,.28);
+      filter:saturate(1.1);
+    }
+
+    .panel{padding:14px}
+    .rowTop{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+    .small{font-size:12px;color:var(--muted);line-height:1.45}
+
+    .controlBar{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(11,18,32,.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .leftGroup{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+    .rightGroup{
+      display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;
+      gap:12px;flex:1 1 auto;min-width:260px;
+    }
+
+    .group{
+      display:flex;align-items:center;gap:8px;
+      padding-left:12px;border-left:1px solid rgba(255,255,255,.08);
+    }
+    .group:first-child{border-left:none;padding-left:0;}
+
+    .miniLabel{
+      font-size:11px;
+      color:rgba(229,231,235,.55);
+      margin-right:6px;
+      letter-spacing:-.1px;
+      white-space:nowrap;
+    }
+
+    .outbox{
+      margin-top:0;border:1px solid #223042;border-radius:14px;overflow:hidden;
+      background:#060b14;box-shadow: var(--shadow2);
+    }
+    pre{
+      margin:0;padding:14px;white-space:pre-wrap;word-break:break-word;tab-size:2;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12.7px;line-height:1.7;color:#e5e7eb;
+    }
+
+    #btnCopy{
+      padding:12px 18px;font-size:14px;border-radius:14px;
+      min-width:150px;text-align:center;
+    }
+    .copiedState{
+      background:linear-gradient(180deg, rgba(96,165,250,.28), rgba(37,99,235,.16)) !important;
+      border-color: rgba(96,165,250,.55) !important;
+      color: #eaf2ff !important;
+      box-shadow: 0 18px 40px rgba(37,99,235,.20), inset 0 1px 0 rgba(255,255,255,.18) !important;
+    }
+
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:13px;color:#cbd5e1;
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(11,18,32,.55);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      cursor:pointer;user-select:none;
+      transition:.14s transform,.14s border-color,.14s filter;
+      white-space:nowrap;
+    }
+    .chip:hover{transform: translateY(-1px); border-color: rgba(96,165,250,.30); filter: brightness(1.05);}
+    .chip:active{transform: translateY(0px); filter: brightness(0.98);}
+    .dot{width:9px;height:9px;border-radius:999px;background:#334155;box-shadow:0 0 0 3px rgba(51,65,85,.18)}
+    .dot.on{background:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.20)}
+    .dot.redOn{background:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.20)}
+
+    @media(max-width:640px){
+      .controlBar{align-items:flex-start}
+      .rightGroup{justify-content:flex-start}
+      .group{border-left:none;padding-left:0}
+    }
+
+    .modeHelp{margin-top:10px;color: rgba(229,231,235,.58);font-size: 11px;line-height: 1.55;}
+    .modeHelp b{color: rgba(229,231,235,.75)}
+
+    .notice{margin-top:12px;padding:10px 12px;border-radius:14px;border:1px solid rgba(245,158,11,.25);
+      background:rgba(245,158,11,.08);color:#fcd34d;font-size:12px;line-height:1.6;}
+    .noticeTitle{font-weight:900;margin-bottom:6px;color:#fde68a}
+    .notice ul{margin:0;padding-left:18px;}
+    .notice li{margin:4px 0}
+    .footer{margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6}
+    .kbd{display:inline-block;padding:2px 6px;border:1px solid #223042;border-radius:6px;background:#0b1220;color:#cbd5e1;
+      font-family:ui-monospace,monospace;font-size:11px}
+    .pageBottom{max-width:1100px;margin:18px auto 0;padding:0 16px 28px;color:rgba(229,231,235,.75);font-size:12px;line-height:1.6;text-align:center;}
+    .pageBottom .box{display:inline-block;padding:10px 12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(17,24,39,.45);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.10);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">취업 AI 프롬프트 생성기</div>
+          <div class="sub">
+            Made by 강원준_Linkedin Korea Partner HR Point(2026)<br/>
+            <a href="https://www.linkedin.com/in/ceohr" target="_blank" rel="noopener noreferrer">www.linkedin.com/in/ceohr</a>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-ghost" id="btnFillSample" type="button">샘플 입력</button>
+        <button class="btn-ghost" id="btnReset" type="button">초기화</button>
+        <button class="btn-primary" id="btnGenerate" type="button">프롬프트 생성</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Left -->
+      <section class="card">
+        <h2>1) 내 정보 입력</h2>
+        <div class="body">
+          <label for="name">이름</label>
+          <input id="name" placeholder="예: 홍길동" />
+
+          <label for="major">전공</label>
+          <input id="major" placeholder="예: 경영학 / 컴퓨터공학 / 전자공학 ..." />
+
+          <label for="industry">희망 업종(산업)</label>
+          <input id="industry" placeholder="예: IT/플랫폼, 제조, 금융, 컨설팅, 게임, 바이오 ..." />
+
+          <label for="role">희망 직무</label>
+          <input id="role" placeholder="예: 데이터분석, 마케팅, HR, 영업, SW개발, PM ..." />
+
+          <label for="company">희망 기업</label>
+          <input id="company" placeholder="예: 네이버 / 삼성전자 / 토스 / 현대자동차 ..." />
+
+          <div class="notice">
+            <div class="noticeTitle">신뢰도평가</div>
+            <ul>
+              <li>“채용공고 20개”, “최근 1년 자소서 문항”, “최근 2년 기출면접”은 사실 근거가 중요합니다.</li>
+              <li>프롬프트에 <b>출처/링크/근거 표기</b>와 <b>불확실 시 ‘확인 불가’ 처리</b> 규칙이 포함되어 있습니다.</li>
+            </ul>
+          </div>
+
+          <div class="hint">
+            사용 팁<br/>
+            1) 생성된 프롬프트를 그대로 <b>생성형AI</b>에 붙여넣기<br/>
+            2) 답변이 마음에 들면 “표로 정리”, “더 구체적으로”, “한국/글로벌 기준으로” 같은 추가 지시를 후속으로 요청<br/>
+            3) 링크/근거가 부족하면 “출처 링크를 더 추가해줘”라고 재요청<br/>
+            4) 연관기업/연관직무 분석은 결과의 “유사군(클러스터)”를 기준으로 비교하면 정확도가 올라갑니다
+          </div>
+        </div>
+      </section>
+
+      <!-- Right -->
+      <section class="card">
+        <div class="tabs" role="tablist" aria-label="분석 탭">
+          <div class="tab active" data-tab="corp" role="tab" aria-selected="true">기업분석</div>
+          <div class="tab" data-tab="job" role="tab" aria-selected="false">직무분석</div>
+          <div class="tab" data-tab="posting" role="tab" aria-selected="false">채용공고분석</div>
+          <div class="tab" data-tab="essay" role="tab" aria-selected="false">자기소개서 분석</div>
+          <div class="tab" data-tab="interview" role="tab" aria-selected="false">면접분석</div>
+        </div>
+
+        <div class="panel">
+          <div class="rowTop">
+            <div class="small" id="panelDesc">선택한 탭에 맞는 프롬프트가 생성됩니다.</div>
+
+            <div class="controlBar">
+              <div class="leftGroup">
+                <button class="btn-ok" id="btnCopy" type="button">복사</button>
+              </div>
+
+              <div class="rightGroup">
+                <div class="group" aria-label="취업지역 선택">
+                  <span class="miniLabel">취업지역</span>
+                  <span class="chip" id="chipK" role="button" tabindex="0"><span class="dot" id="dotK"></span>한국</span>
+                  <span class="chip" id="chipG" role="button" tabindex="0"><span class="dot" id="dotG"></span>글로벌</span>
+                  <span class="chip" id="chipN" role="button" tabindex="0"><span class="dot" id="dotN"></span>일반</span>
+                </div>
+
+                <div class="group" aria-label="답변길이 선택">
+                  <span class="miniLabel">답변길이</span>
+                  <span class="chip" id="modeCompact" role="button" tabindex="0"><span class="dot" id="dotCompact"></span>핵심요약</span>
+                  <span class="chip" id="modeDetailed" role="button" tabindex="0"><span class="dot" id="dotDetailed"></span>상세내용&후속질문</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="outbox" aria-live="polite">
+            <pre id="output">(왼쪽 정보를 입력하고 “프롬프트 생성”을 누르세요)</pre>
+          </div>
+
+          <div class="modeHelp">
+            <b>일반</b>은 한국/글로벌 기준을 강제하지 않는 기본 모드입니다.<br/>
+            입력한 <b>희망기업/업종/직무</b>에 맞춰 상황에 맞게 유연하게 분석하도록 프롬프트가 구성됩니다.
+          </div>
+
+          <div class="footer">
+            단축키: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> 프롬프트 생성 ·
+            <span class="kbd">Ctrl</span> + <span class="kbd">C</span> 출력창 클릭 후 복사
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="pageBottom">
+    <div class="box">
+      교육을 위해 작성된 프롬프트로 본인에게 적합한 내용으로 수정 활용하셔도 좋습니다.
+    </div>
+  </div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const $ = (id)=>document.getElementById(id);
+
+  // ---- Hard guard: if any critical element is missing, stop silently ----
+  const requiredIds = [
+    "btnFillSample","btnReset","btnGenerate","btnCopy",
+    "name","major","industry","role","company",
+    "chipK","chipG","chipN","modeCompact","modeDetailed",
+    "dotK","dotG","dotN","dotCompact","dotDetailed",
+    "panelDesc","output"
+  ];
+  for(const id of requiredIds){
+    if(!$(id)){
+      console.error("Missing element:", id);
+      return;
+    }
+  }
+
+  const tabs = Array.from(document.querySelectorAll(".tab"));
+
+  let activeTab = "corp";
+  let styleMode = "compact";     // 기본: 핵심요약
+  let localeMode = "normal";     // normal | korea | global
+  let includeFollowup = false;   // 핵심요약 기본: false
+
+  const descMap = {
+    corp: "기업 분석: 연관기업(경쟁사) 비교 + 연관직무 관점으로 지원전략까지",
+    job: "직무 분석: 희망직무 + 연관직무까지 확장해 핵심역량/툴/성과지표/포트폴리오 정리",
+    posting: "채용공고 분석: 공고 20개 근거 기반 요구사항 랭킹 + 연관기업/연관직무 비교",
+    essay: "자기소개서 분석: 최근 1년 희망기업 기출 문항 우선 + 연관기업 문항 연계 정리",
+    interview: "면접 분석: 최근 2년 기출 수집 + 직무/연관직무 공통 질문으로 모의면접"
+  };
+
+  function getProfile(){
+    return {
+      name: ($("name").value || "").trim(),
+      major: ($("major").value || "").trim(),
+      industry: ($("industry").value || "").trim(),
+      role: ($("role").value || "").trim(),
+      company: ($("company").value || "").trim(),
+    };
+  }
+  function validateProfile(p){
+    const missing = [];
+    if(!p.name) missing.push("이름");
+    if(!p.major) missing.push("전공");
+    if(!p.industry) missing.push("희망업종");
+    if(!p.role) missing.push("희망직무");
+    if(!p.company) missing.push("희망기업");
+    return missing;
+  }
+
+  const HR = "────────────────────────────────────────";
+  const h1 = (t)=>`◆ ${t}`;
+  const h2 = (t)=>`■ ${t}`;
+  const sec = (title, lines)=>[h2(title), ...lines].join("\n");
+  const normalizeSpacing = (text)=>text.replace(/\n{3,}/g, "\n\n").trim();
+
+  function headerBlock(p){
+    return normalizeSpacing([
+      h1("역할 & 목표"),
+      "- 당신은 채용 컨설턴트 + 리서처 + 프롬프트 엔지니어입니다.",
+      "- 아래 [지원자 프로필]을 기반으로, 요청한 분석을 '근거 기반'으로 수행하세요.",
+      "",
+      HR,
+      h1("지원자 프로필"),
+      `- 이름: ${p.name}`,
+      `- 전공: ${p.major}`,
+      `- 희망 업종(산업): ${p.industry}`,
+      `- 희망 직무: ${p.role}`,
+      `- 희망 기업: ${p.company}`,
+      "",
+      HR,
+      h1("연관 확장 분석(필수)"),
+      "1) 연관기업(competitor/peer set): 희망기업과 동일 업종/유사 BM 기준으로 3~5개 선정 후 비교 관점으로 분석",
+      "2) 연관직무(adjacent roles): 희망직무와 협업/인접 역량 기준으로 3~5개 선정 후 공통역량·차이점 제시",
+      "",
+      HR,
+      h1("공통 규칙(중요)"),
+      "1) 사실·수치·연도·순위·인용이 들어가는 내용은 반드시 출처 링크를 제공",
+      "2) 웹 검색이 불가하거나 근거가 부족하면 추측 금지, '확인 불가'로 표기",
+      "3) 결과 구조: 요약(3~5줄) → 표/리스트 → 액션 아이템",
+      "4) 한국어로 작성(고유명사/공식명칭은 원문 병기 가능)",
+    ].join("\n"));
+  }
+
+  function modeLine(){
+    const style =
+      styleMode === "compact" ? "매우 간결(핵심만, 표 중심)" :
+      "매우 상세(근거·예시·가정·리스크 포함)";
+
+    let locText = "국가 제한 없음";
+    let locInstruction = "";
+
+    if(localeMode === "korea"){
+      locText = "한국 취업 기준";
+      locInstruction = [
+        "※ 분석은 한국 기업 및 한국 채용 시장 기준으로 수행할 것.",
+        "※ 자소서/면접/직무기술서는 국내 대기업·중견기업 관행 중심.",
+        "※ 채용공고는 국내 채용 플랫폼/공식 홈페이지 기준 참고."
+      ].join("\n");
+    } else if(localeMode === "global"){
+      locText = "글로벌 취업 기준";
+      locInstruction = [
+        "※ 분석은 한국 기업이 아닌 글로벌 기업 중심으로 수행할 것.",
+        "※ Fortune 500 / Big Tech / 글로벌 플랫폼 기업 기준을 우선.",
+        "※ Job Description은 영문 JD 기준으로 해석.",
+        "※ Resume(영문), Behavioral Interview(STAR), Case Interview 관행을 반영.",
+        "※ LinkedIn / Indeed / Glassdoor 등 글로벌 채용 플랫폼 기준 참고."
+      ].join("\n");
+    }
+
+    return normalizeSpacing([
+      sec("출력 모드", [`- 스타일: ${style}`, `- 기준: ${locText}`]),
+      locInstruction ? ("\n" + locInstruction) : ""
+    ].join("\n"));
+  }
+
+  function localeDirectivesForTask(){
+    if(localeMode === "global"){
+      return sec("글로벌 기업 중심 추가 지시(강제)", [
+        "1) 연관기업은 한국 기업보다 글로벌 기업/다국적 기업을 우선 선정(동일 산업/유사 BM).",
+        "2) 분석 자료는 영문 자료/IR/보도자료/글로벌 리포트/채용 플랫폼을 우선 참고.",
+        "3) 자기소개서는 Resume/Personal Statement 관점도 함께 제안(필요 시 영문 bullet 예시 포함).",
+        "4) 면접은 Behavioral(STAR) + Case/Technical(직무별) 관행을 반영."
+      ]);
+    }
+    if(localeMode === "korea"){
+      return sec("한국 채용 관행 추가 지시", [
+        "1) 연관기업은 국내 동종/유사 BM 기업을 우선 선정.",
+        "2) 자소서 문항 의도/평가 포인트는 국내 관행(직무역량/지원동기/경험) 중심으로 정리.",
+        "3) 면접은 국내 전형(실무/임원/인성/PT·과제 등) 흐름을 반영."
+      ]);
+    }
+    return "";
+  }
+
+  // --- Prompts (same structure) ---
+  function corpPrompt(p){ return normalizeSpacing([headerBlock(p),"",modeLine(),"",localeDirectivesForTask(),"",HR,h1("요청: 기업분석 + 연관기업/연관직무 연계"),
+    `- 목표: ${p.company} 지원을 위해 기업 이해도와 연관기업 대비 포지셔닝을 확보하고,`,
+    `       ${p.role} 및 연관직무 관점에서 '지원전략'을 도출한다.`,
+    "",sec("조사/분석 항목",[
+      "A) 기업 개요: 사업구조(매출원), 핵심 제품/서비스, 고객군, 수익모델",
+      "B) 최근 24개월 주요 이슈: 신사업/조직개편/투자/M&A/규제/리스크/논란",
+      "C) 성과/핵심지표: 매출/이익/사용자/고객/KPI 추세(출처 링크 필수)",
+      "D) 연관기업 비교: 3~5개 선정 → 제품/가격/채널/강점·약점/최근 이슈 비교표",
+      "E) 산업 트렌드: 향후 12~24개월 트렌드 5가지(근거 링크 포함)",
+      "F) 직무 관점 연결: 직무/연관직무별 기업 과제 5개 + 해결 레버(레버→지표 영향)",
+      "G) 지원전략: 차별화 포인트 3개 + 한 문장 포지션 + 포트폴리오/경험 제안 3개",
+    ]),"",sec("출력 형식",[
+      "1) 1페이지 요약(핵심 결론 5줄)",
+      "2) 연관기업 비교표(최소 7개 항목)",
+      "3) 연관직무 관점 차이표(역할/지표/필요역량/대표 산출물)",
+      "4) 리스크/반박 대비 Q&A 5개",
+      "5) 지원자 맞춤 액션 아이템 7개",
+    ])].join("\n"));}
+
+  function jobPrompt(p){ return normalizeSpacing([headerBlock(p),"",modeLine(),"",localeDirectivesForTask(),"",HR,h1("요청: 직무분석 + 연관직무/연관기업 연계"),
+    `- 목표: '${p.role}' 직무를 ${p.industry} 기준으로 정의하고,`,
+    `       ${p.company} 및 연관기업군에서의 역할 차이를 비교한다.`,
+    "",sec("조사/분석 항목",[
+      "A) 직무 정의: 해결하는 문제/가치(Why)와 범위(Scope)",
+      "B) 핵심 업무 Top 8: 주간/월간/분기 리듬으로 예시화",
+      "C) 스킬 맵: 하드/소프트/도메인/툴·스택 + 숙련도 레벨",
+      "D) KPI/OKR: 지표와 개선 레버 연결(레버→지표 영향)",
+      "E) 연관직무 비교: 3~5개 직무와 공통/차별 역량 + 전환(브릿지) 스킬",
+      "F) 연관기업 비교: 기업군별 직무 과제 차이(제품/채널/규모/규제 관점)",
+      `G) 포트폴리오 설계: 전공(${p.major}) 기반 프로젝트 3개(산출물·평가지표·리스크 포함)`,
+    ]),"",sec("출력 형식",[
+      "1) 직무 한 문장 정의(희망기업 버전 + 연관기업 일반 버전)",
+      "2) 스킬 맵 표(필수/우대/학습권장)",
+      "3) 연관직무 비교표(역할/지표/필요역량/산출물)",
+      "4) 포트폴리오 3개 상세(기간/데이터/툴/결과물/리스크)",
+      "5) 면접 평가 포인트 10개(직무별 구분)",
+    ])].join("\n"));}
+
+  function postingPrompt(p){ return normalizeSpacing([headerBlock(p),"",modeLine(),"",localeDirectivesForTask(),"",HR,h1("요청: 채용공고분석(최근 공고 20개) + 연관기업/연관직무 연계"),
+    `- 목표: '${p.industry}' 업종의 '${p.role}' 및 연관직무 공고를 최근 것 위주로 20개 수집하여`,
+    "       공통 요구사항을 랭킹하고, 연관기업군 비교 인사이트를 도출한다.",
+    "",sec("수집 규칙",[
+      "1) 최근 6~12개월 공고 우선",
+      "2) 공고별: 회사/직무/연관직무 여부/게시일/링크를 표로 기록",
+      "3) 요구사항(자격요건/우대사항/업무내용) 추출 → 키워드 표준화",
+      "4) 표준화 예: 'SQL'/'데이터 추출'→SQL, '협업'/'커뮤니케이션'→커뮤니케이션",
+      "5) 링크 없는 공고는 제외(부족분은 추가로 찾아 20개 채우기)",
+    ]),"",sec("분석 산출물",[
+      "A) 공고 20개 목록표(회사/직무/연관직무/게시일/링크)",
+      "B) 공통 요구사항 Top 15(빈도 + 대표 문구(짧게) + 출처 링크)",
+      "C) 상위 5개 요구사항: 정의 + 증빙 가능한 경험/포트폴리오 예시 3개 + 자소서/Resume 문장 템플릿 2개",
+      "D) 연관기업 비교: 기업군별 요구사항 차이(규모/제품/채널/데이터/규제 관점)",
+      "E) 지원자 갭 분석: 강점/보완점/학습 플랜(4주/8주)",
+    ]),"",sec("웹 검색 불가 시 처리",[
+      "1) '사용자가 공고 링크 20개를 제공하면 분석 가능'을 명확히 안내",
+      "2) 대신 공고 수집 방법 + 키워드 추출 템플릿 + 표준화 룰을 구체적으로 제공",
+    ])].join("\n"));}
+
+  function essayPrompt(p){ return normalizeSpacing([headerBlock(p),"",modeLine(),"",localeDirectivesForTask(),"",HR,h1("요청: 자기소개서 분석(최근 1년) + 희망기업 기출 문항 전체 우선 + 연관기업 연계"),
+    `- 목표: 최근 1년간 ${p.company}의 '기출된 자기소개서 항목(문항) 전체'를 우선 수집해 기본 목록으로 제시하고,`,
+    "       이후 연관기업군 문항을 연계해 공통 의도/평가 포인트/차이점을 정리한다.",
+    "",sec("1단계: 희망기업 기출 문항(최근 1년) 전체 수집",[
+      `A) ${p.company}의 최근 1년 채용/공식 안내/채용 페이지에서 자소서 문항을 가능한 한 '누락 없이' 수집`,
+      "B) 문항별로: 채용시기(연-월)/직무/문항 원문/링크를 표로 정리",
+      "C) 출처가 불명확하면 제외 또는 '확인 불가' 표기",
+      "D) 수집 결과는 '희망기업 문항 전체 목록'으로 먼저 단독 섹션으로 보여줄 것",
+    ]),"",sec("2단계: 연관기업 문항 연계(비교/클러스터링)",[
+      "A) 연관기업 3~5개를 선정하고, 같은 기간(최근 1년) 문항을 추가 수집(링크 포함)",
+      "B) 희망기업 문항과 연관기업 문항을 합쳐 문항을 클러스터링: 지원동기/직무역량/협업/문제해결/성장/실패/가치관/윤리 등",
+      "C) 클러스터별로: '문항 의도(평가역량)' + '합격 답변 구조' + '감점 요소' 정리",
+      "D) 직무/연관직무 관점으로: 같은 문항이라도 강조해야 할 역량 차이(희망직무 vs 연관직무) 비교",
+    ]),"",sec("3단계: 작성 가이드(지원자 맞춤)",[
+      "A) 전공/경험을 직무 언어로 변환: 소재 후보 10개를 직무 관점으로 재해석",
+      "B) 문항 유형별 합격 체크리스트 + 문장 템플릿(성과/근거 중심)",
+      "C) 1주/2주/4주 작성 로드맵(리서치→스토리→초안→피드백→최종)",
+    ]),"",sec("출력 형식(필수)",[
+      `1) [희망기업(${p.company})] 최근 1년 자소서 문항 '전체 목록' 표`,
+      "2) [연관기업] 문항 추가 목록 표",
+      "3) 문항 클러스터링 결과(클러스터별 의도/평가/감점/답변구조)",
+      "4) 직무 vs 연관직무 강조점 비교표",
+      "5) 지원자 맞춤 작성 로드맵 + 체크리스트",
+    ]),"",sec("웹 검색 불가 시 처리",[
+      "1) 사용자가 희망기업 채용 링크/문항 원문을 붙여넣으면 즉시 분석하도록 입력 템플릿(표 양식) 제공",
+      "2) 문항이 부족하면 '추가로 필요한 링크/정보'를 정확히 요청"
+    ])].join("\n"));}
+
+  function interviewPrompt(p){ return normalizeSpacing([headerBlock(p),"",modeLine(),"",localeDirectivesForTask(),"",HR,h1("요청: 면접분석(최근 2년 기출) + 연관직무 연계 + 모의면접"),
+    `- 목표: '${p.role}' 및 연관직무 기준으로 최근 2년 기출 질문을 수집·분류하고,`,
+    "       공통 질문으로 모의면접을 진행한다.",
+    "",sec("수집 규칙",[
+      "1) 최근 24개월 질문 우선(가능하면 링크 포함)",
+      "2) 분류: 기술/직무역량/케이스/인성/조직적합/리더십/커뮤니케이션",
+      "3) 질문별: 의도(평가역량) + 좋은 답변 구성 함께 제시",
+      "4) 직무 공통 vs 연관직무 공통 vs 직무 특화 질문 분리",
+    ]),"",sec("산출물",[
+      "A) 기출 리스트(최소 30개: 회사/연도/직무/링크 가능하면 포함)",
+      "B) 직무 공통 Top 12 + 연관직무 공통 Top 8 + 답변 구조",
+      "C) 연관기업군 기준 예상 질문 10개(근거/가정 분리)",
+    ])].join("\n"));}
+
+  function followupTemplate(){
+    return normalizeSpacing([
+      "1) 결과를 표로 다시 정리해줘. (열: 항목 / 핵심요약 / 근거링크 / 내 지원전략)",
+      "2) '내가 면접에서 말할 버전'으로 60초/120초 스크립트로 변환해줘.",
+      "3) 불확실한 부분은 가정/확인필요로 분리하고, 추가로 확인할 질문 리스트 10개를 만들어줘.",
+      "4) 연관기업/연관직무 기준으로 포지셔닝 맵(2x2)으로 제시해줘."
+    ].join("\n"));
+  }
+
+  function buildPrompt(){
+    const p = getProfile();
+    const missing = validateProfile(p);
+    if(missing.length){
+      return `⚠️ 아래 항목을 입력하면 더 정확한 프롬프트가 생성됩니다:\n- ${missing.join(", ")}\n\n(입력 후 다시 “프롬프트 생성”을 누르세요)`;
+    }
+
+    let prompt =
+      activeTab === "corp" ? corpPrompt(p) :
+      activeTab === "job" ? jobPrompt(p) :
+      activeTab === "posting" ? postingPrompt(p) :
+      activeTab === "essay" ? essayPrompt(p) :
+      interviewPrompt(p);
+
+    if(includeFollowup){
+      prompt = normalizeSpacing(prompt + "\n\n" + HR + "\n" + h1("후속 지시(원하면 아래를 그대로 추가)") + "\n" + followupTemplate());
+    }
+    return prompt;
+  }
+
+  const tabLabel = (t)=> t==="corp"?"기업분석":t==="job"?"직무분석":t==="posting"?"채용공고분석":t==="essay"?"자기소개서 분석":"면접분석";
+
+  function updateDots(){
+    $("dotK").classList.toggle("on", localeMode === "korea");
+    $("dotG").classList.toggle("on", localeMode === "global");
+    $("dotN").classList.toggle("on", localeMode === "normal");
+
+    const compactOn = (styleMode === "compact");
+    $("dotCompact").classList.toggle("redOn", compactOn);
+    $("dotDetailed").classList.toggle("redOn", !compactOn);
+  }
+
+  function render(){
+    $("panelDesc").textContent = `${descMap[activeTab]} (현재: ${tabLabel(activeTab)})`;
+    $("output").textContent = buildPrompt();
+    updateDots();
+  }
+
+  function setTab(tab){
+    activeTab = tab;
+    tabs.forEach(el=>{
+      const on = el.dataset.tab === tab;
+      el.classList.toggle("active", on);
+      el.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    render();
+  }
+
+  // Copy button
+  let copyTimer = null;
+  async function copyOutput(){
+    const btn = $("btnCopy");
+    const text = $("output").textContent;
+    try{
+      await navigator.clipboard.writeText(text);
+      btn.textContent = "복사됨";
+      btn.classList.add("copiedState");
+      if(copyTimer) clearTimeout(copyTimer);
+      copyTimer = setTimeout(()=>{
+        btn.textContent = "복사";
+        btn.classList.remove("copiedState");
+        copyTimer = null;
+      }, 5000);
+    }catch(e){
+      alert("클립보드 복사에 실패했습니다. 출력 영역을 클릭 후 직접 복사해 주세요.");
+    }
+  }
+
+  // ✅ 샘플 입력 (확실히 동작하도록: 이벤트를 DOMContentLoaded 이후에 바인딩)
+  function fillSample(){
+    $("name").value = "홍길동";
+    $("major").value = "경영학";
+    $("industry").value = "IT/플랫폼";
+    $("role").value = "데이터 분석";
+    $("company").value = "네이버";
+    localeMode = "korea";
+    styleMode = "compact";
+    includeFollowup = false;
+    activeTab = "corp";
+    // 탭 UI도 같이 맞추기
+    tabs.forEach(el=>{
+      const on = el.dataset.tab === activeTab;
+      el.classList.toggle("active", on);
+      el.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    render();
+  }
+
+  function resetAll(){
+    ["name","major","industry","role","company"].forEach(id=>$(id).value="");
+    styleMode="compact"; localeMode="normal"; includeFollowup=false;
+    setTab("corp");
+    const btn = $("btnCopy");
+    btn.textContent = "복사";
+    btn.classList.remove("copiedState");
+    if(copyTimer){ clearTimeout(copyTimer); copyTimer=null; }
+    render();
+  }
+
+  function makeClickable(el, fn){
+    el.addEventListener("click", fn);
+    el.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault(); fn();
+      }
+    });
+  }
+
+  // Bind events
+  tabs.forEach(el=> el.addEventListener("click", ()=> setTab(el.dataset.tab)));
+  $("btnGenerate").addEventListener("click", render);
+  $("btnCopy").addEventListener("click", copyOutput);
+  $("btnReset").addEventListener("click", resetAll);
+  $("btnFillSample").addEventListener("click", fillSample);
+
+  makeClickable($("chipK"), ()=>{ localeMode="korea"; render(); });
+  makeClickable($("chipG"), ()=>{ localeMode="global"; render(); });
+  makeClickable($("chipN"), ()=>{ localeMode="normal"; render(); });
+
+  makeClickable($("modeCompact"), ()=>{ styleMode="compact"; includeFollowup=false; render(); });
+  makeClickable($("modeDetailed"), ()=>{ styleMode="detailed"; includeFollowup=true; render(); });
+
+  window.addEventListener("keydown", (e)=>{
+    if((e.ctrlKey || e.metaKey) && e.key === "Enter"){ e.preventDefault(); render(); }
+  });
+
+  // Initial render (default: 핵심요약 빨간 점)
+  render();
+});
+</script>
+</body>
+</html>
