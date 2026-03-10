@@ -15,15 +15,15 @@
   --muted:#9ca3af;
   --white:#f8fafc;
 
-  --blue:#2563eb;
+  --blue:#3b82f6;
   --blue2:#1d4ed8;
-  --blue-soft:#0f274f;
+  --blue-soft:#10213c;
 
-  --purple:#7c3aed;
-  --purple2:#5b21b6;
-  --purple-soft:#231235;
+  --purple:#8b5cf6;
+  --purple2:#6d28d9;
+  --purple-soft:#1d1430;
 
-  --emerald:#059669;
+  --emerald:#10b981;
   --emerald2:#047857;
   --emerald-soft:#0f2a24;
 
@@ -124,7 +124,7 @@ h1{
   display:flex;
   flex-direction:column;
   gap:14px;
-  min-height:290px;
+  min-height:320px;
   padding:22px;
   border-radius:22px;
   border:1px solid var(--line);
@@ -218,8 +218,14 @@ h1{
   color:#ffffff;
 }
 
-.btn{
+.actions{
   margin-top:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.btn{
   display:flex;
   align-items:center;
   justify-content:center;
@@ -231,11 +237,17 @@ h1{
   font-weight:900;
   letter-spacing:.2px;
   box-shadow:0 10px 20px rgba(0,0,0,.28);
-  transition:filter .15s ease, transform .15s ease;
+  border:1px solid transparent;
+  transition:filter .15s ease, transform .15s ease, box-shadow .15s ease;
 }
 
 .card:hover .btn{
   transform:translateY(-1px);
+}
+
+.btn:hover{
+  filter:brightness(1.06);
+  box-shadow:0 14px 24px rgba(0,0,0,.34);
 }
 
 /* step 1 */
@@ -247,9 +259,8 @@ h1{
 }
 .btn-diagnosis{
   background:linear-gradient(180deg,var(--emerald),var(--emerald2));
-  border:1px solid var(--emerald2);
+  border-color:var(--emerald2);
 }
-.btn-diagnosis:hover{ filter:brightness(1.06); }
 
 /* step 2 highlight */
 .card-step2{
@@ -277,24 +288,12 @@ h1{
 }
 .btn-solution{
   background:linear-gradient(180deg,var(--blue),var(--blue2));
-  border:1px solid var(--blue2);
+  border-color:var(--blue2);
 }
-.btn-solution:hover{ filter:brightness(1.06); }
-
-.recommend-tag{
-  margin-top:8px;
-  align-self:center;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:7px 12px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.3px;
-  color:#eff6ff;
-  background:linear-gradient(180deg,#3b82f6,#1d4ed8);
-  box-shadow:0 6px 14px rgba(37,99,235,.32);
+.btn-recommend{
+  background:linear-gradient(180deg,#60a5fa,#2563eb);
+  border-color:#2563eb;
+  font-size:13px;
 }
 
 /* step 3 */
@@ -306,9 +305,8 @@ h1{
 }
 .btn-roi{
   background:linear-gradient(180deg,var(--purple),var(--purple2));
-  border:1px solid var(--purple2);
+  border-color:var(--purple2);
 }
-.btn-roi:hover{ filter:brightness(1.06); }
 
 /* arrows */
 .arrow{
@@ -472,7 +470,9 @@ h1{
             <strong>활용:</strong> 채용 이슈 파악, 과제 정리, 상담 전 사전 진단
           </div>
 
-          <div class="btn btn-diagnosis">분석시작</div>
+          <div class="actions">
+            <div class="btn btn-diagnosis">분석시작</div>
+          </div>
         </a>
 
         <div class="arrow" aria-hidden="true"></div>
@@ -498,8 +498,10 @@ h1{
             <strong>활용:</strong> 솔루션 비교, 예산 검토, 제안 초안, 상담 후속자료
           </div>
 
-          <div class="btn btn-solution">견적서 산출</div>
-          <div class="recommend-tag">추천 활용</div>
+          <div class="actions">
+            <div class="btn btn-solution">견적서 산출</div>
+            <div class="btn btn-recommend">추천활용</div>
+          </div>
         </a>
 
         <div class="arrow" aria-hidden="true"></div>
@@ -525,7 +527,9 @@ h1{
             <strong>활용:</strong> 내부 보고, 성과 비교, 투자 타당성 검토
           </div>
 
-          <div class="btn btn-roi">ROI계산</div>
+          <div class="actions">
+            <div class="btn btn-roi">ROI계산</div>
+          </div>
         </a>
 
       </div>
