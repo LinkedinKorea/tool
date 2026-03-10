@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Linkedin Business Tools</title>
+
 <style>
 :root{
   --bg:#0b0f14;
   --panel:#0f172a;
   --panel2:#0b1220;
-  --card:#111827;
   --line:#1f2937;
   --text:#e5e7eb;
   --muted:#9ca3af;
@@ -55,7 +55,7 @@ a:active{
 }
 
 .wrap{
-  max-width:1320px;
+  max-width:1360px;
   margin:0 auto;
   padding:30px 18px 40px;
 }
@@ -96,7 +96,7 @@ h1{
 
 .sub{
   margin-top:12px;
-  max-width:860px;
+  max-width:900px;
   color:var(--muted);
   font-size:14px;
   line-height:1.75;
@@ -110,10 +110,10 @@ h1{
   box-shadow:var(--shadow);
 }
 
-/* horizontal flow */
+/* flow layout */
 .flow{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr) 48px minmax(0,1fr);
+  grid-template-columns:1fr 48px 1.25fr 48px 1fr;
   gap:14px;
   align-items:stretch;
 }
@@ -124,7 +124,7 @@ h1{
   display:flex;
   flex-direction:column;
   gap:14px;
-  min-height:320px;
+  min-height:340px;
   padding:22px;
   border-radius:22px;
   border:1px solid var(--line);
@@ -183,10 +183,12 @@ h1{
 }
 
 .step-badge{
+  min-width:90px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:7px 11px;
+  text-align:center;
+  padding:7px 12px;
   border-radius:999px;
   font-size:11px;
   font-weight:900;
@@ -205,7 +207,7 @@ h1{
 .desc{
   color:var(--muted);
   font-size:14px;
-  line-height:1.75;
+  line-height:1.78;
 }
 
 .feature{
@@ -216,6 +218,27 @@ h1{
 
 .feature strong{
   color:#ffffff;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:2px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  line-height:1;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:#dbeafe;
 }
 
 .actions{
@@ -239,6 +262,7 @@ h1{
   box-shadow:0 10px 20px rgba(0,0,0,.28);
   border:1px solid transparent;
   transition:filter .15s ease, transform .15s ease, box-shadow .15s ease;
+  text-align:center;
 }
 
 .card:hover .btn{
@@ -248,6 +272,14 @@ h1{
 .btn:hover{
   filter:brightness(1.06);
   box-shadow:0 14px 24px rgba(0,0,0,.34);
+}
+
+.btn-inline-note{
+  margin-left:8px;
+  font-size:11px;
+  font-weight:700;
+  opacity:.9;
+  white-space:nowrap;
 }
 
 /* step 1 */
@@ -289,11 +321,6 @@ h1{
 .btn-solution{
   background:linear-gradient(180deg,var(--blue),var(--blue2));
   border-color:var(--blue2);
-}
-.btn-recommend{
-  background:linear-gradient(180deg,#60a5fa,#2563eb);
-  border-color:#2563eb;
-  font-size:13px;
 }
 
 /* step 3 */
@@ -426,6 +453,10 @@ h1{
   }
   .step-title{ font-size:20px; }
   h1{ font-size:28px; }
+  .btn-inline-note{
+    display:block;
+    margin-left:6px;
+  }
 }
 </style>
 </head>
@@ -470,6 +501,12 @@ h1{
             <strong>활용:</strong> 채용 이슈 파악, 과제 정리, 상담 전 사전 진단
           </div>
 
+          <div class="tags">
+            <span class="tag">#채용진단</span>
+            <span class="tag">#문제파악</span>
+            <span class="tag">#상담준비</span>
+          </div>
+
           <div class="actions">
             <div class="btn btn-diagnosis">분석시작</div>
           </div>
@@ -491,16 +528,26 @@ h1{
 
           <div class="desc">
             필요한 솔루션 구성을 빠르게 확인하고,
-            예산 검토 및 고객 공유용 자료로 활용할 수 있도록 견적 내용을 자동으로 정리합니다.
+            예산 검토 및 고객 공유용 자료로 활용할 수 있도록 견적 내용을 자동으로 정리합니다.<br>
+            가장 최신 기업용 솔루션 금액이 안내되어있습니다.
           </div>
 
           <div class="feature">
             <strong>활용:</strong> 솔루션 비교, 예산 검토, 제안 초안, 상담 후속자료
           </div>
 
+          <div class="tags">
+            <span class="tag">#견적확인</span>
+            <span class="tag">#예산검토</span>
+            <span class="tag">#제안자료</span>
+            <span class="tag">#최신금액안내</span>
+          </div>
+
           <div class="actions">
-            <div class="btn btn-solution">견적서 산출</div>
-            <div class="btn btn-recommend">추천활용</div>
+            <div class="btn btn-solution">
+              견적서 산출
+              <span class="btn-inline-note">활용추천</span>
+            </div>
           </div>
         </a>
 
@@ -525,6 +572,12 @@ h1{
 
           <div class="feature">
             <strong>활용:</strong> 내부 보고, 성과 비교, 투자 타당성 검토
+          </div>
+
+          <div class="tags">
+            <span class="tag">#내부보고</span>
+            <span class="tag">#ROI검토</span>
+            <span class="tag">#의사결정</span>
           </div>
 
           <div class="actions">
