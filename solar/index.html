@@ -639,6 +639,11 @@
         </div>
 
         <div class="field">
+          <label>고객 전화번호</label>
+          <input type="tel" id="phoneNumber" placeholder="예: 010-1234-5678" />
+        </div>
+
+        <div class="field">
           <label>영업 담당자명</label>
           <input type="text" id="salesName" value="미정" />
         </div>
@@ -671,7 +676,7 @@
         </div>
 
         <div class="field">
-          <label>견적서 명</label>
+          <label>견적서</label>
           <input type="text" value="태양광 지붕 임대사업 제안 견적서" readonly />
         </div>
 
@@ -712,6 +717,7 @@
             <div class="estimate-title"><strong>견적서 명</strong></div>
             <div class="estimate-doc-name" id="outDocTitle"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
             <div class="estimate-sub" id="outOwner">수신: -</div>
+            <div class="estimate-sub" id="outPhone">연락처: -</div>
             <div class="estimate-sub" id="outAddress">대상 건물: -</div>
           </div>
           <div class="badge" id="statusBadge">산출결과</div>
@@ -831,6 +837,7 @@
 
     function loadSample() {
       document.getElementById('ownerName').value = '김철수 / 한빛물류';
+      document.getElementById('phoneNumber').value = '010-1234-5678';
       document.getElementById('salesName').value = '미정';
       document.getElementById('siteAddress').value = '경기도 화성시 양감면 ○○로 128, 물류창고 A동';
       document.getElementById('roofPyeong').value = '200';
@@ -840,13 +847,14 @@
 
     function calculateEstimate() {
       const ownerName = document.getElementById('ownerName').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
       const salesName = document.getElementById('salesName').value.trim() || '미정';
       const siteAddress = document.getElementById('siteAddress').value.trim();
       const roofPyeong = parseFloat(document.getElementById('roofPyeong').value || 0);
       const prepaidOption = document.getElementById('prepaidOption').value;
 
-      if (!ownerName || !siteAddress || !roofPyeong) {
-        alert('건물주/회사명, 건물 주소, 지붕 면적을 입력해주세요.');
+      if (!ownerName || !phoneNumber || !siteAddress || !roofPyeong) {
+        alert('건물주/회사명, 고객 전화번호, 건물 주소, 지붕 면적을 입력해주세요.');
         return;
       }
 
@@ -860,6 +868,7 @@
 
       document.getElementById('outDocTitle').innerHTML = '<strong>' + FIXED_DOC_TITLE + '</strong>';
       document.getElementById('outOwner').innerText = '수신: ' + ownerName;
+      document.getElementById('outPhone').innerText = '연락처: ' + phoneNumber;
       document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
       document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
 
