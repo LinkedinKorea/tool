@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>태양광 지붕 임대 견적서 산출 프로그램</title>
+  <style>
+    body {
+      font-family: 'Malgun Gothic', Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      padding: 20px;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d8dce5;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      background: #0b57d0;
+      color: white;
+      padding: 11px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.secondary {
+      background: #4b5563;
+    }
+    .estimate-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 10px;
+      border-bottom: 2px solid #111;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    .estimate-title {
+      font-size: 26px;
+      font-weight: 800;
+    }
+    .badge {
+      background: #eef4ff;
+      color: #0b57d0;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px;
+    }
+    th, td {
+      border: 1px solid #dfe3ea;
+      padding: 12px;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    th {
+      background: #f3f6fb;
+      text-align: left;
+      width: 28%;
+    }
+    .money {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0b57d0;
+    }
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kpi .item {
+      background: #f8fbff;
+      border: 1px solid #dbe8ff;
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .kpi .label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+    .kpi .value {
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    ul {
+      padding-left: 18px;
+    }
+    li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+    .footnote {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .no-print { display: none !important; }
+      .grid { display: block; }
+      .card { box-shadow: none; border: 1px solid #ddd; margin-bottom: 16px; }
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .kpi { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">태양광 지붕 임대 견적서 산출 프로그램</div>
+    <div class="subtitle">지붕 면적 입력만으로 예상 설치용량, 연 임대료, 선불금, 20년 총액을 자동 계산합니다.</div>
+
+    <div class="grid">
+      <div class="card no-print">
+        <h2>입력 정보</h2>
+
+        <div class="field">
+          <label>견적서 제목</label>
+          <input type="text" id="docTitle" value="태양광 지붕 임대사업 제안 견적서" />
+        </div>
+
+        <div class="field">
+          <label>건물주 / 회사명</label>
+          <input type="text" id="ownerName" value="홍길동 / ○○산업" />
+        </div>
+
+        <div class="field">
+          <label>건물 주소</label>
+          <input type="text" id="siteAddress" value="경기도 ○○시 ○○로 123" />
+        </div>
+
+        <div class="field">
+          <label>지붕 면적(평)</label>
+          <input type="number" id="roofPyeong" value="200" />
+        </div>
+
+        <div class="field">
+          <label>1kW당 연 임대료(원)</label>
+          <input type="number" id="rentPerKw" value="40000" />
+        </div>
+
+        <div class="field">
+          <label>면적 기준</label>
+          <select id="areaPerKw">
+            <option value="2" selected>2평당 1kW</option>
+            <option value="1.8">1.8평당 1kW</option>
+            <option value="2.2">2.2평당 1kW</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>임대 기간(년)</label>
+          <input type="number" id="contractYears" value="20" />
+        </div>
+
+        <div class="field">
+          <label>선불 지급 기간(년)</label>
+          <input type="number" id="prepaidYears" value="5" />
+        </div>
+
+        <div class="field">
+          <label>추가 메모</label>
+          <textarea id="extraMemo" rows="4">신뢰할 수 있는 전문업체를 통한 유지보수 관리 가능, 노후 지붕은 보수 후 시공 진행, 임대기간 중 건물 확장공사로 인한 이동설치 무료 지원, 20년 만료 후 10년간 기부채납 방식 장비 지원으로 건물주의 추가 전력판매 수익 기대.</textarea>
+        </div>
+
+        <div class="btns">
+          <button onclick="calculateEstimate()">견적서 산출</button>
+          <button class="secondary" onclick="window.print()">인쇄 / PDF 저장</button>
+        </div>
+      </div>
+
+      <div class="card" id="estimateArea">
+        <div class="estimate-header">
+          <div>
+            <div class="estimate-title" id="outDocTitle">태양광 지붕 임대사업 제안 견적서</div>
+            <div id="outOwner">수신: 홍길동 / ○○산업</div>
+            <div id="outAddress">대상 건물: 경기도 ○○시 ○○로 123</div>
+          </div>
+          <div class="badge">자동 산출 견적</div>
+        </div>
+
+        <div class="kpi">
+          <div class="item">
+            <div class="label">예상 설치용량</div>
+            <div class="value" id="outKw">100 kW</div>
+          </div>
+          <div class="item">
+            <div class="label">연 임대료</div>
+            <div class="value" id="outYearRent">4,000,000원</div>
+          </div>
+          <div class="item">
+            <div class="label">5년 선불 가능액</div>
+            <div class="value" id="outPrepaid">20,000,000원</div>
+          </div>
+          <div class="item">
+            <div class="label">20년 총 임대료</div>
+            <div class="value" id="outTotalRent">80,000,000원</div>
+          </div>
+        </div>
+
+        <div class="section-title">산출 내역</div>
+        <table>
+          <tr>
+            <th>지붕 면적</th>
+            <td id="tableRoof">200평</td>
+          </tr>
+          <tr>
+            <th>적용 설치 기준</th>
+            <td id="tableAreaRule">2평당 1kW</td>
+          </tr>
+          <tr>
+            <th>예상 설치용량</th>
+            <td id="tableKw">100kW</td>
+          </tr>
+          <tr>
+            <th>임대 단가</th>
+            <td id="tableRentUnit">1kW당 연 40,000원</td>
+          </tr>
+          <tr>
+            <th>연 임대료</th>
+            <td id="tableYearRent">4,000,000원</td>
+          </tr>
+          <tr>
+            <th>선불 지급 조건</th>
+            <td id="tablePrepaid">계약 시 5년치 선불 가능: 20,000,000원</td>
+          </tr>
+          <tr>
+            <th>총 계약기간</th>
+            <td id="tableContract">20년</td>
+          </tr>
+          <tr>
+            <th>총 예상 임대료</th>
+            <td id="tableTotal">80,000,000원</td>
+          </tr>
+        </table>
+
+        <div class="section-title">주요 제안 포인트</div>
+        <ul id="proposalPoints">
+          <li>건물주는 지붕만 임대 제공하고, 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
+          <li>계약 기간은 20년이며, 요청 시 5년치 임대료 선불 수령이 가능합니다.</li>
+          <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 관리가 가능합니다.</li>
+          <li>노후화된 지붕은 보수 후 시공을 진행하여 안정성과 시공 완성도를 높입니다.</li>
+          <li>임대기간 중 건물 확장공사 등으로 인한 이동설치는 무상으로 지원합니다.</li>
+          <li>20년 계약 종료 후에는 10년간 기부채납 형식으로 장비를 지원하여, 건물주는 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
+        </ul>
+
+        <div class="section-title">설득 문안</div>
+        <table>
+          <tr>
+            <th>사업 장점</th>
+            <td id="persuasionText">
+              본 사업은 건물주가 초기 투자비 없이 유휴 지붕을 활용해 장기적이고 안정적인 임대수익을 확보할 수 있는 구조입니다.
+              또한 유지보수, 지붕 상태 점검, 필요 시 보수 후 시공, 무상 이동설치 지원 등 사후관리 요소까지 포함해 리스크를 낮춘 제안입니다.
+              계약 종료 이후에도 기부채납 방식의 장비 지원을 통해 추가 전력판매 수익 기회까지 연결할 수 있어 단순 임대 이상의 장기적 자산 활용 모델로 검토 가치가 높습니다.
+            </td>
+          </tr>
+        </table>
+
+        <div class="footnote" id="footnoteText">
+          ※ 본 견적은 입력 면적과 기준 단가에 따른 예상 산출값입니다. 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function formatMoney(num) {
+      return Number(num).toLocaleString('ko-KR') + '원';
+    }
+
+    function calculateEstimate() {
+      const docTitle = document.getElementById('docTitle').value;
+      const ownerName = document.getElementById('ownerName').value;
+      const siteAddress = document.getElementById('siteAddress').value;
+      const roofPyeong = parseFloat(document.getElementById('roofPyeong').value || 0);
+      const rentPerKw = parseFloat(document.getElementById('rentPerKw').value || 0);
+      const areaPerKw = parseFloat(document.getElementById('areaPerKw').value || 2);
+      const contractYears = parseFloat(document.getElementById('contractYears').value || 20);
+      const prepaidYears = parseFloat(document.getElementById('prepaidYears').value || 5);
+      const extraMemo = document.getElementById('extraMemo').value;
+
+      const estimatedKw = roofPyeong / areaPerKw;
+      const yearRent = estimatedKw * rentPerKw;
+      const prepaidAmount = yearRent * prepaidYears;
+      const totalRent = yearRent * contractYears;
+
+      document.getElementById('outDocTitle').innerText = docTitle;
+      document.getElementById('outOwner').innerText = '수신: ' + ownerName;
+      document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
+
+      document.getElementById('outKw').innerText = estimatedKw.toFixed(1) + ' kW';
+      document.getElementById('outYearRent').innerText = formatMoney(yearRent);
+      document.getElementById('outPrepaid').innerText = formatMoney(prepaidAmount);
+      document.getElementById('outTotalRent').innerText = formatMoney(totalRent);
+
+      document.getElementById('tableRoof').innerText = roofPyeong.toLocaleString('ko-KR') + '평';
+      document.getElementById('tableAreaRule').innerText = areaPerKw + '평당 1kW';
+      document.getElementById('tableKw').innerText = estimatedKw.toFixed(1) + 'kW';
+      document.getElementById('tableRentUnit').innerText = '1kW당 연 ' + Number(rentPerKw).toLocaleString('ko-KR') + '원';
+      document.getElementById('tableYearRent').innerText = formatMoney(yearRent);
+      document.getElementById('tablePrepaid').innerText = '계약 시 ' + prepaidYears + '년치 선불 가능: ' + formatMoney(prepaidAmount);
+      document.getElementById('tableContract').innerText = contractYears + '년';
+      document.getElementById('tableTotal').innerText = formatMoney(totalRent);
+
+      const proposalHTML = `
+        <li>건물주는 지붕만 임대 제공하고, 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
+        <li>예상 설치용량은 약 ${estimatedKw.toFixed(1)}kW이며, 연 임대료는 ${formatMoney(yearRent)}, ${contractYears}년 총 예상 임대료는 ${formatMoney(totalRent)}입니다.</li>
+        <li>계약 시 ${prepaidYears}년치 임대료 ${formatMoney(prepaidAmount)}의 선불 수령이 가능합니다.</li>
+        <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 안전관리, 운영관리가 가능합니다.</li>
+        <li>노후화된 지붕은 사전 점검 후 보수 공정을 거쳐 시공을 진행할 수 있습니다.</li>
+        <li>임대기간 중 건물 확장공사 등으로 인한 이동설치는 무상으로 지원합니다.</li>
+        <li>계약 종료 후 10년간 기부채납 형식으로 장비를 지원하여, 건물주는 추가 10년간 전력판매 수익 확보를 기대할 수 있습니다.</li>
+      `;
+      document.getElementById('proposalPoints').innerHTML = proposalHTML;
+
+      document.getElementById('persuasionText').innerText =
+        '본 제안은 유휴 지붕을 활용해 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 사업 모델입니다. ' +
+        '예상 설치용량은 약 ' + estimatedKw.toFixed(1) + 'kW이며, 연 임대료는 ' + formatMoney(yearRent) +
+        ', 총 계약기간 ' + contractYears + '년 기준 누적 임대수익은 ' + formatMoney(totalRent) + '입니다. ' +
+        '또한 유지보수 관리, 필요 시 지붕 보수 후 시공, 무상 이동설치, 계약 만료 후 10년 기부채납형 장비 지원 등 장기적 관점의 혜택까지 포함해 안정성과 경제성을 동시에 갖춘 제안입니다.';
+
+      document.getElementById('footnoteText').innerText =
+        '※ 본 견적은 입력 면적, 설치 기준, 임대 단가에 따른 예상 산출값입니다. 실제 설치용량은 구조안전, 일조, 음영, 지붕 상태, 인허가 조건에 따라 일부 조정될 수 있습니다. 추가 메모: ' + extraMemo;
+    }
+
+    calculateEstimate();
+  </script>
+</body>
+</html>
