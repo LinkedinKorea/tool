@@ -131,8 +131,10 @@
       line-height: 1.6;
     }
 
-    .field input[readonly], .field textarea[readonly],
-    .field input:read-only, .field textarea:read-only {
+    .field input[readonly],
+    .field textarea[readonly],
+    .field input:read-only,
+    .field textarea:read-only {
       background: #f9fafb;
       color: #344054;
       cursor: default;
@@ -263,14 +265,14 @@
     }
 
     .kpi .value {
-      font-size: clamp(15px, 1.35vw, 21px);
+      font-size: clamp(13px, 1.1vw, 18px);
       font-weight: 800;
       color: #0b57d0;
       white-space: nowrap;
       overflow: visible;
       text-overflow: clip;
-      line-height: 1.15;
-      letter-spacing: -0.8px;
+      line-height: 1.1;
+      letter-spacing: -1px;
       text-align: center;
     }
 
@@ -512,8 +514,8 @@
       }
 
       .kpi .value {
-        font-size: 14px;
-        letter-spacing: -0.5px;
+        font-size: 12px;
+        letter-spacing: -0.8px;
       }
 
       .section-title {
@@ -607,14 +609,14 @@
     @media (max-width: 640px) {
       .inline-row { grid-template-columns: 1fr; }
       .kpi { grid-template-columns: 1fr; }
-      .kpi .value { font-size: 19px; }
+      .kpi .value { font-size: 17px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="doc-name-top">
-      <div class="doc-name-label">견적서 명</div>
+      <div class="doc-name-label">견적서</div>
       <div class="doc-name-value"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
     </div>
 
