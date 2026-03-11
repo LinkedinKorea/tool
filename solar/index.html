@@ -165,10 +165,20 @@
       background: linear-gradient(180deg, #edf5ff 0%, #d9ebff 100%);
       border: 1px solid #bfd8ff;
       border-radius: 14px;
-      padding: 16px 14px;
+      padding: 16px 12px;
       min-width: 0;
       overflow: hidden;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+    }
+    .kpi .item.initial-cost {
+      background: linear-gradient(180deg, #fff3d6 0%, #ffd98a 100%);
+      border: 1px solid #f0b84b;
+    }
+    .kpi .item.initial-cost .label {
+      color: #8a5200;
+    }
+    .kpi .item.initial-cost .value {
+      color: #a04f00;
     }
     .kpi .label {
       font-size: 12px;
@@ -176,16 +186,18 @@
       margin-bottom: 8px;
       font-weight: 700;
       white-space: nowrap;
+      text-align: center;
     }
     .kpi .value {
-      font-size: 22px;
+      font-size: clamp(17px, 1.55vw, 22px);
       font-weight: 800;
       color: #0b57d0;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
+      text-overflow: clip;
       line-height: 1.2;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.7px;
+      text-align: center;
     }
 
     .section-title {
@@ -280,7 +292,7 @@
     @media (max-width: 640px) {
       .inline-row { grid-template-columns: 1fr; }
       .kpi { grid-template-columns: 1fr; }
-      .kpi .value { font-size: 21px; }
+      .kpi .value { font-size: 20px; }
     }
   </style>
 </head>
@@ -361,8 +373,11 @@
         </div>
 
         <div class="field">
-          <label>추가 메모</label>
-          <input type="text" value="믿고 맡기셔도 됩니다." readonly />
+          <label>업체평가</label>
+          <textarea rows="5" readonly>20년간 운영경력
+지속적인 관리운영
+관공서 우수평가
+대기업 펀딩으로 재무평가 A</textarea>
         </div>
 
         <div class="btns">
@@ -400,7 +415,7 @@
             <div class="label">20년간 총 임대료</div>
             <div class="value" id="outTotalRent">80,000,000원</div>
           </div>
-          <div class="item">
+          <div class="item initial-cost">
             <div class="label">초기 투자비용</div>
             <div class="value" id="outInitialCost">0원</div>
           </div>
@@ -442,7 +457,7 @@
           </tr>
           <tr>
             <th>초기 투자비용</th>
-            <td><strong>0원</strong></td>
+            <td><strong style="color:#a04f00;">0원</strong></td>
           </tr>
         </table>
 
