@@ -36,15 +36,31 @@
       color: #ffffff;
       text-decoration: none;
     }
-    .title {
-      font-size: 28px;
+    .doc-name-top {
+      background: #ffffff;
+      border: 1px solid #dbe5f0;
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+    .doc-name-label {
+      font-size: 13px;
+      color: #667085;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .doc-name-value {
+      font-size: 30px;
       font-weight: 800;
-      margin-bottom: 8px;
+      color: #111827;
+      line-height: 1.3;
     }
     .subtitle {
       color: #667085;
       margin-bottom: 22px;
-      line-height: 1.6;
+      line-height: 1.75;
+      white-space: pre-line;
     }
     .grid {
       display: grid;
@@ -89,12 +105,16 @@
       background: #fff;
       color: #1f2937;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .field input[readonly], .field textarea[readonly] {
       background: #f9fafb;
       color: #344054;
       cursor: default;
+    }
+    .check-textarea {
+      font-weight: 700;
+      white-space: pre-line;
     }
     .inline-row {
       display: grid;
@@ -136,9 +156,17 @@
       margin-bottom: 20px;
     }
     .estimate-title {
-      font-size: 28px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #667085;
+      margin-bottom: 6px;
+    }
+    .estimate-doc-name {
+      font-size: 30px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      color: #111827;
+      line-height: 1.3;
     }
     .estimate-sub {
       line-height: 1.7;
@@ -165,7 +193,7 @@
       background: linear-gradient(180deg, #edf5ff 0%, #d9ebff 100%);
       border: 1px solid #bfd8ff;
       border-radius: 14px;
-      padding: 16px 12px;
+      padding: 16px 10px;
       min-width: 0;
       overflow: hidden;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
@@ -189,14 +217,14 @@
       text-align: center;
     }
     .kpi .value {
-      font-size: clamp(17px, 1.55vw, 22px);
+      font-size: clamp(15px, 1.35vw, 21px);
       font-weight: 800;
       color: #0b57d0;
       white-space: nowrap;
       overflow: visible;
       text-overflow: clip;
-      line-height: 1.2;
-      letter-spacing: -0.7px;
+      line-height: 1.15;
+      letter-spacing: -0.8px;
       text-align: center;
     }
 
@@ -238,23 +266,66 @@
       color: #0b57d0;
     }
 
-    ul {
-      padding-left: 20px;
+    .boxed-list {
+      background: #f8fbff;
+      border: 1px solid #d8e7ff;
+      border-radius: 12px;
+      padding: 16px 18px;
       margin-top: 8px;
     }
-    li {
-      margin-bottom: 9px;
-      line-height: 1.65;
+    .boxed-list ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .boxed-list li {
+      margin-bottom: 10px;
+      line-height: 1.75;
+      position: relative;
+      padding-left: 24px;
+    }
+    .boxed-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #0b57d0;
+      font-weight: 800;
     }
 
     .advantage-box {
       background: #f8fbff;
       border: 1px solid #d8e7ff;
       border-radius: 12px;
-      padding: 16px;
-      line-height: 1.85;
+      padding: 16px 18px;
+      line-height: 1.8;
       white-space: pre-line;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .advantage-line {
+      display: block;
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 7px;
+    }
+    .advantage-line::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #0b57d0;
+      font-weight: 800;
+    }
+
+    .footer-manager {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed #cfd8e3;
+      color: #475467;
       font-size: 14px;
+      font-weight: 700;
+      text-align: right;
     }
 
     .footnote {
@@ -292,23 +363,26 @@
     @media (max-width: 640px) {
       .inline-row { grid-template-columns: 1fr; }
       .kpi { grid-template-columns: 1fr; }
-      .kpi .value { font-size: 20px; }
+      .kpi .value { font-size: 19px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <div class="doc-name-top">
+      <div class="doc-name-label">견적서 명</div>
+      <div class="doc-name-value">태양광 지붕 임대사업 제안 견적서</div>
+    </div>
+
     <div class="contact-banner">
       설치가능 여부 및 상세 견적문의 :
       010-4827-4823 /
       <a href="mailto:solar@hrpoint.co.kr">solar@hrpoint.co.kr</a>
     </div>
 
-    <div class="title">태양광 지붕 임대 견적서 산출 프로그램</div>
-    <div class="subtitle">
-      지붕 면적을 입력하면 예상 설치용량, 연간 임대료, 5년 선불임대료, 20년간 총 임대료를 한눈에 확인할 수 있습니다.
-      초기 투자비용 0원의 부담 없는 사업 구조를 기준으로 상담용 견적서를 빠르게 산출할 수 있습니다.
-    </div>
+    <div class="subtitle">지붕 면적을 입력하면 예상 설치용량, 연간 임대료, 5년 선불임대료, 20년간 총 임대료를 한눈에 확인할 수 있습니다.
+초기 투자비용 0원의 부담 없는 사업 구조를 기준으로
+상담용 견적서를 빠르게 산출할 수 있습니다.</div>
 
     <div class="grid">
       <div class="card no-print">
@@ -320,7 +394,7 @@
         </div>
 
         <div class="field">
-          <label>영업담당자 이름</label>
+          <label>영업 담당자명</label>
           <input type="text" id="salesName" value="미정" />
         </div>
 
@@ -352,7 +426,7 @@
         </div>
 
         <div class="field">
-          <label>견적서 제목</label>
+          <label>견적서 명</label>
           <input type="text" value="태양광 지붕 임대사업 제안 견적서" readonly />
         </div>
 
@@ -363,7 +437,7 @@
           </div>
           <div class="field">
             <label>임대 기간</label>
-            <input type="text" value="20년" readonly />
+            <input type="text" value="20년 기준" readonly />
           </div>
         </div>
 
@@ -374,10 +448,10 @@
 
         <div class="field">
           <label>업체평가</label>
-          <textarea rows="5" readonly>20년간 운영경력
-지속적인 관리운영
-관공서 우수평가
-대기업 펀딩으로 재무평가 A</textarea>
+          <textarea class="check-textarea" rows="5" readonly>✔ 20년간 운영경력
+✔ 지속적인 관리운영
+✔ 관공서 우수평가
+✔ 대기업 펀딩으로 재무평가 A</textarea>
         </div>
 
         <div class="btns">
@@ -390,10 +464,10 @@
       <div class="card" id="estimateArea">
         <div class="estimate-header">
           <div>
-            <div class="estimate-title" id="outDocTitle">태양광 지붕 임대사업 제안 견적서</div>
+            <div class="estimate-title">견적서 명</div>
+            <div class="estimate-doc-name" id="outDocTitle">태양광 지붕 임대사업 제안 견적서</div>
             <div class="estimate-sub" id="outOwner">수신: 예시 고객 / 예시 기업</div>
             <div class="estimate-sub" id="outAddress">대상 건물: 예시 주소</div>
-            <div class="estimate-sub" id="outSales">영업담당자: 미정</div>
           </div>
           <div class="badge" id="statusBadge">산출결과</div>
         </div>
@@ -449,7 +523,7 @@
           </tr>
           <tr>
             <th>총 계약기간</th>
-            <td id="tableContract"><strong>20년</strong></td>
+            <td id="tableContract"><strong>20년 기준</strong></td>
           </tr>
           <tr>
             <th>20년간 총 임대료</th>
@@ -462,28 +536,27 @@
         </table>
 
         <div class="section-title">주요 제안 포인트</div>
-        <ul id="proposalPoints">
-          <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
-          <li>초기 투자비용은 0원으로 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
-          <li>계약 기간은 20년이며, 선불지급 희망 시 최대 5년치 임대료를 먼저 수령할 수 있습니다.</li>
-          <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 운영관리가 가능합니다.</li>
-          <li>노후화된 지붕은 보수 후 시공을 진행하여 안전성과 시공 완성도를 높입니다.</li>
-          <li>임대기간 동안 건물확장공사 등으로 인한 이동설치는 무료로 지원합니다.</li>
-          <li>20년 계약 종료 후 10년간 기부채납 형식으로 장비를 지원해 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
-        </ul>
+        <div class="boxed-list">
+          <ul id="proposalPoints">
+            <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
+            <li>초기 투자비용은 0원으로 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
+            <li>계약 기간은 20년 기준이며, 선불지급 희망 시 최대 5년치 임대료를 먼저 수령할 수 있습니다.</li>
+            <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 운영관리가 가능합니다.</li>
+            <li>노후화된 지붕은 보수 후 시공을 진행하여 안전성과 시공 완성도를 높입니다.</li>
+            <li>임대기간 동안 건물확장공사 등으로 인한 이동설치는 무료로 지원합니다.</li>
+            <li>20년 계약 종료 후 10년간 기부채납 형식으로 장비를 지원해 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
+          </ul>
+        </div>
 
         <div class="section-title">사업의 장점</div>
-        <div class="advantage-box" id="persuasionText">본 사업은 유휴 지붕을 활용하여 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 구조입니다.
-초기 투자비용이 0원이므로 설비 도입에 대한 자금 부담 없이 검토가 가능합니다.
-전문업체의 유지보수 관리와 사후 운영지원이 가능하여 건물주의 관리 부담을 줄일 수 있습니다.
-노후 지붕은 보수 후 시공을 진행하므로 안정성과 사업 지속성을 함께 고려할 수 있습니다.
-임대기간 중 건물확장공사로 인한 이동설치도 무료로 지원되어 추가 비용 부담을 낮출 수 있습니다.
-20년 계약 종료 후에는 10년간 기부채납 형식의 장비 지원을 통해 건물주가 추가 10년간 전력판매 수익을 기대할 수 있습니다.</div>
+        <div class="advantage-box" id="persuasionText"></div>
 
         <div class="footnote" id="footnoteText">※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.
 ※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.
 ※ 노후 지붕의 경우 상태 점검 후 보수 범위가 확정되며, 이후 시공이 진행됩니다.
 ※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.</div>
+
+        <div class="footer-manager" id="outSalesBottom">영업 담당자명 : 미정</div>
       </div>
     </div>
 
@@ -498,7 +571,7 @@
     const FIXED_DOC_TITLE = '태양광 지붕 임대사업 제안 견적서';
     const FIXED_RENT_PER_KW = 40000;
     const FIXED_AREA_PER_KW = 2;
-    const FIXED_CONTRACT_YEARS = 20;
+    const FIXED_CONTRACT_YEARS = '20년 기준';
     const FIXED_PREPAID_YEARS = 5;
 
     function formatMoney(num) {
@@ -514,19 +587,21 @@
       document.getElementById('prepaidYears').value = '5';
     }
 
-    function buildAdvantageText(estimatedKw, yearRent, prepaidAmount, prepaidOption) {
-      const prepaidSentence = prepaidOption === 'yes'
-        ? '선불지급 희망 시 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 먼저 수령할 수 있어 자금운용에도 도움이 됩니다.'
-        : '매년 안정적인 임대료를 수령하는 방식으로 장기적인 현금흐름을 기대할 수 있습니다.';
+    function buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption) {
+      const lines = [
+        '본 사업은 유휴 지붕을 활용하여 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 구조입니다.',
+        '초기 투자비용이 0원이므로 설비 도입에 대한 자금 부담 없이 검토가 가능합니다.',
+        '예상 설치용량은 약 ' + estimatedKw.toFixed(1) + 'kW이며 연간 임대료는 ' + formatMoney(yearRent) + '입니다.',
+        prepaidOption === 'yes'
+          ? '선불지급 희망 시 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 먼저 수령할 수 있어 자금운용에도 도움이 됩니다.'
+          : '매년 안정적인 임대료를 수령하는 방식으로 장기적인 현금흐름을 기대할 수 있습니다.',
+        '전문업체의 유지보수 관리와 사후 운영지원이 가능하여 건물주의 관리 부담을 줄일 수 있습니다.',
+        '노후 지붕은 보수 후 시공을 진행하므로 안정성과 사업 지속성을 함께 고려할 수 있습니다.',
+        '임대기간 중 건물확장공사로 인한 이동설치도 무료로 지원되어 추가 비용 부담을 낮출 수 있습니다.',
+        '20년 계약 종료 후에는 10년간 기부채납 형식의 장비 지원을 통해 건물주가 추가 10년간 전력판매 수익을 기대할 수 있습니다.'
+      ];
 
-      return '본 사업은 유휴 지붕을 활용하여 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 구조입니다.\n'
-        + '초기 투자비용이 0원이므로 설비 도입에 대한 자금 부담 없이 검토가 가능합니다.\n'
-        + '예상 설치용량은 약 ' + estimatedKw.toFixed(1) + 'kW이며 연간 임대료는 ' + formatMoney(yearRent) + '입니다.\n'
-        + prepaidSentence + '\n'
-        + '전문업체의 유지보수 관리와 사후 운영지원이 가능하여 건물주의 관리 부담을 줄일 수 있습니다.\n'
-        + '노후 지붕은 보수 후 시공을 진행하므로 안정성과 사업 지속성을 함께 고려할 수 있습니다.\n'
-        + '임대기간 중 건물확장공사로 인한 이동설치도 무료로 지원되어 추가 비용 부담을 낮출 수 있습니다.\n'
-        + '20년 계약 종료 후에는 10년간 기부채납 형식의 장비 지원을 통해 건물주가 추가 10년간 전력판매 수익을 기대할 수 있습니다.';
+      return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
     }
 
     function calculateEstimate() {
@@ -541,15 +616,15 @@
         return;
       }
 
-      const estimatedKw = roofPyeong / FIXED_AREA_PER_KW;
+      const estimatedKw = roofPyeong / 2;
       const yearRent = estimatedKw * FIXED_RENT_PER_KW;
-      const totalRent = yearRent * FIXED_CONTRACT_YEARS;
+      const totalRent = yearRent * 20;
       const prepaidAmount = prepaidOption === 'yes' ? yearRent * FIXED_PREPAID_YEARS : 0;
 
       document.getElementById('outDocTitle').innerText = FIXED_DOC_TITLE;
       document.getElementById('outOwner').innerText = '수신: ' + ownerName;
       document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
-      document.getElementById('outSales').innerText = '영업담당자: ' + salesName;
+      document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
 
       document.getElementById('outKw').innerText = estimatedKw.toFixed(1) + 'kW';
       document.getElementById('outYearRent').innerText = formatMoney(yearRent);
@@ -562,7 +637,7 @@
       document.getElementById('tableKw').innerHTML = '<strong>' + estimatedKw.toFixed(1) + 'kW</strong>';
       document.getElementById('tableRentUnit').innerHTML = '<strong>1kW당 연 ' + FIXED_RENT_PER_KW.toLocaleString('ko-KR') + '원</strong>';
       document.getElementById('tableYearRent').innerHTML = '<strong>' + formatMoney(yearRent) + '</strong>';
-      document.getElementById('tableContract').innerHTML = '<strong>' + FIXED_CONTRACT_YEARS + '년</strong>';
+      document.getElementById('tableContract').innerHTML = '<strong>' + FIXED_CONTRACT_YEARS + '</strong>';
       document.getElementById('tableTotal').innerHTML = '<strong>' + formatMoney(totalRent) + '</strong>';
 
       if (prepaidOption === 'yes') {
@@ -585,8 +660,8 @@
       `;
       document.getElementById('proposalPoints').innerHTML = proposalHTML;
 
-      document.getElementById('persuasionText').innerText =
-        buildAdvantageText(estimatedKw, yearRent, prepaidAmount, prepaidOption);
+      document.getElementById('persuasionText').innerHTML =
+        buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption);
 
       document.getElementById('footnoteText').innerText =
         '※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.\n'
@@ -594,6 +669,9 @@
         + '※ 노후 지붕의 경우 상태 점검 후 보수 범위가 확정되며, 이후 시공이 진행됩니다.\n'
         + '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
     }
+
+    document.getElementById('persuasionText').innerHTML =
+      buildAdvantageHTML(100, 4000000, 20000000, 'yes');
   </script>
 </body>
 </html>
