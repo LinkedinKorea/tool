@@ -83,6 +83,7 @@
       display: grid;
       grid-template-columns: 360px 1fr;
       gap: 20px;
+      align-items: start;
     }
 
     .card {
@@ -130,14 +131,16 @@
       line-height: 1.6;
     }
 
-    .field input[readonly], .field textarea[readonly] {
+    .field input[readonly], .field textarea[readonly],
+    .field input:read-only, .field textarea:read-only {
       background: #f9fafb;
       color: #344054;
       cursor: default;
+      font-weight: 800;
     }
 
     .check-textarea {
-      font-weight: 700;
+      font-weight: 800;
       white-space: pre-line;
     }
 
@@ -173,6 +176,10 @@
       background: #eef4ff;
       color: #0b57d0;
       border: 1px solid #c9dcff;
+    }
+
+    .hidden-estimate {
+      display: none;
     }
 
     .estimate-header {
@@ -308,6 +315,7 @@
 
     .detail-table td strong {
       color: #0b57d0;
+      font-weight: 800;
     }
 
     .boxed-list {
@@ -408,6 +416,10 @@
       }
 
       .no-print {
+        display: none !important;
+      }
+
+      #estimateArea.hidden-estimate {
         display: none !important;
       }
 
@@ -602,8 +614,8 @@
 <body>
   <div class="wrap">
     <div class="doc-name-top">
-      <div class="doc-name-label">견적서</div>
-      <div class="doc-name-value">태양광 지붕 임대사업 제안 견적서</div>
+      <div class="doc-name-label">견적서 명</div>
+      <div class="doc-name-value"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
     </div>
 
     <div class="contact-banner">
@@ -692,13 +704,13 @@
         </div>
       </div>
 
-      <div class="card" id="estimateArea">
+      <div class="card hidden-estimate" id="estimateArea">
         <div class="estimate-header">
           <div>
-            <div class="estimate-title">견적서 명</div>
-            <div class="estimate-doc-name" id="outDocTitle">태양광 지붕 임대사업 제안 견적서</div>
-            <div class="estimate-sub" id="outOwner">수신: 예시 고객 / 예시 기업</div>
-            <div class="estimate-sub" id="outAddress">대상 건물: 예시 주소</div>
+            <div class="estimate-title"><strong>견적서 명</strong></div>
+            <div class="estimate-doc-name" id="outDocTitle"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
+            <div class="estimate-sub" id="outOwner">수신: -</div>
+            <div class="estimate-sub" id="outAddress">대상 건물: -</div>
           </div>
           <div class="badge" id="statusBadge">산출결과</div>
         </div>
@@ -706,19 +718,19 @@
         <div class="kpi">
           <div class="item">
             <div class="label">예상 설치용량</div>
-            <div class="value" id="outKw">100.0kW</div>
+            <div class="value" id="outKw">0.0kW</div>
           </div>
           <div class="item">
             <div class="label">연간 임대료</div>
-            <div class="value" id="outYearRent">4,000,000원</div>
+            <div class="value" id="outYearRent">0원</div>
           </div>
           <div class="item">
             <div class="label">5년 선불임대료</div>
-            <div class="value" id="outPrepaid">20,000,000원</div>
+            <div class="value" id="outPrepaid">0원</div>
           </div>
           <div class="item">
             <div class="label">20년간 총 임대료</div>
-            <div class="value" id="outTotalRent">80,000,000원</div>
+            <div class="value" id="outTotalRent">0원</div>
           </div>
           <div class="item initial-cost">
             <div class="label">초기 투자비용</div>
@@ -730,7 +742,7 @@
         <table class="detail-table">
           <tr>
             <th>지붕 면적</th>
-            <td id="tableRoof"><strong>200평</strong></td>
+            <td id="tableRoof"><strong>-</strong></td>
           </tr>
           <tr>
             <th>적용 면적 기준</th>
@@ -738,7 +750,7 @@
           </tr>
           <tr>
             <th>예상 설치용량</th>
-            <td id="tableKw"><strong>100.0kW</strong></td>
+            <td id="tableKw"><strong>-</strong></td>
           </tr>
           <tr>
             <th>임대 단가</th>
@@ -746,11 +758,11 @@
           </tr>
           <tr>
             <th>연간 임대료</th>
-            <td id="tableYearRent"><strong>4,000,000원</strong></td>
+            <td id="tableYearRent"><strong>-</strong></td>
           </tr>
           <tr>
             <th>5년 선불임대료</th>
-            <td id="tablePrepaid"><strong>선불지급 희망 시 최대 5년치 선불 가능 : 20,000,000원</strong></td>
+            <td id="tablePrepaid"><strong>-</strong></td>
           </tr>
           <tr>
             <th>총 계약기간</th>
@@ -758,7 +770,7 @@
           </tr>
           <tr>
             <th>20년간 총 임대료</th>
-            <td id="tableTotal"><strong>80,000,000원</strong></td>
+            <td id="tableTotal"><strong>-</strong></td>
           </tr>
           <tr>
             <th>초기 투자비용</th>
@@ -768,24 +780,13 @@
 
         <div class="section-title">주요 제안 포인트</div>
         <div class="boxed-list">
-          <ul id="proposalPoints">
-            <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
-            <li>초기 투자비용은 0원으로 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
-            <li>계약 기간은 20년 기준이며, 선불지급 희망 시 최대 5년치 임대료를 먼저 수령할 수 있습니다.</li>
-            <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 운영관리가 가능합니다.</li>
-            <li>노후화된 지붕은 보수 후 시공을 진행하여 안전성과 시공 완성도를 높입니다.</li>
-            <li>임대기간 동안 건물확장공사 등으로 인한 이동설치는 무료로 지원합니다.</li>
-            <li>20년 계약 종료 후 10년간 기부채납 형식으로 장비를 지원해 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
-          </ul>
+          <ul id="proposalPoints"></ul>
         </div>
 
         <div class="section-title">사업의 장점</div>
         <div class="advantage-box" id="persuasionText"></div>
 
-        <div class="footnote" id="footnoteText">※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.
-※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.
-※ 노후 지붕의 경우 상태 점검 후 보수 범위가 확정되며, 이후 시공이 진행됩니다.
-※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.</div>
+        <div class="footnote" id="footnoteText"></div>
 
         <div class="footer-manager" id="outSalesBottom">영업 담당자명 : 미정</div>
       </div>
@@ -826,13 +827,6 @@
       return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
     }
 
-    function renderDefaultAdvantage() {
-      const target = document.getElementById('persuasionText');
-      if (target) {
-        target.innerHTML = buildAdvantageHTML(100, 4000000, 20000000, 'yes');
-      }
-    }
-
     function loadSample() {
       document.getElementById('ownerName').value = '김철수 / 한빛물류';
       document.getElementById('salesName').value = '미정';
@@ -840,7 +834,6 @@
       document.getElementById('roofPyeong').value = '200';
       document.getElementById('prepaidOption').value = 'yes';
       document.getElementById('prepaidYears').value = '5';
-      calculateEstimate();
     }
 
     function calculateEstimate() {
@@ -860,7 +853,10 @@
       const totalRent = yearRent * 20;
       const prepaidAmount = prepaidOption === 'yes' ? yearRent * FIXED_PREPAID_YEARS : 0;
 
-      document.getElementById('outDocTitle').innerText = FIXED_DOC_TITLE;
+      const estimateArea = document.getElementById('estimateArea');
+      estimateArea.classList.remove('hidden-estimate');
+
+      document.getElementById('outDocTitle').innerHTML = '<strong>' + FIXED_DOC_TITLE + '</strong>';
       document.getElementById('outOwner').innerText = '수신: ' + ownerName;
       document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
       document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
@@ -887,7 +883,7 @@
           '<strong>선불지급 미희망 : 매년 임대료 지급 방식 적용</strong>';
       }
 
-      const proposalHTML = `
+      document.getElementById('proposalPoints').innerHTML = `
         <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
         <li>초기 투자비용은 0원으로 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
         <li>예상 설치용량은 약 ${estimatedKw.toFixed(1)}kW이며, 연간 임대료는 ${formatMoney(yearRent)}, 20년간 총 임대료는 ${formatMoney(totalRent)}입니다.</li>
@@ -897,7 +893,6 @@
         <li>임대기간 동안 건물확장공사 등으로 인한 이동설치는 무료로 지원합니다.</li>
         <li>20년 계약 종료 후 10년간 기부채납 형식으로 장비를 지원하여 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
       `;
-      document.getElementById('proposalPoints').innerHTML = proposalHTML;
 
       document.getElementById('persuasionText').innerHTML =
         buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption);
@@ -908,10 +903,6 @@
         + '※ 노후 지붕의 경우 상태 점검 후 보수 범위가 확정되며, 이후 시공이 진행됩니다.\n'
         + '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      renderDefaultAdvantage();
-    });
   </script>
 </body>
 </html>
