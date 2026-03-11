@@ -180,6 +180,11 @@
       border: 1px solid #c9dcff;
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .hidden-estimate {
       display: none;
     }
@@ -706,7 +711,7 @@
 
         <div class="btns">
           <button class="light" onclick="loadSample()">샘플입력</button>
-          <button onclick="calculateEstimate()">견적서 산출</button>
+          <button id="estimateBtn" onclick="calculateEstimate()">견적서 산출</button>
           <button class="secondary" onclick="window.print()">인쇄 / PDF 저장</button>
         </div>
       </div>
@@ -814,6 +819,8 @@
     const FIXED_CONTRACT_YEARS = '20년 기준';
     const FIXED_PREPAID_YEARS = 5;
 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCiv4Npu-uefrt9bhHNmoAMeYxzgWcn8VG44zZEgtqjNnY6ooMzDz5z-o2GGZLaNOSrA/exec';
+
     function formatMoney(num) {
       return Number(num).toLocaleString('ko-KR') + '원';
     }
@@ -835,6 +842,24 @@
       return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
     }
 
+    async function saveCustomerToSheet(data) {
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error('시트 저장 실패:', error);
+        return { result: 'error', message: String(error) };
+      }
+    }
+
     function loadSample() {
       document.getElementById('ownerName').value = '김철수 / 한빛물류';
       document.getElementById('phoneNumber').value = '010-1234-5678';
@@ -845,13 +870,14 @@
       document.getElementById('prepaidYears').value = '5';
     }
 
-    function calculateEstimate() {
+    async function calculateEstimate() {
       const ownerName = document.getElementById('ownerName').value.trim();
       const phoneNumber = document.getElementById('phoneNumber').value.trim();
       const salesName = document.getElementById('salesName').value.trim() || '미정';
       const siteAddress = document.getElementById('siteAddress').value.trim();
       const roofPyeong = parseFloat(document.getElementById('roofPyeong').value || 0);
       const prepaidOption = document.getElementById('prepaidOption').value;
+      const estimateBtn = document.getElementById('estimateBtn');
 
       if (!ownerName || !phoneNumber || !siteAddress || !roofPyeong) {
         alert('건물주/회사명, 고객 전화번호, 건물 주소, 지붕 면적을 입력해주세요.');
@@ -862,6 +888,31 @@
       const yearRent = estimatedKw * FIXED_RENT_PER_KW;
       const totalRent = yearRent * 20;
       const prepaidAmount = prepaidOption === 'yes' ? yearRent * FIXED_PREPAID_YEARS : 0;
+
+      const payload = {
+        ownerName: ownerName,
+        phoneNumber: phoneNumber,
+        salesName: salesName,
+        siteAddress: siteAddress,
+        roofPyeong: roofPyeong,
+        prepaidOption: prepaidOption === 'yes' ? '선불지급 희망' : '희망하지 않음',
+        estimatedKw: estimatedKw.toFixed(1),
+        yearRent: yearRent,
+        prepaidAmount: prepaidAmount,
+        totalRent: totalRent
+      };
+
+      estimateBtn.disabled = true;
+      estimateBtn.innerText = '저장 및 산출 중...';
+
+      const saveResult = await saveCustomerToSheet(payload);
+
+      estimateBtn.disabled = false;
+      estimateBtn.innerText = '견적서 산출';
+
+      if (saveResult.result !== 'success') {
+        alert('구글 시트 저장 중 오류가 발생했습니다. Apps Script 설정을 확인해주세요.');
+      }
 
       const estimateArea = document.getElementById('estimateArea');
       estimateArea.classList.remove('hidden-estimate');
