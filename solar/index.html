@@ -1,1304 +1,1224 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>태양광 지붕 임대 견적서 산출 프로그램</title>
-  <style>
-    @page {
-      size: A4;
-      margin: 15mm 12mm 15mm 12mm;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
-      background: #f3f6fb;
-      margin: 0;
-      padding: 20px;
-      color: #111827;
-      font-weight: 600;
-    }
-
-    strong {
-      font-weight: 900;
-      color: #111827;
-    }
-
-    .wrap {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .contact-banner {
-      background: linear-gradient(135deg, #0b3d91 0%, #1557c0 35%, #3b82f6 70%, #8ec5ff 100%);
-      color: #fff;
-      font-weight: 800;
-      text-align: center;
-      padding: 16px 20px;
-      border-radius: 16px;
-      margin-bottom: 18px;
-      font-size: 18px;
-      letter-spacing: -0.2px;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.35),
-        0 10px 22px rgba(11, 61, 145, 0.28),
-        0 3px 8px rgba(0,0,0,0.12);
-      border: 1px solid rgba(255,255,255,0.22);
-    }
-
-    .contact-banner a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .doc-name-top {
-      background: #ffffff;
-      border: 1px solid #dbe5f0;
-      border-radius: 16px;
-      padding: 18px 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
-    }
-
-    .doc-name-label {
-      font-size: 13px;
-      color: #475467;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .doc-name-value {
-      font-size: 30px;
-      font-weight: 900;
-      color: #111827;
-      line-height: 1.3;
-    }
-
-    .subtitle {
-      color: #374151;
-      margin-bottom: 22px;
-      line-height: 1.8;
-      white-space: pre-line;
-      font-weight: 700;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
-      padding: 22px;
-    }
-
-    .card h2 {
-      margin-top: 0;
-      font-size: 20px;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 10px;
-      margin-bottom: 18px;
-      font-weight: 900;
-      color: #111827;
-    }
-
-    .field {
-      margin-bottom: 14px;
-    }
-
-    .field label {
-      display: block;
-      font-weight: 800;
-      margin-bottom: 7px;
-      color: #1f2937;
-    }
-
-    .field-guide {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #475467;
-      line-height: 1.6;
-      font-weight: 700;
-    }
-
-    .field input, .field select, .field textarea {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #d0d5dd;
-      border-radius: 10px;
-      font-size: 14px;
-      background: #fff;
-      color: #111827;
-      font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
-      line-height: 1.7;
-      font-weight: 700;
-    }
-
-    .field input[readonly],
-    .field textarea[readonly],
-    .field input:read-only,
-    .field textarea:read-only {
-      background: #f9fafb;
-      color: #1f2937;
-      cursor: default;
-      font-weight: 800;
-    }
-
-    .check-textarea {
-      font-weight: 800;
-      white-space: pre-line;
-    }
-
-    .inline-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .btns {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      background: #0b57d0;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 14px;
-      font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
-    }
-
-    button.secondary {
-      background: #475467;
-    }
-
-    button.light {
-      background: #eef4ff;
-      color: #0b57d0;
-      border: 1px solid #c9dcff;
-    }
-
-    button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .hidden-estimate {
-      display: none;
-    }
-
-    .estimate-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 12px;
-      border-bottom: 2px solid #111827;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-    }
-
-    .estimate-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: #475467;
-      margin-bottom: 6px;
-    }
-
-    .estimate-doc-name {
-      font-size: 30px;
-      font-weight: 900;
-      margin-bottom: 10px;
-      color: #111827;
-      line-height: 1.3;
-    }
-
-    .estimate-sub {
-      line-height: 1.8;
-      color: #374151;
-      font-weight: 700;
-    }
-
-    .badge {
-      background: #eef4ff;
-      color: #0b57d0;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-      border: 1px solid #c7dcff;
-    }
-
-    .kpi {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .kpi .item {
-      background: linear-gradient(180deg, #edf5ff 0%, #d9ebff 100%);
-      border: 1px solid #bfd8ff;
-      border-radius: 14px;
-      padding: 14px 10px;
-      min-width: 0;
-      overflow: hidden;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
-      min-height: 96px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .kpi .item.initial-cost {
-      background: linear-gradient(180deg, #fff3d6 0%, #ffd98a 100%);
-      border: 1px solid #f0b84b;
-    }
-
-    .kpi .item.initial-cost .label {
-      color: #8a5200;
-    }
-
-    .kpi .item.initial-cost .value {
-      color: #a04f00;
-    }
-
-    .kpi .label {
-      font-size: 12px;
-      color: #365b91;
-      margin-bottom: 7px;
-      font-weight: 800;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    .kpi .value {
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 900;
-      color: #0b57d0;
-      white-space: nowrap;
-      overflow: visible;
-      text-overflow: clip;
-      line-height: 1.2;
-      letter-spacing: -0.6px;
-      text-align: center;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 900;
-      margin-top: 18px;
-      margin-bottom: 9px;
-      color: #111827;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0 18px;
-      table-layout: fixed;
-    }
-
-    th, td {
-      border: 1px solid #cfd8e3;
-      padding: 11px 12px;
-      font-size: 13px;
-      vertical-align: middle;
-      text-align: center;
-      line-height: 1.75;
-      font-weight: 800;
-    }
-
-    th {
-      background: #eaf2ff;
-      width: 30%;
-      color: #1849a9;
-      font-weight: 900;
-    }
-
-    td {
-      background: #fcfdff;
-      color: #1f2937;
-    }
-
-    .detail-table tr:nth-child(even) td {
-      background: #f8fbff;
-    }
-
-    .detail-table td strong {
-      color: #0b57d0;
-      font-weight: 900;
-    }
-
-    .boxed-list {
-      background: #f8fbff;
-      border: 1px solid #d8e7ff;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-top: 8px;
-    }
-
-    .boxed-list ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
-
-    .boxed-list li {
-      margin-bottom: 8px;
-      line-height: 1.85;
-      position: relative;
-      padding-left: 22px;
-      font-size: 12.5px;
-      font-weight: 800;
-      color: #1f2937;
-    }
-
-    .boxed-list li::before {
-      content: "✔";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #0b57d0;
-      font-weight: 900;
-    }
-
-    .advantage-box {
-      background: #f8fbff;
-      border: 1px solid #d8e7ff;
-      border-radius: 12px;
-      padding: 18px 16px;
-      line-height: 1.85;
-      font-size: 12.5px;
-      font-weight: 800;
-      min-height: 150px;
-      color: #1f2937;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .advantage-line {
-      display: block;
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 6px;
-    }
-
-    .advantage-line::before {
-      content: "✔";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #0b57d0;
-      font-weight: 900;
-    }
-
-    .faq-panel {
-      background: #ffffff;
-      border: 1px solid #dbe5f0;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
-    }
-
-    .faq-panel + .faq-panel {
-      margin-top: 18px;
-    }
-
-    .faq-head {
-      padding: 18px 20px 10px;
-      background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
-      border-bottom: 1px solid #dbe5f0;
-    }
-
-    .faq-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: #111827;
-      margin-bottom: 6px;
-    }
-
-    .faq-desc {
-      font-size: 13px;
-      line-height: 1.8;
-      color: #475467;
-      font-weight: 700;
-    }
-
-    .faq-item {
-      border-top: 1px solid #e5e7eb;
-    }
-
-    .faq-item:first-child {
-      border-top: none;
-    }
-
-    .faq-question {
-      width: 100%;
-      background: #fff;
-      color: #111827;
-      border: none;
-      padding: 16px 18px;
-      text-align: left;
-      font-size: 14px;
-      font-weight: 900;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
-    }
-
-    .faq-question:hover {
-      background: #f8fbff;
-    }
-
-    .faq-question .icon {
-      color: #0b57d0;
-      font-size: 18px;
-      line-height: 1;
-      margin-left: 12px;
-      flex-shrink: 0;
-      font-weight: 900;
-    }
-
-    .faq-answer {
-      display: none;
-      padding: 18px;
-      background: #fcfdff;
-      color: #1f2937;
-      font-size: 13px;
-      line-height: 1.95;
-      white-space: pre-line;
-      font-weight: 800;
-      min-height: 120px;
-      align-items: center;
-    }
-
-    .faq-item.active .faq-answer {
-      display: flex;
-    }
-
-    .faq-item.active .faq-question {
-      background: #eef4ff;
-      color: #232a33;
-    }
-
-    .pre-estimate-faq {
-      min-height: 420px;
-    }
-
-    .footer-manager {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px dashed #cfd8e3;
-      color: #374151;
-      font-size: 13px;
-      font-weight: 800;
-      text-align: right;
-    }
-
-    .footnote {
-      margin-top: 16px;
-      font-size: 11.5px;
-      color: #475467;
-      line-height: 1.8;
-      background: #fafafa;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 16px 14px;
-      white-space: pre-line;
-      font-weight: 700;
-      min-height: 110px;
-      display: flex;
-      align-items: center;
-    }
-
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-        margin: 0;
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-
-      .wrap {
-        max-width: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      .no-print {
-        display: none !important;
-      }
-
-      #preEstimateFaq {
-        display: none !important;
-      }
-
-      #estimateArea.hidden-estimate {
-        display: none !important;
-      }
-
-      .contact-banner {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        padding: 10px 14px;
-        font-size: 14px;
-        font-weight: 900;
-      }
-
-      .doc-name-top {
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin-bottom: 10px;
-        box-shadow: none;
-        border: 1px solid #d0d5dd;
-      }
-
-      .doc-name-label {
-        font-size: 11px;
-        margin-bottom: 4px;
-        font-weight: 800;
-      }
-
-      .doc-name-value {
-        font-size: 22px;
-        font-weight: 900;
-      }
-
-      .subtitle {
-        font-size: 11px;
-        line-height: 1.6;
-        margin-bottom: 12px;
-        font-weight: 700;
-      }
-
-      .grid {
-        display: block;
-      }
-
-      .card {
-        box-shadow: none;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        margin: 0;
-      }
-
-      .estimate-header {
-        padding-bottom: 10px;
-        margin-bottom: 12px;
-        border-bottom: 1.5px solid #111827;
-      }
-
-      .estimate-title {
-        font-size: 11px;
-        margin-bottom: 4px;
-        font-weight: 800;
-      }
-
-      .estimate-doc-name {
-        font-size: 20px;
-        margin-bottom: 6px;
-        font-weight: 900;
-      }
-
-      .estimate-sub {
-        font-size: 11px;
-        line-height: 1.5;
-        font-weight: 700;
-      }
-
-      .badge {
-        font-size: 10px;
-        padding: 5px 8px;
-        font-weight: 900;
-      }
-
-      .kpi {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 6px;
-        margin-bottom: 12px;
-      }
-
-      .kpi .item {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-        padding: 8px 6px;
-        border-radius: 8px;
-        min-height: 74px;
-      }
-
-      .kpi .label {
-        font-size: 9px;
-        margin-bottom: 5px;
-        font-weight: 800;
-      }
-
-      .kpi .value {
-        font-size: 12px;
-        letter-spacing: -0.6px;
-        font-weight: 900;
-      }
-
-      .section-title {
-        font-size: 13px;
-        margin-top: 12px;
-        margin-bottom: 6px;
-        font-weight: 900;
-      }
-
-      table {
-        margin: 8px 0 12px;
-      }
-
-      th, td {
-        padding: 7px 9px;
-        font-size: 10px;
-        line-height: 1.55;
-        vertical-align: middle;
-        text-align: center;
-        font-weight: 800;
-      }
-
-      th {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-
-      .detail-table tr:nth-child(even) td {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-
-      .boxed-list {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-        padding: 10px 12px;
-        border-radius: 8px;
-        margin-top: 6px;
-      }
-
-      .boxed-list li {
-        margin-bottom: 5px;
-        line-height: 1.65;
-        font-size: 10px;
-        font-weight: 800;
-        padding-left: 18px;
-      }
-
-      .advantage-box {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-        padding: 12px 12px;
-        border-radius: 8px;
-        font-size: 10px;
-        line-height: 1.65;
-        min-height: 90px;
-        font-weight: 800;
-      }
-
-      .advantage-line {
-        padding-left: 16px;
-        margin-bottom: 4px;
-      }
-
-      .faq-panel {
-        border-radius: 8px;
-        border: 1px solid #d0d5dd;
-        box-shadow: none;
-        page-break-inside: avoid;
-      }
-
-      .faq-head {
-        padding: 10px 12px 8px;
-      }
-
-      .faq-title {
-        font-size: 13px;
-        margin-bottom: 4px;
-        font-weight: 900;
-      }
-
-      .faq-desc {
-        font-size: 10px;
-        line-height: 1.6;
-        font-weight: 700;
-      }
-
-      .faq-question {
-        font-size: 10px;
-        padding: 10px 12px;
-        font-weight: 900;
-      }
-
-      .faq-answer {
-        display: flex !important;
-        font-size: 9.5px;
-        line-height: 1.65;
-        padding: 10px 12px;
-        font-weight: 800;
-        min-height: 74px;
-      }
-
-      .faq-question .icon {
-        display: none;
-      }
-
-      .footer-manager {
-        margin-top: 12px;
-        padding-top: 8px;
-        font-size: 10px;
-        font-weight: 800;
-      }
-
-      .footnote {
-        margin-top: 12px;
-        font-size: 9px;
-        line-height: 1.6;
-        padding: 8px 10px;
-        border-radius: 6px;
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-        font-weight: 700;
-        min-height: 70px;
-      }
-
-      .contact-banner:last-child {
-        margin-top: 10px;
-        margin-bottom: 0;
-      }
-
-      .kpi, .detail-table, .boxed-list, .advantage-box, .footnote {
-        page-break-inside: avoid;
-      }
-    }
-
-    @media (max-width: 1080px) {
-      .grid { grid-template-columns: 1fr; }
-      .kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 640px) {
-      .inline-row { grid-template-columns: 1fr; }
-      .kpi { grid-template-columns: 1fr; }
-      .kpi .value { font-size: 17px; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>태양광 지붕 임대 견적서 산출 프로그램</title>
+<style>
+@page {
+size: A4;
+margin: 15mm 12mm 15mm 12mm;
+}
+
+* {
+box-sizing: border-box;
+}
+
+body {
+font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
+background: #f3f6fb;
+margin: 0;
+padding: 20px;
+color: #1f2937;
+}
+
+.wrap {
+max-width: 1180px;
+margin: 0 auto;
+}
+
+.contact-banner {
+background: linear-gradient(135deg, #0b3d91 0%, #1557c0 35%, #3b82f6 70%, #8ec5ff 100%);
+color: #fff;
+font-weight: 700;
+text-align: center;
+padding: 16px 20px;
+border-radius: 16px;
+margin-bottom: 18px;
+font-size: 18px;
+letter-spacing: -0.2px;
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,0.35),
+0 10px 22px rgba(11, 61, 145, 0.28),
+0 3px 8px rgba(0,0,0,0.12);
+border: 1px solid rgba(255,255,255,0.22);
+}
+
+.contact-banner a {
+color: #ffffff;
+text-decoration: none;
+}
+
+.doc-name-top {
+background: #ffffff;
+border: 1px solid #dbe5f0;
+border-radius: 16px;
+padding: 18px 22px;
+margin-bottom: 18px;
+box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.doc-name-label {
+font-size: 13px;
+color: #667085;
+font-weight: 700;
+margin-bottom: 6px;
+}
+
+.doc-name-value {
+font-size: 30px;
+font-weight: 800;
+color: #111827;
+line-height: 1.3;
+}
+
+.subtitle {
+color: #667085;
+margin-bottom: 22px;
+line-height: 1.75;
+white-space: pre-line;
+}
+
+.grid {
+display: grid;
+grid-template-columns: 360px 1fr;
+gap: 20px;
+align-items: start;
+}
+
+.card {
+background: #fff;
+border-radius: 16px;
+box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+padding: 22px;
+}
+
+.card h2 {
+margin-top: 0;
+font-size: 20px;
+border-bottom: 1px solid #e5e7eb;
+padding-bottom: 10px;
+margin-bottom: 18px;
+}
+
+.field {
+margin-bottom: 14px;
+}
+
+.field label {
+display: block;
+font-weight: 700;
+margin-bottom: 7px;
+color: #374151;
+}
+
+.field-guide {
+margin-top: 6px;
+font-size: 12px;
+color: #667085;
+line-height: 1.5;
+}
+
+.field input, .field select, .field textarea {
+width: 100%;
+padding: 11px 12px;
+border: 1px solid #d0d5dd;
+border-radius: 10px;
+font-size: 14px;
+background: #fff;
+color: #1f2937;
+font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
+line-height: 1.6;
+}
+
+.field input[readonly],
+.field textarea[readonly],
+.field input:read-only,
+.field textarea:read-only {
+background: #f9fafb;
+color: #344054;
+cursor: default;
+font-weight: 800;
+}
+
+.check-textarea {
+font-weight: 800;
+white-space: pre-line;
+font-size: 12px;
+line-height: 1.45;
+padding-top: 10px;
+padding-bottom: 10px;
+}
+
+.inline-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+.btns {
+display: flex;
+gap: 10px;
+margin-top: 18px;
+flex-wrap: wrap;
+}
+
+button {
+border: none;
+background: #0b57d0;
+color: white;
+padding: 12px 16px;
+border-radius: 10px;
+cursor: pointer;
+font-weight: 700;
+font-size: 14px;
+font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
+}
+
+button.secondary {
+background: #475467;
+}
+
+button.light {
+background: #eef4ff;
+color: #0b57d0;
+border: 1px solid #c9dcff;
+}
+
+button:disabled {
+opacity: 0.7;
+cursor: not-allowed;
+}
+
+.hidden-estimate {
+display: none;
+}
+
+.estimate-header {
+display: flex;
+justify-content: space-between;
+align-items: start;
+gap: 12px;
+border-bottom: 2px solid #111827;
+padding-bottom: 16px;
+margin-bottom: 20px;
+}
+
+.estimate-title {
+font-size: 14px;
+font-weight: 700;
+color: #667085;
+margin-bottom: 6px;
+}
+
+.estimate-doc-name {
+font-size: 30px;
+font-weight: 800;
+margin-bottom: 10px;
+color: #111827;
+line-height: 1.3;
+}
+
+.estimate-sub {
+line-height: 1.7;
+color: #475467;
+}
+
+.badge {
+background: #eef4ff;
+color: #0b57d0;
+padding: 8px 12px;
+border-radius: 999px;
+font-size: 12px;
+font-weight: 800;
+white-space: nowrap;
+border: 1px solid #c7dcff;
+}
+
+.kpi {
+display: grid;
+grid-template-columns: repeat(5, minmax(0, 1fr));
+gap: 12px;
+margin-bottom: 20px;
+}
+
+.kpi .item {
+background: linear-gradient(180deg, #edf5ff 0%, #d9ebff 100%);
+border: 1px solid #bfd8ff;
+border-radius: 14px;
+padding: 14px 10px;
+min-width: 0;
+overflow: hidden;
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.kpi .item.initial-cost {
+background: linear-gradient(180deg, #fff3d6 0%, #ffd98a 100%);
+border: 1px solid #f0b84b;
+}
+
+.kpi .item.initial-cost .label {
+color: #8a5200;
+}
+
+.kpi .item.initial-cost .value {
+color: #a04f00;
+}
+
+.kpi .label {
+font-size: 12px;
+color: #365b91;
+margin-bottom: 7px;
+font-weight: 700;
+white-space: nowrap;
+text-align: center;
+}
+
+.kpi .value {
+font-size: clamp(13px, 1.1vw, 18px);
+font-weight: 800;
+color: #0b57d0;
+white-space: nowrap;
+overflow: visible;
+text-overflow: clip;
+line-height: 1.1;
+letter-spacing: -1px;
+text-align: center;
+}
+
+.section-title {
+font-size: 17px;
+font-weight: 800;
+margin-top: 18px;
+margin-bottom: 9px;
+color: #111827;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin: 12px 0 18px;
+table-layout: fixed;
+}
+
+th, td {
+border: 1px solid #cfd8e3;
+padding: 11px 12px;
+font-size: 13px;
+vertical-align: top;
+line-height: 1.65;
+}
+
+th {
+background: #eaf2ff;
+text-align: left;
+width: 30%;
+color: #1849a9;
+font-weight: 800;
+}
+
+td {
+background: #fcfdff;
+}
+
+.detail-table tr:nth-child(even) td {
+background: #f8fbff;
+}
+
+.detail-table td strong {
+color: #0b57d0;
+font-weight: 800;
+}
+
+.boxed-list {
+background: #f8fbff;
+border: 1px solid #d8e7ff;
+border-radius: 12px;
+padding: 14px 16px;
+margin-top: 8px;
+}
+
+.boxed-list ul {
+list-style: none;
+padding-left: 0;
+margin: 0;
+}
+
+.boxed-list li {
+margin-bottom: 8px;
+line-height: 1.75;
+position: relative;
+padding-left: 22px;
+font-size: 12px;
+font-weight: 700;
+}
+
+.boxed-list li::before {
+content: "✔";
+position: absolute;
+left: 0;
+top: 0;
+color: #0b57d0;
+font-weight: 800;
+}
+
+.advantage-box {
+background: #f8fbff;
+border: 1px solid #d8e7ff;
+border-radius: 12px;
+padding: 14px 16px;
+line-height: 1.75;
+font-size: 12px;
+font-weight: 700;
+min-height: 120px;
+}
+
+.advantage-line {
+display: block;
+position: relative;
+padding-left: 20px;
+margin-bottom: 6px;
+}
+
+.advantage-line::before {
+content: "✔";
+position: absolute;
+left: 0;
+top: 0;
+color: #0b57d0;
+font-weight: 800;
+}
+
+.faq-panel {
+background: #ffffff;
+border: 1px solid #dbe5f0;
+border-radius: 16px;
+overflow: hidden;
+box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.faq-panel + .faq-panel {
+margin-top: 18px;
+}
+
+.faq-head {
+padding: 18px 20px 10px;
+background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+border-bottom: 1px solid #dbe5f0;
+}
+
+.faq-title {
+font-size: 20px;
+font-weight: 800;
+color: #111827;
+margin-bottom: 6px;
+}
+
+.faq-desc {
+font-size: 13px;
+line-height: 1.7;
+color: #667085;
+}
+
+.faq-item {
+border-top: 1px solid #e5e7eb;
+}
+
+.faq-item:first-child {
+border-top: none;
+}
+
+.faq-question {
+width: 100%;
+background: #fff;
+color: #232a33;
+border: none;
+padding: 16px 18px;
+text-align: left;
+font-size: 14px;
+font-weight: 700;
+display: flex;
+justify-content: space-between;
+align-items: center;
+cursor: pointer;
+font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
+}
+
+.faq-question:hover {
+background: #f8fbff;
+}
+
+.faq-question .icon {
+color: #0b57d0;
+font-size: 18px;
+line-height: 1;
+margin-left: 12px;
+flex-shrink: 0;
+}
+
+.faq-answer {
+display: none;
+padding: 0 18px 18px;
+background: #fcfdff;
+color: #475467;
+font-size: 13px;
+line-height: 1.8;
+white-space: pre-line;
+}
+
+.faq-item.active .faq-answer {
+display: block;
+}
+
+.faq-item.active .faq-question {
+background: #eef4ff;
+color: #232a33;
+}
+
+.pre-estimate-faq {
+min-height: 420px;
+}
+
+.footer-manager {
+margin-top: 16px;
+padding-top: 12px;
+border-top: 1px dashed #cfd8e3;
+color: #475467;
+font-size: 13px;
+font-weight: 700;
+text-align: right;
+}
+
+.footnote {
+margin-top: 16px;
+font-size: 11.5px;
+color: #667085;
+line-height: 1.75;
+background: #fafafa;
+border: 1px solid #e5e7eb;
+border-radius: 12px;
+padding: 12px 14px;
+white-space: pre-line;
+}
+
+@media print {
+body {
+background: white;
+padding: 0;
+margin: 0;
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+}
+
+.wrap {
+max-width: 100%;
+width: 100%;
+margin: 0;
+padding: 0;
+}
+
+.no-print {
+display: none !important;
+}
+
+#preEstimateFaq {
+display: none !important;
+}
+
+#estimateArea.hidden-estimate {
+display: none !important;
+}
+
+.contact-banner {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+border-radius: 8px;
+margin-bottom: 10px;
+padding: 10px 14px;
+font-size: 14px;
+}
+
+.doc-name-top {
+border-radius: 8px;
+padding: 12px 16px;
+margin-bottom: 10px;
+box-shadow: none;
+border: 1px solid #d0d5dd;
+}
+
+.doc-name-label {
+font-size: 11px;
+margin-bottom: 4px;
+}
+
+.doc-name-value {
+font-size: 22px;
+}
+
+.subtitle {
+font-size: 11px;
+line-height: 1.6;
+margin-bottom: 12px;
+}
+
+.grid {
+display: block;
+}
+
+.card {
+box-shadow: none;
+border: none;
+border-radius: 0;
+padding: 0;
+margin: 0;
+}
+
+.estimate-header {
+padding-bottom: 10px;
+margin-bottom: 12px;
+border-bottom: 1.5px solid #111827;
+}
+
+.estimate-title {
+font-size: 11px;
+margin-bottom: 4px;
+}
+
+.estimate-doc-name {
+font-size: 20px;
+margin-bottom: 6px;
+}
+
+.estimate-sub {
+font-size: 11px;
+line-height: 1.5;
+}
+
+.badge {
+font-size: 10px;
+padding: 5px 8px;
+}
+
+.kpi {
+grid-template-columns: repeat(5, minmax(0, 1fr));
+gap: 6px;
+margin-bottom: 12px;
+}
+
+.kpi .item {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+padding: 8px 6px;
+border-radius: 8px;
+}
+
+.kpi .label {
+font-size: 9px;
+margin-bottom: 5px;
+}
+
+.kpi .value {
+font-size: 12px;
+letter-spacing: -0.8px;
+}
+
+.section-title {
+font-size: 13px;
+margin-top: 12px;
+margin-bottom: 6px;
+}
+
+table {
+margin: 8px 0 12px;
+}
+
+th, td {
+padding: 7px 9px;
+font-size: 10px;
+line-height: 1.5;
+}
+
+th {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+}
+
+.detail-table tr:nth-child(even) td {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+}
+
+.boxed-list {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+padding: 10px 12px;
+border-radius: 8px;
+margin-top: 6px;
+}
+
+.boxed-list li {
+margin-bottom: 5px;
+line-height: 1.6;
+font-size: 10px;
+font-weight: 700;
+padding-left: 18px;
+}
+
+.advantage-box {
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+padding: 10px 12px;
+border-radius: 8px;
+font-size: 10px;
+line-height: 1.6;
+min-height: auto;
+}
+
+.advantage-line {
+padding-left: 16px;
+margin-bottom: 4px;
+}
+
+.faq-panel {
+border-radius: 8px;
+border: 1px solid #d0d5dd;
+box-shadow: none;
+page-break-inside: avoid;
+}
+
+.faq-head {
+padding: 10px 12px 8px;
+}
+
+.faq-title {
+font-size: 13px;
+margin-bottom: 4px;
+}
+
+.faq-desc {
+font-size: 10px;
+line-height: 1.6;
+}
+
+.faq-question {
+font-size: 10px;
+padding: 10px 12px;
+}
+
+.faq-answer {
+display: block !important;
+font-size: 9.5px;
+line-height: 1.6;
+padding: 0 12px 10px;
+}
+
+.faq-question .icon {
+display: none;
+}
+
+.footer-manager {
+margin-top: 12px;
+padding-top: 8px;
+font-size: 10px;
+}
+
+.footnote {
+margin-top: 12px;
+font-size: 9px;
+line-height: 1.6;
+padding: 8px 10px;
+border-radius: 6px;
+print-color-adjust: exact;
+-webkit-print-color-adjust: exact;
+}
+
+.contact-banner:last-child {
+margin-top: 10px;
+margin-bottom: 0;
+}
+
+.kpi, .detail-table, .boxed-list, .advantage-box, .footnote {
+page-break-inside: avoid;
+}
+}
+
+@media (max-width: 1080px) {
+.grid { grid-template-columns: 1fr; }
+.kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+.inline-row { grid-template-columns: 1fr; }
+.kpi { grid-template-columns: 1fr; }
+.kpi .value { font-size: 17px; }
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="doc-name-top">
-      <div class="doc-name-label">견적서</div>
-      <div class="doc-name-value"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
-    </div>
+<div class="wrap">
+<div class="doc-name-top">
+<div class="doc-name-label">견적서</div>
+<div class="doc-name-value"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
+</div>
 
-    <div class="contact-banner">
-      설치가능 여부 및 상세 견적문의 :
-      010-4827-4823 /
-      <a href="mailto:solar@hrpoint.co.kr">solar@hrpoint.co.kr</a>
-    </div>
+<div class="contact-banner">
+설치가능 여부 및 상세 견적문의 :
+010-4827-4823 /
+<a href="mailto:solar@hrpoint.co.kr">solar@hrpoint.co.kr</a>
+</div>
 
-    <div class="subtitle">지붕 면적을 입력하면 예상 설치용량, 연간 임대료, 5년 선불임대료, 20년간 총 임대료를 한눈에 확인할 수 있습니다.
-초기 <strong>투자비용 0원</strong>의 부담 없는 사업 구조를 기준으로 상담용 견적서를 빠르게 산출할 수 있습니다.</div>
+<div class="subtitle">지붕 면적을 입력하면 예상 설치용량, 연간 임대료, 5년 선불임대료, 20년간 총 임대료를 한눈에 확인할 수 있습니다.
+초기 투자비용 0원의 부담 없는 사업 구조를 기준으로 상담용 견적서를 빠르게 산출할 수 있습니다.</div>
 
-    <div class="grid">
-      <div class="card no-print">
-        <h2>입력 정보</h2>
+<div class="grid">
+<div class="card no-print">
+<h2>입력 정보</h2>
 
-        <div class="field">
-          <label>건물주 / 회사명</label>
-          <input type="text" id="ownerName" placeholder="예: 홍길동 / ○○산업" />
-        </div>
+<div class="field">
+<label>건물주 / 회사명</label>
+<input type="text" id="ownerName" placeholder="예: 홍길동 / ○○산업" />
+</div>
 
-        <div class="field">
-          <label>고객 전화번호</label>
-          <input type="tel" id="phoneNumber" placeholder="예: 010-1234-5678" />
-        </div>
+<div class="field">
+<label>고객 전화번호</label>
+<input type="tel" id="phoneNumber" placeholder="예: 010-1234-5678" />
+</div>
 
-        <div class="field">
-          <label>영업 담당자명</label>
-          <input type="text" id="salesName" value="미정" />
-        </div>
+<div class="field">
+<label>영업 담당자명</label>
+<input type="text" id="salesName" value="미정" />
+</div>
 
-        <div class="field">
-          <label>건물 주소</label>
-          <input type="text" id="siteAddress" placeholder="예: 경기도 화성시 양감면 ○○로 128, ○동 ○호까지 상세하게 입력" />
-          <div class="field-guide">주소는 설치 가능 여부 검토를 위해 상세주소까지 정확히 입력해 주세요.</div>
-        </div>
+<div class="field">
+<label>건물 주소</label>
+<input type="text" id="siteAddress" placeholder="예: 경기도 화성시 양감면 ○○로 128, ○동 ○호까지 상세하게 입력" />
+<div class="field-guide">주소는 설치 가능 여부 검토를 위해 상세주소까지 정확히 입력해 주세요.</div>
+</div>
 
-        <div class="field">
-          <label>지붕 면적(평)</label>
-          <input type="number" id="roofPyeong" placeholder="예: 200" />
-        </div>
+<div class="field">
+<label>지붕 면적(평)</label>
+<input type="number" id="roofPyeong" placeholder="예: 200" />
+</div>
 
-        <div class="inline-row">
-          <div class="field">
-            <label>선불지급</label>
-            <select id="prepaidOption">
-              <option value="no" selected>희망하지 않음</option>
-              <option value="yes">선불지급 희망</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>선불지급 기간</label>
-            <select id="prepaidYears">
-              <option value="5" selected>최대 5년</option>
-            </select>
-          </div>
-        </div>
+<div class="inline-row">
+<div class="field">
+<label>선불지급</label>
+<select id="prepaidOption">
+<option value="no" selected>희망하지 않음</option>
+<option value="yes">선불지급 희망</option>
+</select>
+</div>
+<div class="field">
+<label>선불지급 기간</label>
+<select id="prepaidYears">
+<option value="5" selected>최대 5년</option>
+</select>
+</div>
+</div>
 
-        <div class="field">
-          <label>견적서</label>
-          <input type="text" value="태양광 지붕 임대사업 제안 견적서" readonly />
-        </div>
+<div class="field">
+<label>견적서</label>
+<input type="text" value="태양광 지붕 임대사업 제안 견적서" readonly />
+</div>
 
-        <div class="inline-row">
-          <div class="field">
-            <label>1kW당 연 임대료</label>
-            <input type="text" value="40,000원" readonly />
-          </div>
-          <div class="field">
-            <label>임대 기간</label>
-            <input type="text" value="20년 기준" readonly />
-          </div>
-        </div>
+<div class="inline-row">
+<div class="field">
+<label>1kW당 연 임대료</label>
+<input type="text" value="40,000원" readonly />
+</div>
+<div class="field">
+<label>임대 기간</label>
+<input type="text" value="20년 기준" readonly />
+</div>
+</div>
 
-        <div class="field">
-          <label>면적 기준</label>
-          <input type="text" value="2평당 1kW" readonly />
-        </div>
+<div class="field">
+<label>면적 기준</label>
+<input type="text" value="2평당 1kW" readonly />
+</div>
 
-        <div class="field">
-          <label>업체평가</label>
-          <textarea class="check-textarea" rows="6" readonly>✔ 20년 이상 운영 경험 기반의 안정적인 사업 구조
-✔ 지속적인 관리운영 및 사후지원 체계
-✔ 관공서 및 다양한 현장 중심의 우수 평가
-✔ 대기업 펀딩 기반의 재무 안정성 확보
-✔ 업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.</textarea>
-        </div>
+<div class="field">
+<label>업체평가</label>
+<textarea class="check-textarea" rows="5" readonly>✔ 11년 태양광 기술력
+✔ 신뢰도 높은 사후지원
+✔ 대기업 펀딩을 통한 재무 안정성
+✔ 임대료 지급/시설관리의 확실한 약속</textarea>
+</div>
 
-        <div class="btns">
-          <button class="light" onclick="loadSample()">샘플입력</button>
-          <button id="estimateBtn" onclick="calculateEstimate()">견적서 산출</button>
-          <button class="secondary" onclick="window.print()">인쇄 / PDF 저장</button>
-        </div>
-      </div>
+<div class="btns">
+<button class="light" onclick="loadSample()">샘플입력</button>
+<button id="estimateBtn" onclick="calculateEstimate()">견적서 산출</button>
+<button class="secondary" onclick="window.print()">인쇄 / PDF 저장</button>
+</div>
+</div>
 
-      <div class="faq-panel pre-estimate-faq" id="preEstimateFaq">
-        <div class="faq-head">
-          <div class="faq-title">궁금해하시는 내용을 모았습니다.</div>
-          <div class="faq-desc">
-            비용 부담, 수익 구조, 진행 절차 등 고객님이 가장 궁금해하시는 내용을 보기 쉽게 정리했습니다.
-            아래 내용을 먼저 확인하시면 검토가 훨씬 빠르고 쉬워집니다.
-          </div>
-        </div>
-        <div id="preFaqList"></div>
-      </div>
+<div class="faq-panel pre-estimate-faq" id="preEstimateFaq">
+<div class="faq-head">
+<div class="faq-title">궁금해하시는 내용을 모았습니다.</div>
+<div class="faq-desc">
+비용 부담, 수익 구조, 진행 절차 등 고객님이 가장 궁금해하시는 내용을 보기 쉽게 정리했습니다.
+아래 내용을 먼저 확인하시면 검토가 훨씬 빠르고 쉬워집니다.
+</div>
+</div>
+<div id="preFaqList"></div>
+</div>
 
-      <div class="card hidden-estimate" id="estimateArea">
-        <div class="estimate-header">
-          <div>
-            <div class="estimate-title"><strong>견적서 명</strong></div>
-            <div class="estimate-doc-name" id="outDocTitle"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
-            <div class="estimate-sub" id="outOwner">수신: -</div>
-            <div class="estimate-sub" id="outPhone">연락처: -</div>
-            <div class="estimate-sub" id="outAddress">대상 건물: -</div>
-          </div>
-          <div class="badge" id="statusBadge">산출결과</div>
-        </div>
+<div class="card hidden-estimate" id="estimateArea">
+<div class="estimate-header">
+<div>
+<div class="estimate-title"><strong>견적서 명</strong></div>
+<div class="estimate-doc-name" id="outDocTitle"><strong>태양광 지붕 임대사업 제안 견적서</strong></div>
+<div class="estimate-sub" id="outOwner">수신: -</div>
+<div class="estimate-sub" id="outPhone">연락처: -</div>
+<div class="estimate-sub" id="outAddress">대상 건물: -</div>
+</div>
+<div class="badge" id="statusBadge">산출결과</div>
+</div>
 
-        <div class="kpi">
-          <div class="item">
-            <div class="label">예상 설치용량</div>
-            <div class="value" id="outKw">0.0kW</div>
-          </div>
-          <div class="item">
-            <div class="label">연간 임대료</div>
-            <div class="value" id="outYearRent">0원</div>
-          </div>
-          <div class="item">
-            <div class="label">5년 선불임대료</div>
-            <div class="value" id="outPrepaid">0원</div>
-          </div>
-          <div class="item">
-            <div class="label">20년간 총 임대료</div>
-            <div class="value" id="outTotalRent">0원</div>
-          </div>
-          <div class="item initial-cost">
-            <div class="label">초기 투자비용</div>
-            <div class="value" id="outInitialCost"><strong>0원</strong></div>
-          </div>
-        </div>
+<div class="kpi">
+<div class="item">
+<div class="label">예상 설치용량</div>
+<div class="value" id="outKw">0.0kW</div>
+</div>
+<div class="item">
+<div class="label">연간 임대료</div>
+<div class="value" id="outYearRent">0원</div>
+</div>
+<div class="item">
+<div class="label">5년 선불임대료</div>
+<div class="value" id="outPrepaid">0원</div>
+</div>
+<div class="item">
+<div class="label">20년간 총 임대료</div>
+<div class="value" id="outTotalRent">0원</div>
+</div>
+<div class="item initial-cost">
+<div class="label">초기 투자비용</div>
+<div class="value" id="outInitialCost">0원</div>
+</div>
+</div>
 
-        <div class="section-title">산출내역</div>
-        <table class="detail-table">
-          <tr>
-            <th>지붕 면적</th>
-            <td id="tableRoof"><strong>-</strong></td>
-          </tr>
-          <tr>
-            <th>적용 면적 기준</th>
-            <td id="tableAreaRule"><strong>2평당 1kW</strong></td>
-          </tr>
-          <tr>
-            <th>예상 설치용량</th>
-            <td id="tableKw"><strong>-</strong></td>
-          </tr>
-          <tr>
-            <th>임대 단가</th>
-            <td id="tableRentUnit"><strong>1kW당 연 40,000원</strong></td>
-          </tr>
-          <tr>
-            <th>연간 임대료</th>
-            <td id="tableYearRent"><strong>-</strong></td>
-          </tr>
-          <tr>
-            <th>5년 선불임대료</th>
-            <td id="tablePrepaid"><strong>-</strong></td>
-          </tr>
-          <tr>
-            <th>총 계약기간</th>
-            <td id="tableContract"><strong>20년 기준</strong></td>
-          </tr>
-          <tr>
-            <th>20년간 총 임대료</th>
-            <td id="tableTotal"><strong>-</strong></td>
-          </tr>
-          <tr>
-            <th>초기 투자비용</th>
-            <td><strong style="color:#a04f00;">0원</strong></td>
-          </tr>
-        </table>
+<div class="section-title">산출내역</div>
+<table class="detail-table">
+<tr>
+<th>지붕 면적</th>
+<td id="tableRoof"><strong>-</strong></td>
+</tr>
+<tr>
+<th>적용 면적 기준</th>
+<td id="tableAreaRule"><strong>2평당 1kW</strong></td>
+</tr>
+<tr>
+<th>예상 설치용량</th>
+<td id="tableKw"><strong>-</strong></td>
+</tr>
+<tr>
+<th>임대 단가</th>
+<td id="tableRentUnit"><strong>1kW당 연 40,000원</strong></td>
+</tr>
+<tr>
+<th>연간 임대료</th>
+<td id="tableYearRent"><strong>-</strong></td>
+</tr>
+<tr>
+<th>5년 선불임대료</th>
+<td id="tablePrepaid"><strong>-</strong></td>
+</tr>
+<tr>
+<th>총 계약기간</th>
+<td id="tableContract"><strong>20년 기준</strong></td>
+</tr>
+<tr>
+<th>20년간 총 임대료</th>
+<td id="tableTotal"><strong>-</strong></td>
+</tr>
+<tr>
+<th>초기 투자비용</th>
+<td><strong style="color:#a04f00;">0원</strong></td>
+</tr>
+</table>
 
-        <div class="section-title">주요 제안 포인트</div>
-        <div class="boxed-list">
-          <ul id="proposalPoints"></ul>
-        </div>
+<div class="section-title">주요 제안 포인트</div>
+<div class="boxed-list">
+<ul id="proposalPoints"></ul>
+</div>
 
-        <div class="section-title">사업의 장점</div>
-        <div class="advantage-box" id="persuasionText"></div>
+<div class="section-title">사업의 장점</div>
+<div class="advantage-box" id="persuasionText"></div>
 
-        <div class="footnote" id="footnoteText"></div>
+<div class="footnote" id="footnoteText"></div>
 
-        <div class="section-title">자주 묻는 질문</div>
-        <div class="faq-panel">
-          <div class="faq-head">
-            <div class="faq-title">궁금해하시는 내용을 모았습니다.</div>
-            <div class="faq-desc">
-              고객님이 가장 많이 문의하시는 내용을 한눈에 보실 수 있도록 정리했습니다.
-              아래 내용을 참고하시면 본 사업을 보다 빠르고 확신 있게 검토하실 수 있습니다.
-            </div>
-          </div>
-          <div id="postFaqList"></div>
-        </div>
+<div class="section-title">자주 묻는 질문</div>
+<div class="faq-panel">
+<div class="faq-head">
+<div class="faq-title">궁금해하시는 내용을 모았습니다.</div>
+<div class="faq-desc">
+고객님이 가장 많이 문의하시는 내용을 한눈에 보실 수 있도록 정리했습니다.
+아래 내용을 참고하시면 본 사업을 보다 빠르고 확신 있게 검토하실 수 있습니다.
+</div>
+</div>
+<div id="postFaqList"></div>
+</div>
 
-        <div class="footer-manager" id="outSalesBottom">영업 담당자명 : 미정</div>
-      </div>
-    </div>
+<div class="footer-manager" id="outSalesBottom">영업 담당자명 : 미정</div>
+</div>
+</div>
 
-    <div class="contact-banner">
-      설치가능 여부 및 상세 견적문의 :
-      010-4827-4823 /
-      <a href="mailto:solar@hrpoint.co.kr">solar@hrpoint.co.kr</a>
-    </div>
-  </div>
+<div class="contact-banner">
+설치가능 여부 및 상세 견적문의 :
+010-4827-4823 /
+<a href="mailto:solar@hrpoint.co.kr">solar@hrpoint.co.kr</a>
+</div>
+</div>
 
-  <script>
-    const FIXED_DOC_TITLE = '태양광 지붕 임대사업 제안 견적서';
-    const FIXED_RENT_PER_KW = 40000;
-    const FIXED_AREA_PER_KW = 2;
-    const FIXED_CONTRACT_YEARS = '20년 기준';
-    const FIXED_PREPAID_YEARS = 5;
+<script>
+const FIXED_DOC_TITLE = '태양광 지붕 임대사업 제안 견적서';
+const FIXED_RENT_PER_KW = 40000;
+const FIXED_AREA_PER_KW = 2;
+const FIXED_CONTRACT_YEARS = '20년 기준';
+const FIXED_PREPAID_YEARS = 5;
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyC8RpQgbZrk7Spnyxon8EVuK6wIG5ZsiClNdHHGqcDuJ4iMyAxhwDXtdjSBKd4MCUQvg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyC8RpQgbZrk7Spnyxon8EVuK6wIG5ZsiClNdHHGqcDuJ4iMyAxhwDXtdjSBKd4MCUQvg/exec';
 
-    const FAQ_DATA = [
-      {
-        q: 'Q. 비용이 정말 안 드나요?',
-        a: `네. 본 사업은 건물주 기준 <strong>초기 투자비용 0원</strong>을 기본으로 검토합니다.
-설비 도입에 필요한 큰 자금 부담 없이 유휴 지붕만으로 임대수익 사업을 시작하실 수 있습니다.
-즉, 별도 투자 부담은 낮추고 지붕은 수익 자산으로 활용할 수 있는 매우 효율적인 구조입니다.`
-      },
-      {
-        q: 'Q. 건물주는 어떤 이익을 얻을 수 있나요?',
-        a: `그동안 사용하지 않던 지붕을 안정적인 수익 자산으로 바꿀 수 있습니다.
-별도 운영 부담 없이 장기간 임대료 수익을 기대할 수 있으며, 조건에 따라 선불지급 방식도 검토할 수 있습니다.
-업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 더욱 안전하게 진행하실 수 있습니다.`
-      },
-      {
-        q: 'Q. 신청 후 진행 절차는 복잡하지 않나요?',
-        a: `복잡하게 준비하실 필요 없습니다.
-기본 정보 접수 후 주소지와 지붕 조건을 바탕으로 검토를 진행하고, 이후 현장 확인, 조건 협의, 계약, 인허가 및 시공 순으로 안내해드립니다.
-처음 상담만 받아보셔도 진행 가능 여부를 빠르게 판단하실 수 있습니다.`
-      },
-      {
-        q: 'Q. 오래된 지붕도 검토가 가능한가요?',
-        a: `네. 오래된 지붕도 충분히 검토 가능합니다.
-보수 및 보강을 통해 진행하기 때문에 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.
-현장 점검을 통해 활용 가능성을 먼저 확인해보시는 것이 가장 빠른 방법입니다.`
-      },
-      {
-        q: 'Q. 설치 후 관리가 번거롭지 않나요?',
-        a: `걱정하지 않으셔도 됩니다.
-관리는 모두 시공전문주체에서 관리합니다.
-건물주는 직접 설비를 운영하거나 유지보수에 신경 쓰지 않으셔도 되는 구조로 검토하실 수 있습니다.`
-      },
-      {
-        q: 'Q. 수익은 언제부터 받을 수 있나요?',
-        a: `현재 프로모션으로 <strong>5년치 임대료를 선불</strong>로 지급합니다.
-연금처럼 받고 싶으시다면 연간 임대료를 지급받으시면 됩니다.
-시공이 완료되고 전력송출이 시작되는 시점에서 바로 지급됩니다.`
-      },
-      {
-        q: 'Q. 우리 건물도 가능하나요?',
-        a: `공장, 창고, 물류센터, 상업시설, 축사, 주차장 등 모두 가능합니다.
-주소를 기준으로 검토받아보시기 바랍니다.
-면적, 구조, 음영, 안전성 등을 함께 확인하면 보다 정확한 상담이 가능합니다.`
-      },
-      {
-        q: 'Q. 공장 매각 시에는 어떻게 되나요?',
-        a: `공장을 매각하실 경우 기존 계약은 원칙적으로 매수인에게 승계되는 방식으로 진행됩니다.
-따라서 매각 이후에도 사업의 연속성이 유지될 수 있도록 계약 구조를 명확히 안내해드립니다.
-매각 예정이 있으시더라도 사전에 상담받아 두시면 훨씬 안정적으로 검토하실 수 있습니다.`
-      },
-      {
-        q: 'Q. 공장 증축 등으로 이전설치가 필요하면 어떻게 되나요?',
-        a: `증축이나 시설변경등은 최대한 지원합니다.
-현장 여건을 빠르게 검토하여 패널을 <strong>안전하게 이동</strong>할 수 있도록 지원할 예정이며, 진행 중에도 실시간으로 협의하고 지원해드리는 방향으로 안내합니다.
-세부 범위는 현장 조건과 계약 내용에 따라 협의되며, 변경 가능성이 있는 현장일수록 미리 상담받아 두시는 것이 유리합니다.`
-      },
-      {
-        q: 'Q. 지금 검토해볼 만한 사업인가요?',
-        a: `네. <strong>초기 투자비용 0원</strong>으로 지붕 자산을 수익화할 수 있다는 점에서 매우 검토 가치가 높은 사업입니다.
-특히 유휴 지붕을 장기간 안정적인 수익 구조로 전환할 수 있어 부담은 낮고 실익은 분명합니다.
-지금 상담을 받아보시면 설치 가능 여부와 예상 수익을 빠르게 확인하실 수 있습니다.`
-      }
-    ];
+const FAQ_DATA = [
+{
+q: 'Q. 비용이 정말 안 드나요?',
+a: '네. 본 사업은 건물주 기준 초기 투자비용 0원을 기본으로 검토합니다.\n설비 도입에 필요한 큰 자금 부담 없이 유휴 지붕만으로 임대수익 사업을 시작하실 수 있습니다.\n즉, 별도 투자 부담은 낮추고 지붕은 수익 자산으로 활용할 수 있는 매우 효율적인 구조입니다.'
+},
+{
+q: 'Q. 건물주는 어떤 이익을 얻을 수 있나요?',
+a: '그동안 사용하지 않던 지붕을 안정적인 수익 자산으로 바꿀 수 있습니다.\n별도 운영 부담 없이 장기간 임대료 수익을 기대할 수 있으며, 조건에 따라 선불지급 방식도 검토할 수 있습니다.\n업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 더욱 안전하게 진행하실 수 있습니다.'
+},
+{
+q: 'Q. 신청 후 진행 절차는 복잡하지 않나요?',
+a: '복잡하게 준비하실 필요 없습니다.\n기본 정보 접수 후 주소지와 지붕 조건을 바탕으로 검토를 진행하고, 이후 현장 확인, 조건 협의, 계약, 인허가 및 시공 순으로 안내해드립니다.\n처음 상담만 받아보셔도 진행 가능 여부를 빠르게 판단하실 수 있습니다.'
+},
+{
+q: 'Q. 오래된 지붕도 검토가 가능한가요?',
+a: '네. 오래된 지붕도 충분히 검토 가능합니다.\n보수 및 보강을 통해 진행하기 때문에 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.\n현장 점검을 통해 활용 가능성을 먼저 확인해보시는 것이 가장 빠른 방법입니다.'
+},
+{
+q: 'Q. 설치 후 관리가 번거롭지 않나요?',
+a: '걱정하지 않으셔도 됩니다.\n관리는 모두 시공전문주체에서 관리합니다.\n건물주는 직접 설비를 운영하거나 유지보수에 신경 쓰지 않으셔도 되는 구조로 검토하실 수 있습니다.'
+},
+{
+q: 'Q. 수익은 언제부터 받을 수 있나요?',
+a: '현재 프로모션으로 5년치 임대료를 선불로 지급합니다.\n연금처럼 받고 싶으시다면 연간 임대료를 지급받으시면 됩니다.\n시공이 완료되고 전력송출이 시작되는 시점에서 바로 지급됩니다.'
+},
+{
+q: 'Q. 우리 건물도 가능하나요?',
+a: '공장, 창고, 물류센터, 상업시설, 축사, 주차장 등 모두 가능합니다.\n주소를 기준으로 검토받아보시기 바랍니다.\n면적, 구조, 음영, 안전성 등을 함께 확인하면 보다 정확한 상담이 가능합니다.'
+},
+{
+q: 'Q. 공장 매각 시에는 어떻게 되나요?',
+a: '공장을 매각하실 경우 기존 계약은 원칙적으로 매수인에게 승계되는 방식으로 진행됩니다.\n따라서 매각 이후에도 사업의 연속성이 유지될 수 있도록 계약 구조를 명확히 안내해드립니다.\n매각 예정이 있으시더라도 사전에 상담받아 두시면 훨씬 안정적으로 검토하실 수 있습니다.'
+},
+{
+q: 'Q. 공장 증축 등으로 이전설치가 필요하면 어떻게 되나요?',
+a: '증축이나 시설변경등은 최대한 지원합니다.\n현장 여건과 구조를 신속하게 검토하여 패널을 안전하게 이동할 수 있도록 지원할 예정입니다.\n진행 과정에서도 실시간으로 지원해드리는 방향으로 검토하므로 너무 어렵게 생각하지 않으셔도 됩니다.'
+},
+{
+q: 'Q. 지금 검토해볼 만한 사업인가요?',
+a: '네. 초기 투자비용 없이 지붕 자산을 수익화할 수 있다는 점에서 매우 검토 가치가 높은 사업입니다.\n특히 유휴 지붕을 장기간 안정적인 수익 구조로 전환할 수 있어 부담은 낮고 실익은 분명합니다.\n지금 상담을 받아보시면 설치 가능 여부와 예상 수익을 빠르게 확인하실 수 있습니다.'
+}
+];
 
-    function formatMoney(num) {
-      return Number(num).toLocaleString('ko-KR') + '원';
-    }
+function formatMoney(num) {
+return Number(num).toLocaleString('ko-KR') + '원';
+}
 
-    function nlToBr(text) {
-      return String(text).replace(/(?:\r\n|\r|\n)/g, '<br>');
-    }
+function buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption) {
+const lines = [
+'본 사업은 유휴 지붕을 활용하여 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 구조입니다.',
+'초기 투자비용 0원을 기준으로 검토할 수 있어 설비 도입에 대한 자금 부담을 크게 줄일 수 있습니다.',
+'예상 설치용량은 약 ' + estimatedKw.toFixed(1) + 'kW이며 연간 임대료는 ' + formatMoney(yearRent) + '입니다.',
+prepaidOption === 'yes'
+? '현재 프로모션 기준으로 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 선불로 수령할 수 있어 초기 자금운용에도 큰 도움이 됩니다.'
+: '선불지급 없이도 매년 안정적인 임대료를 수령하는 방식으로 장기적인 현금흐름을 기대할 수 있습니다.',
+'걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당하므로 건물주의 관리 부담을 줄일 수 있습니다.',
+'오래된 지붕도 보수 및 보강을 통해 충분히 검토 가능하므로, 관리가 필요할수록 더욱 적극적으로 검토해보실 만합니다.',
+'업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.',
+'현장 검토 후 최종 조건이 확정되므로 우선 상담만 받아보셔도 충분한 검토 가치가 있습니다.'
+];
 
-    function buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption) {
-      const lines = [
-        '본 사업은 유휴 지붕을 활용하여 별도의 <strong>초기 투자비용 0원</strong>으로 장기 임대수익을 확보할 수 있는 구조입니다.',
-        '초기 <strong>투자비용 0원</strong> 기준으로 검토할 수 있어 설비 도입에 대한 자금 부담을 크게 줄일 수 있습니다.',
-        '예상 설치용량은 약 <strong>' + estimatedKw.toFixed(1) + 'kW</strong>이며 연간 임대료는 <strong>' + formatMoney(yearRent) + '</strong>입니다.',
-        prepaidOption === 'yes'
-          ? '현재 프로모션 기준으로 최대 <strong>5년치 임대료 ' + formatMoney(prepaidAmount) + '</strong>를 선불로 수령할 수 있어 초기 자금운용에도 큰 도움이 됩니다.'
-          : '선불지급 없이도 매년 안정적인 임대료를 수령하는 방식으로 장기적인 현금흐름을 기대할 수 있습니다.',
-        '걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당하므로 건물주의 관리 부담을 줄일 수 있습니다.',
-        '오래된 지붕도 보수 및 보강을 통해 충분히 검토 가능하므로, 관리가 필요할수록 더욱 적극적으로 검토해보실 만합니다.',
-        '업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.',
-        '현장 검토 후 최종 조건이 확정되므로 우선 상담만 받아보셔도 충분한 검토 가치가 있습니다.'
-      ];
+return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
+}
 
-      return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
-    }
+function renderFaq(targetId) {
+const target = document.getElementById(targetId);
+target.innerHTML = FAQ_DATA.map((item, idx) => `
+<div class="faq-item ${idx === 0 ? 'active' : ''}">
+<button type="button" class="faq-question">
+<span>${item.q}</span>
+<span class="icon">${idx === 0 ? '−' : '＋'}</span>
+</button>
+<div class="faq-answer">${item.a}</div>
+</div>
+`).join('');
+}
 
-    function renderFaq(targetId) {
-      const target = document.getElementById(targetId);
-      target.innerHTML = FAQ_DATA.map((item, idx) => `
-        <div class="faq-item ${idx === 0 ? 'active' : ''}">
-          <button type="button" class="faq-question">
-            <span>${item.q}</span>
-            <span class="icon">${idx === 0 ? '−' : '＋'}</span>
-          </button>
-          <div class="faq-answer">${nlToBr(item.a)}</div>
-        </div>
-      `).join('');
-    }
+async function saveCustomerToSheet(data) {
+try {
+const formData = new URLSearchParams();
+formData.append('ownerName', data.ownerName);
+formData.append('phoneNumber', data.phoneNumber);
+formData.append('salesName', data.salesName);
+formData.append('siteAddress', data.siteAddress);
+formData.append('roofPyeong', data.roofPyeong);
+formData.append('prepaidOption', data.prepaidOption);
+formData.append('estimatedKw', data.estimatedKw);
+formData.append('yearRent', data.yearRent);
+formData.append('prepaidAmount', data.prepaidAmount);
+formData.append('totalRent', data.totalRent);
 
-    async function saveCustomerToSheet(data) {
-      try {
-        const formData = new URLSearchParams();
-        formData.append('ownerName', data.ownerName);
-        formData.append('phoneNumber', data.phoneNumber);
-        formData.append('salesName', data.salesName);
-        formData.append('siteAddress', data.siteAddress);
-        formData.append('roofPyeong', data.roofPyeong);
-        formData.append('prepaidOption', data.prepaidOption);
-        formData.append('estimatedKw', data.estimatedKw);
-        formData.append('yearRent', data.yearRent);
-        formData.append('prepaidAmount', data.prepaidAmount);
-        formData.append('totalRent', data.totalRent);
+const response = await fetch(SCRIPT_URL, {
+method: 'POST',
+body: formData
+});
 
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: formData
-        });
+const text = await response.text();
 
-        const text = await response.text();
+try {
+return JSON.parse(text);
+} catch (e) {
+return { result: 'error', message: text };
+}
+} catch (error) {
+console.error('시트 저장 실패:', error);
+return { result: 'error', message: String(error) };
+}
+}
 
-        try {
-          return JSON.parse(text);
-        } catch (e) {
-          return { result: 'error', message: text };
-        }
-      } catch (error) {
-        console.error('시트 저장 실패:', error);
-        return { result: 'error', message: String(error) };
-      }
-    }
+function loadSample() {
+document.getElementById('ownerName').value = '김철수 / 한빛물류';
+document.getElementById('phoneNumber').value = '010-1234-5678';
+document.getElementById('salesName').value = '미정';
+document.getElementById('siteAddress').value = '경기도 화성시 양감면 ○○로 128, 물류창고 A동';
+document.getElementById('roofPyeong').value = '200';
+document.getElementById('prepaidOption').value = 'yes';
+document.getElementById('prepaidYears').value = '5';
+}
 
-    function loadSample() {
-      document.getElementById('ownerName').value = '김철수 / 한빛물류';
-      document.getElementById('phoneNumber').value = '010-1234-5678';
-      document.getElementById('salesName').value = '미정';
-      document.getElementById('siteAddress').value = '경기도 화성시 양감면 ○○로 128, 물류창고 A동';
-      document.getElementById('roofPyeong').value = '200';
-      document.getElementById('prepaidOption').value = 'yes';
-      document.getElementById('prepaidYears').value = '5';
-    }
+async function calculateEstimate() {
+const ownerName = document.getElementById('ownerName').value.trim();
+const phoneNumber = document.getElementById('phoneNumber').value.trim();
+const salesName = document.getElementById('salesName').value.trim() || '미정';
+const siteAddress = document.getElementById('siteAddress').value.trim();
+const roofPyeong = parseFloat(document.getElementById('roofPyeong').value || 0);
+const prepaidOption = document.getElementById('prepaidOption').value;
+const estimateBtn = document.getElementById('estimateBtn');
 
-    async function calculateEstimate() {
-      const ownerName = document.getElementById('ownerName').value.trim();
-      const phoneNumber = document.getElementById('phoneNumber').value.trim();
-      const salesName = document.getElementById('salesName').value.trim() || '미정';
-      const siteAddress = document.getElementById('siteAddress').value.trim();
-      const roofPyeong = parseFloat(document.getElementById('roofPyeong').value || 0);
-      const prepaidOption = document.getElementById('prepaidOption').value;
-      const estimateBtn = document.getElementById('estimateBtn');
+if (!ownerName || !phoneNumber || !siteAddress || !roofPyeong) {
+alert('건물주/회사명, 고객 전화번호, 건물 주소, 지붕 면적을 입력해주세요.');
+return;
+}
 
-      if (!ownerName || !phoneNumber || !siteAddress || !roofPyeong) {
-        alert('건물주/회사명, 고객 전화번호, 건물 주소, 지붕 면적을 입력해주세요.');
-        return;
-      }
+const estimatedKw = roofPyeong / FIXED_AREA_PER_KW;
+const yearRent = estimatedKw * FIXED_RENT_PER_KW;
+const totalRent = yearRent * 20;
+const prepaidAmount = prepaidOption === 'yes' ? yearRent * FIXED_PREPAID_YEARS : 0;
 
-      const estimatedKw = roofPyeong / FIXED_AREA_PER_KW;
-      const yearRent = estimatedKw * FIXED_RENT_PER_KW;
-      const totalRent = yearRent * 20;
-      const prepaidAmount = prepaidOption === 'yes' ? yearRent * FIXED_PREPAID_YEARS : 0;
+const payload = {
+ownerName: ownerName,
+phoneNumber: phoneNumber,
+salesName: salesName,
+siteAddress: siteAddress,
+roofPyeong: roofPyeong,
+prepaidOption: prepaidOption === 'yes' ? '선불지급 희망' : '희망하지 않음',
+estimatedKw: estimatedKw.toFixed(1),
+yearRent: yearRent.toString(),
+prepaidAmount: prepaidAmount.toString(),
+totalRent: totalRent.toString()
+};
 
-      const payload = {
-        ownerName: ownerName,
-        phoneNumber: phoneNumber,
-        salesName: salesName,
-        siteAddress: siteAddress,
-        roofPyeong: roofPyeong,
-        prepaidOption: prepaidOption === 'yes' ? '선불지급 희망' : '희망하지 않음',
-        estimatedKw: estimatedKw.toFixed(1),
-        yearRent: yearRent.toString(),
-        prepaidAmount: prepaidAmount.toString(),
-        totalRent: totalRent.toString()
-      };
+estimateBtn.disabled = true;
+estimateBtn.innerText = '저장 및 산출 중...';
 
-      estimateBtn.disabled = true;
-      estimateBtn.innerText = '저장 및 산출 중...';
+const saveResult = await saveCustomerToSheet(payload);
 
-      const saveResult = await saveCustomerToSheet(payload);
+estimateBtn.disabled = false;
+estimateBtn.innerText = '견적서 산출';
 
-      estimateBtn.disabled = false;
-      estimateBtn.innerText = '견적서 산출';
+if (saveResult.result !== 'success') {
+alert('구글 시트 저장 오류: ' + (saveResult.message || '응답 없음'));
+}
 
-      if (saveResult.result !== 'success') {
-        alert('구글 시트 저장 오류: ' + (saveResult.message || '응답 없음'));
-      }
+document.getElementById('preEstimateFaq').style.display = 'none';
 
-      document.getElementById('preEstimateFaq').style.display = 'none';
+const estimateArea = document.getElementById('estimateArea');
+estimateArea.classList.remove('hidden-estimate');
 
-      const estimateArea = document.getElementById('estimateArea');
-      estimateArea.classList.remove('hidden-estimate');
+document.getElementById('outDocTitle').innerHTML = '<strong>' + FIXED_DOC_TITLE + '</strong>';
+document.getElementById('outOwner').innerText = '수신: ' + ownerName;
+document.getElementById('outPhone').innerText = '연락처: ' + phoneNumber;
+document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
+document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
 
-      document.getElementById('outDocTitle').innerHTML = '<strong>' + FIXED_DOC_TITLE + '</strong>';
-      document.getElementById('outOwner').innerText = '수신: ' + ownerName;
-      document.getElementById('outPhone').innerText = '연락처: ' + phoneNumber;
-      document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
-      document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
+document.getElementById('outKw').innerText = estimatedKw.toFixed(1) + 'kW';
+document.getElementById('outYearRent').innerText = formatMoney(yearRent);
+document.getElementById('outPrepaid').innerText = prepaidOption === 'yes' ? formatMoney(prepaidAmount) : '해당 없음';
+document.getElementById('outTotalRent').innerText = formatMoney(totalRent);
+document.getElementById('outInitialCost').innerText = '0원';
 
-      document.getElementById('outKw').innerHTML = '<strong>' + estimatedKw.toFixed(1) + 'kW</strong>';
-      document.getElementById('outYearRent').innerHTML = '<strong>' + formatMoney(yearRent) + '</strong>';
-      document.getElementById('outPrepaid').innerHTML = prepaidOption === 'yes' ? '<strong>' + formatMoney(prepaidAmount) + '</strong>' : '해당 없음';
-      document.getElementById('outTotalRent').innerHTML = '<strong>' + formatMoney(totalRent) + '</strong>';
-      document.getElementById('outInitialCost').innerHTML = '<strong>0원</strong>';
+document.getElementById('tableRoof').innerHTML = '<strong>' + roofPyeong.toLocaleString('ko-KR') + '평</strong>';
+document.getElementById('tableAreaRule').innerHTML = '<strong>2평당 1kW</strong>';
+document.getElementById('tableKw').innerHTML = '<strong>' + estimatedKw.toFixed(1) + 'kW</strong>';
+document.getElementById('tableRentUnit').innerHTML = '<strong>1kW당 연 ' + FIXED_RENT_PER_KW.toLocaleString('ko-KR') + '원</strong>';
+document.getElementById('tableYearRent').innerHTML = '<strong>' + formatMoney(yearRent) + '</strong>';
+document.getElementById('tableContract').innerHTML = '<strong>' + FIXED_CONTRACT_YEARS + '</strong>';
+document.getElementById('tableTotal').innerHTML = '<strong>' + formatMoney(totalRent) + '</strong>';
 
-      document.getElementById('tableRoof').innerHTML = '<strong>' + roofPyeong.toLocaleString('ko-KR') + '평</strong>';
-      document.getElementById('tableAreaRule').innerHTML = '<strong>2평당 1kW</strong>';
-      document.getElementById('tableKw').innerHTML = '<strong>' + estimatedKw.toFixed(1) + 'kW</strong>';
-      document.getElementById('tableRentUnit').innerHTML = '<strong>1kW당 연 ' + FIXED_RENT_PER_KW.toLocaleString('ko-KR') + '원</strong>';
-      document.getElementById('tableYearRent').innerHTML = '<strong>' + formatMoney(yearRent) + '</strong>';
-      document.getElementById('tableContract').innerHTML = '<strong>' + FIXED_CONTRACT_YEARS + '</strong>';
-      document.getElementById('tableTotal').innerHTML = '<strong>' + formatMoney(totalRent) + '</strong>';
+if (prepaidOption === 'yes') {
+document.getElementById('tablePrepaid').innerHTML =
+'<strong>현재 프로모션 기준 최대 5년치 선불 가능 : ' + formatMoney(prepaidAmount) + '</strong>';
+} else {
+document.getElementById('tablePrepaid').innerHTML =
+'<strong>선불지급 미희망 : 연간 임대료 지급 방식 적용</strong>';
+}
 
-      if (prepaidOption === 'yes') {
-        document.getElementById('tablePrepaid').innerHTML =
-          '<strong>현재 프로모션 기준 최대 5년치 선불 가능 : ' + formatMoney(prepaidAmount) + '</strong>';
-      } else {
-        document.getElementById('tablePrepaid').innerHTML =
-          '<strong>선불지급 미희망 : 연간 임대료 지급 방식 적용</strong>';
-      }
+document.getElementById('proposalPoints').innerHTML = `
+<li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
+<li>초기 투자비용은 0원 기준으로 검토 가능하여 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
+<li>예상 설치용량은 약 ${estimatedKw.toFixed(1)}kW이며, 연간 임대료는 ${formatMoney(yearRent)}, 20년간 총 임대료는 ${formatMoney(totalRent)}입니다.</li>
+<li>${prepaidOption === 'yes' ? '현재 프로모션 기준 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 선불로 수령할 수 있습니다.' : '선불지급 없이도 매년 안정적으로 임대료를 수령할 수 있습니다.'}</li>
+<li>걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당합니다.</li>
+<li>오래된 지붕도 보수 및 보강을 통해 진행하므로 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.</li>
+<li>업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.</li>
+<li>현장 확인 및 협의 후 최종 계약 조건이 확정되므로 우선 부담 없이 상담을 진행하실 수 있습니다.</li>
+`;
 
-      document.getElementById('proposalPoints').innerHTML = `
-        <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
-        <li>초기 <strong>투자비용 0원</strong> 기준으로 검토 가능하여 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
-        <li>예상 설치용량은 약 <strong>${estimatedKw.toFixed(1)}kW</strong>이며, 연간 임대료는 <strong>${formatMoney(yearRent)}</strong>, 20년간 총 임대료는 <strong>${formatMoney(totalRent)}</strong>입니다.</li>
-        <li>${prepaidOption === 'yes' ? '현재 프로모션 기준 최대 <strong>5년치 임대료 ' + formatMoney(prepaidAmount) + '</strong>를 선불로 수령할 수 있습니다.' : '선불지급 없이도 매년 안정적으로 임대료를 수령할 수 있습니다.'}</li>
-        <li>걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당합니다.</li>
-        <li>오래된 지붕도 보수 및 보강을 통해 진행하므로 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.</li>
-        <li>업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.</li>
-        <li>현장 확인 및 협의 후 최종 계약 조건이 확정되므로 우선 부담 없이 상담을 진행하실 수 있습니다.</li>
-      `;
+document.getElementById('persuasionText').innerHTML =
+buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption);
 
-      document.getElementById('persuasionText').innerHTML =
-        buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption);
+document.getElementById('footnoteText').innerText =
+'※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.\n'
++ '※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.\n'
++ '※ 오래된 지붕은 상태 점검 후 보수 및 보강 범위를 협의하여 진행 여부가 확정됩니다.\n'
++ '※ 공장 매각 시에는 계약이 매수인에게 승계되는 방식으로 검토될 수 있으며, 증축이나 시설변경이 필요한 경우에도 현장 상황에 맞춰 최대한 지원합니다.\n'
++ '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
+}
 
-      document.getElementById('footnoteText').innerHTML =
-        '※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.<br>'
-        + '※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.<br>'
-        + '※ 오래된 지붕은 상태 점검 후 보수 및 보강 범위를 협의하여 진행 여부가 확정됩니다.<br>'
-        + '※ 공장 매각 시에는 계약이 매수인에게 승계되는 방식으로 검토될 수 있으며, 증축 등으로 이전설치가 필요한 경우 시공사에서 <strong>최대한 지원</strong>합니다.<br>'
-        + '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
-    }
+document.addEventListener('click', function (e) {
+const btn = e.target.closest('.faq-question');
+if (!btn) return;
 
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.faq-question');
-      if (!btn) return;
+const item = btn.parentElement;
+const wrap = item.parentElement;
 
-      const item = btn.parentElement;
-      const wrap = item.parentElement;
+wrap.querySelectorAll('.faq-item').forEach(faq => {
+const icon = faq.querySelector('.icon');
+if (faq === item) {
+faq.classList.toggle('active');
+if (icon) icon.textContent = faq.classList.contains('active') ? '−' : '＋';
+} else {
+faq.classList.remove('active');
+if (icon) icon.textContent = '＋';
+}
+});
+});
 
-      wrap.querySelectorAll('.faq-item').forEach(faq => {
-        const icon = faq.querySelector('.icon');
-        if (faq === item) {
-          faq.classList.toggle('active');
-          if (icon) icon.textContent = faq.classList.contains('active') ? '−' : '＋';
-        } else {
-          faq.classList.remove('active');
-          if (icon) icon.textContent = '＋';
-        }
-      });
-    });
-
-    renderFaq('preFaqList');
-    renderFaq('postFaqList');
-  </script>
+renderFaq('preFaqList');
+renderFaq('postFaqList');
+</script>
 </body>
 </html>
