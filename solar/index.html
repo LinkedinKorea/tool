@@ -384,6 +384,71 @@
       font-weight: 800;
     }
 
+    .faq-wrap {
+      margin-top: 22px;
+      background: #ffffff;
+      border: 1px solid #dbe5f0;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-intro {
+      padding: 16px 18px 8px;
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .faq-item {
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: #fff;
+      color: #111827;
+      border: none;
+      padding: 16px 18px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-question:hover {
+      background: #f8fbff;
+    }
+
+    .faq-question .icon {
+      color: #0b57d0;
+      font-size: 18px;
+      line-height: 1;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 18px 18px;
+      background: #fcfdff;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-item.active .faq-question {
+      background: #eef4ff;
+      color: #0b57d0;
+    }
+
     .footer-manager {
       margin-top: 16px;
       padding-top: 12px;
@@ -578,6 +643,29 @@
       .advantage-line {
         padding-left: 16px;
         margin-bottom: 4px;
+      }
+
+      .faq-wrap {
+        border-radius: 8px;
+        border: 1px solid #d0d5dd;
+        page-break-inside: avoid;
+      }
+
+      .faq-intro {
+        font-size: 10px;
+        padding: 10px 12px 6px;
+      }
+
+      .faq-question {
+        font-size: 10px;
+        padding: 10px 12px;
+      }
+
+      .faq-answer {
+        display: block !important;
+        font-size: 9.5px;
+        line-height: 1.6;
+        padding: 0 12px 10px;
       }
 
       .footer-manager {
@@ -801,6 +889,116 @@
 
         <div class="footnote" id="footnoteText"></div>
 
+        <div class="section-title">자주 묻는 질문</div>
+        <div class="faq-wrap">
+          <div class="faq-intro">
+            고객 상담 시 자주 나오는 질문을 정리했습니다. 항목을 클릭하면 답변이 펼쳐집니다.
+          </div>
+
+          <div class="faq-item active">
+            <button type="button" class="faq-question">
+              <span>Q. 신청 후 진행 과정이 궁금합니다.</span>
+              <span class="icon">−</span>
+            </button>
+            <div class="faq-answer">
+문의 접수 후 기본 검토를 진행하고, 지붕 면적·구조·일조·음영·접속 가능성 등을 확인합니다.
+검토 결과가 적합하면 현장 확인, 조건 협의, 계약 진행, 인허가 및 시공, 이후 운영관리 순으로 진행됩니다.
+정확한 일정은 현장 여건과 협의 내용에 따라 달라질 수 있습니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 건물주는 어떤 방식으로 수익을 받게 되나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+건물주는 지붕을 임대 제공하고, 설치 용량 기준에 따라 임대료를 받는 구조입니다.
+매년 정기적으로 임대료를 받는 방식과, 조건에 따라 일부 기간의 임대료를 선불로 받는 방식으로 안내될 수 있습니다.
+최종 지급 방식은 계약 조건에 따라 확정됩니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 초기 투자비용이 정말 없나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+본 제안 구조는 건물주가 별도의 설비 투자비를 부담하지 않는 것을 기본으로 합니다.
+다만 실제 현장 상태에 따라 보수, 보강, 안전조치 등 별도 협의가 필요한 사항이 발생할 수 있으며, 이는 사전 검토 후 안내됩니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 어떤 건물이 설치 대상이 될 수 있나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+일반적으로 공장, 창고, 물류센터, 상업시설, 기타 넓은 지붕 면적을 가진 건물이 검토 대상이 됩니다.
+다만 지붕 구조, 노후도, 방위, 음영, 법적 제한, 전기 인입 및 계통 연계 가능 여부에 따라 설치 가능 여부는 달라질 수 있습니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 지붕이 오래되었어도 진행할 수 있나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+노후 지붕도 상태 점검 후 진행 가능성을 검토할 수 있습니다.
+필요한 경우 보수 또는 보강 범위를 먼저 확인한 뒤 시공 여부와 조건을 협의하게 됩니다.
+안전성과 장기 운영 가능성이 중요한 판단 기준입니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 설치 후 유지보수와 관리는 누가 하나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+일반적으로 설비 운영사 또는 전문 관리 주체가 유지보수와 운영관리를 담당합니다.
+건물주는 지붕 임대 제공자 역할에 집중할 수 있어 관리 부담을 줄일 수 있습니다.
+세부 관리 범위는 계약서에 따라 정해집니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 계약 기간은 어느 정도인가요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+본 견적서는 20년 기준으로 산출됩니다.
+실제 계약 기간과 세부 조건은 현장 검토 결과 및 상호 협의에 따라 최종 확정됩니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 건물 확장이나 이전 공사가 생기면 어떻게 되나요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+계약 조건에 따라 설비 이동 또는 재배치 지원 가능 여부를 협의할 수 있습니다.
+실제 지원 범위와 비용 부담 여부는 공사 시점의 현장 상황과 계약 내용에 따라 달라질 수 있으므로 사전 협의가 필요합니다.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question">
+              <span>Q. 견적서의 금액은 확정 금액인가요?</span>
+              <span class="icon">＋</span>
+            </button>
+            <div class="faq-answer">
+아닙니다. 현재 화면의 금액은 입력 면적과 기준 단가를 바탕으로 산출한 예상 견적입니다.
+실제 설치용량과 계약 금액은 현장 실사, 구조 검토, 일조 조건, 계통 연계, 안전성 검토 후 달라질 수 있습니다.
+            </div>
+          </div>
+        </div>
+
         <div class="footer-manager" id="outSalesBottom">영업 담당자명 : 미정</div>
       </div>
     </div>
@@ -836,7 +1034,7 @@
         '전문업체의 유지보수 관리와 사후 운영지원이 가능하여 건물주의 관리 부담을 줄일 수 있습니다.',
         '노후 지붕은 보수 후 시공을 진행하므로 안정성과 사업 지속성을 함께 고려할 수 있습니다.',
         '임대기간 중 건물확장공사로 인한 이동설치도 무료로 지원되어 추가 비용 부담을 낮출 수 있습니다.',
-        '20년 계약 종료 후에는 10년간 기부채납 형식의 장비 지원을 통해 건물주가 추가 10년간 전력판매 수익을 기대할 수 있습니다.'
+        '20년 계약 종료 후에는 추가 활용 방안에 대해 별도 협의를 통해 안내할 수 있습니다.'
       ];
 
       return lines.map(line => `<span class="advantage-line">${line}</span>`).join('');
@@ -967,7 +1165,7 @@
         <li>신뢰할 수 있는 전문업체를 통해 유지보수 및 운영관리가 가능합니다.</li>
         <li>노후화된 지붕은 보수 후 시공을 진행하여 안전성과 시공 완성도를 높입니다.</li>
         <li>임대기간 동안 건물확장공사 등으로 인한 이동설치는 무료로 지원합니다.</li>
-        <li>20년 계약 종료 후 10년간 기부채납 형식으로 장비를 지원하여 추가 10년간 전력판매 수익을 기대할 수 있습니다.</li>
+        <li>현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.</li>
       `;
 
       document.getElementById('persuasionText').innerHTML =
@@ -979,6 +1177,25 @@
         + '※ 노후 지붕의 경우 상태 점검 후 보수 범위가 확정되며, 이후 시공이 진행됩니다.\n'
         + '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
     }
+
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.faq-question');
+      if (!btn) return;
+
+      const item = btn.parentElement;
+      const wrap = item.parentElement;
+
+      wrap.querySelectorAll('.faq-item').forEach(faq => {
+        const icon = faq.querySelector('.icon');
+        if (faq === item) {
+          faq.classList.toggle('active');
+          icon.textContent = faq.classList.contains('active') ? '−' : '＋';
+        } else {
+          faq.classList.remove('active');
+          icon.textContent = '＋';
+        }
+      });
+    });
   </script>
 </body>
 </html>
