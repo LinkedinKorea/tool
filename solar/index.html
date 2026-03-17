@@ -19,7 +19,13 @@
       background: #f3f6fb;
       margin: 0;
       padding: 20px;
-      color: #1f2937;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    strong {
+      font-weight: 900;
+      color: #111827;
     }
 
     .wrap {
@@ -30,7 +36,7 @@
     .contact-banner {
       background: linear-gradient(135deg, #0b3d91 0%, #1557c0 35%, #3b82f6 70%, #8ec5ff 100%);
       color: #fff;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
       padding: 16px 20px;
       border-radius: 16px;
@@ -47,6 +53,7 @@
     .contact-banner a {
       color: #ffffff;
       text-decoration: none;
+      font-weight: 800;
     }
 
     .doc-name-top {
@@ -60,23 +67,24 @@
 
     .doc-name-label {
       font-size: 13px;
-      color: #667085;
-      font-weight: 700;
+      color: #475467;
+      font-weight: 800;
       margin-bottom: 6px;
     }
 
     .doc-name-value {
       font-size: 30px;
-      font-weight: 800;
+      font-weight: 900;
       color: #111827;
       line-height: 1.3;
     }
 
     .subtitle {
-      color: #667085;
+      color: #374151;
       margin-bottom: 22px;
-      line-height: 1.75;
+      line-height: 1.8;
       white-space: pre-line;
+      font-weight: 700;
     }
 
     .grid {
@@ -99,6 +107,8 @@
       border-bottom: 1px solid #e5e7eb;
       padding-bottom: 10px;
       margin-bottom: 18px;
+      font-weight: 900;
+      color: #111827;
     }
 
     .field {
@@ -107,16 +117,17 @@
 
     .field label {
       display: block;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 7px;
-      color: #374151;
+      color: #1f2937;
     }
 
     .field-guide {
       margin-top: 6px;
       font-size: 12px;
-      color: #667085;
-      line-height: 1.5;
+      color: #475467;
+      line-height: 1.6;
+      font-weight: 700;
     }
 
     .field input, .field select, .field textarea {
@@ -126,9 +137,10 @@
       border-radius: 10px;
       font-size: 14px;
       background: #fff;
-      color: #1f2937;
+      color: #111827;
       font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
-      line-height: 1.6;
+      line-height: 1.7;
+      font-weight: 700;
     }
 
     .field input[readonly],
@@ -136,7 +148,7 @@
     .field input:read-only,
     .field textarea:read-only {
       background: #f9fafb;
-      color: #344054;
+      color: #1f2937;
       cursor: default;
       font-weight: 800;
     }
@@ -166,7 +178,7 @@
       padding: 12px 16px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 14px;
       font-family: Arial, 'Malgun Gothic', 'Apple SD Gothic Neo', Helvetica, sans-serif;
     }
@@ -202,22 +214,23 @@
 
     .estimate-title {
       font-size: 14px;
-      font-weight: 700;
-      color: #667085;
+      font-weight: 800;
+      color: #475467;
       margin-bottom: 6px;
     }
 
     .estimate-doc-name {
       font-size: 30px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 10px;
       color: #111827;
       line-height: 1.3;
     }
 
     .estimate-sub {
-      line-height: 1.7;
-      color: #475467;
+      line-height: 1.8;
+      color: #374151;
+      font-weight: 700;
     }
 
     .badge {
@@ -226,7 +239,7 @@
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
       border: 1px solid #c7dcff;
     }
@@ -246,6 +259,12 @@
       min-width: 0;
       overflow: hidden;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+      min-height: 96px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     .kpi .item.initial-cost {
@@ -265,26 +284,26 @@
       font-size: 12px;
       color: #365b91;
       margin-bottom: 7px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
       text-align: center;
     }
 
     .kpi .value {
       font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 800;
+      font-weight: 900;
       color: #0b57d0;
       white-space: nowrap;
       overflow: visible;
       text-overflow: clip;
-      line-height: 1.1;
-      letter-spacing: -1px;
+      line-height: 1.2;
+      letter-spacing: -0.6px;
       text-align: center;
     }
 
     .section-title {
       font-size: 17px;
-      font-weight: 800;
+      font-weight: 900;
       margin-top: 18px;
       margin-bottom: 9px;
       color: #111827;
@@ -301,20 +320,22 @@
       border: 1px solid #cfd8e3;
       padding: 11px 12px;
       font-size: 13px;
-      vertical-align: top;
-      line-height: 1.65;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.75;
+      font-weight: 800;
     }
 
     th {
       background: #eaf2ff;
-      text-align: left;
       width: 30%;
       color: #1849a9;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     td {
       background: #fcfdff;
+      color: #1f2937;
     }
 
     .detail-table tr:nth-child(even) td {
@@ -323,7 +344,7 @@
 
     .detail-table td strong {
       color: #0b57d0;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .boxed-list {
@@ -342,11 +363,12 @@
 
     .boxed-list li {
       margin-bottom: 8px;
-      line-height: 1.75;
+      line-height: 1.85;
       position: relative;
       padding-left: 22px;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #1f2937;
     }
 
     .boxed-list li::before {
@@ -355,7 +377,7 @@
       left: 0;
       top: 0;
       color: #0b57d0;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .advantage-box {
@@ -363,10 +385,11 @@
       border: 1px solid #d8e7ff;
       border-radius: 12px;
       padding: 14px 16px;
-      line-height: 1.75;
-      font-size: 12px;
-      font-weight: 700;
+      line-height: 1.85;
+      font-size: 12.5px;
+      font-weight: 800;
       min-height: 120px;
+      color: #1f2937;
     }
 
     .advantage-line {
@@ -382,7 +405,7 @@
       left: 0;
       top: 0;
       color: #0b57d0;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .faq-panel {
@@ -405,15 +428,16 @@
 
     .faq-title {
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 900;
       color: #111827;
       margin-bottom: 6px;
     }
 
     .faq-desc {
       font-size: 13px;
-      line-height: 1.7;
-      color: #667085;
+      line-height: 1.8;
+      color: #475467;
+      font-weight: 700;
     }
 
     .faq-item {
@@ -427,12 +451,12 @@
     .faq-question {
       width: 100%;
       background: #fff;
-      color: #232a33;
+      color: #111827;
       border: none;
       padding: 16px 18px;
       text-align: left;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 900;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -450,16 +474,18 @@
       line-height: 1;
       margin-left: 12px;
       flex-shrink: 0;
+      font-weight: 900;
     }
 
     .faq-answer {
       display: none;
       padding: 0 18px 18px;
       background: #fcfdff;
-      color: #475467;
+      color: #1f2937;
       font-size: 13px;
-      line-height: 1.8;
+      line-height: 1.9;
       white-space: pre-line;
+      font-weight: 800;
     }
 
     .faq-item.active .faq-answer {
@@ -479,22 +505,23 @@
       margin-top: 16px;
       padding-top: 12px;
       border-top: 1px dashed #cfd8e3;
-      color: #475467;
+      color: #374151;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       text-align: right;
     }
 
     .footnote {
       margin-top: 16px;
       font-size: 11.5px;
-      color: #667085;
-      line-height: 1.75;
+      color: #475467;
+      line-height: 1.8;
       background: #fafafa;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
       padding: 12px 14px;
       white-space: pre-line;
+      font-weight: 700;
     }
 
     @media print {
@@ -532,6 +559,7 @@
         margin-bottom: 10px;
         padding: 10px 14px;
         font-size: 14px;
+        font-weight: 900;
       }
 
       .doc-name-top {
@@ -545,16 +573,19 @@
       .doc-name-label {
         font-size: 11px;
         margin-bottom: 4px;
+        font-weight: 800;
       }
 
       .doc-name-value {
         font-size: 22px;
+        font-weight: 900;
       }
 
       .subtitle {
         font-size: 11px;
         line-height: 1.6;
         margin-bottom: 12px;
+        font-weight: 700;
       }
 
       .grid {
@@ -578,21 +609,25 @@
       .estimate-title {
         font-size: 11px;
         margin-bottom: 4px;
+        font-weight: 800;
       }
 
       .estimate-doc-name {
         font-size: 20px;
         margin-bottom: 6px;
+        font-weight: 900;
       }
 
       .estimate-sub {
         font-size: 11px;
         line-height: 1.5;
+        font-weight: 700;
       }
 
       .badge {
         font-size: 10px;
         padding: 5px 8px;
+        font-weight: 900;
       }
 
       .kpi {
@@ -606,22 +641,26 @@
         -webkit-print-color-adjust: exact;
         padding: 8px 6px;
         border-radius: 8px;
+        min-height: 74px;
       }
 
       .kpi .label {
         font-size: 9px;
         margin-bottom: 5px;
+        font-weight: 800;
       }
 
       .kpi .value {
         font-size: 12px;
-        letter-spacing: -0.8px;
+        letter-spacing: -0.6px;
+        font-weight: 900;
       }
 
       .section-title {
         font-size: 13px;
         margin-top: 12px;
         margin-bottom: 6px;
+        font-weight: 900;
       }
 
       table {
@@ -631,7 +670,10 @@
       th, td {
         padding: 7px 9px;
         font-size: 10px;
-        line-height: 1.5;
+        line-height: 1.55;
+        vertical-align: middle;
+        text-align: center;
+        font-weight: 800;
       }
 
       th {
@@ -654,9 +696,9 @@
 
       .boxed-list li {
         margin-bottom: 5px;
-        line-height: 1.6;
+        line-height: 1.65;
         font-size: 10px;
-        font-weight: 700;
+        font-weight: 800;
         padding-left: 18px;
       }
 
@@ -666,8 +708,9 @@
         padding: 10px 12px;
         border-radius: 8px;
         font-size: 10px;
-        line-height: 1.6;
+        line-height: 1.65;
         min-height: auto;
+        font-weight: 800;
       }
 
       .advantage-line {
@@ -689,23 +732,27 @@
       .faq-title {
         font-size: 13px;
         margin-bottom: 4px;
+        font-weight: 900;
       }
 
       .faq-desc {
         font-size: 10px;
         line-height: 1.6;
+        font-weight: 700;
       }
 
       .faq-question {
         font-size: 10px;
         padding: 10px 12px;
+        font-weight: 900;
       }
 
       .faq-answer {
         display: block !important;
         font-size: 9.5px;
-        line-height: 1.6;
+        line-height: 1.65;
         padding: 0 12px 10px;
+        font-weight: 800;
       }
 
       .faq-question .icon {
@@ -716,6 +763,7 @@
         margin-top: 12px;
         padding-top: 8px;
         font-size: 10px;
+        font-weight: 800;
       }
 
       .footnote {
@@ -726,6 +774,7 @@
         border-radius: 6px;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
+        font-weight: 700;
       }
 
       .contact-banner:last-child {
@@ -764,7 +813,7 @@
     </div>
 
     <div class="subtitle">지붕 면적을 입력하면 예상 설치용량, 연간 임대료, 5년 선불임대료, 20년간 총 임대료를 한눈에 확인할 수 있습니다.
-초기 투자비용 0원의 부담 없는 사업 구조를 기준으로 상담용 견적서를 빠르게 산출할 수 있습니다.</div>
+초기 <strong>투자비용 0원</strong>의 부담 없는 사업 구조를 기준으로 상담용 견적서를 빠르게 산출할 수 있습니다.</div>
 
     <div class="grid">
       <div class="card no-print">
@@ -891,7 +940,7 @@
           </div>
           <div class="item initial-cost">
             <div class="label">초기 투자비용</div>
-            <div class="value" id="outInitialCost">0원</div>
+            <div class="value" id="outInitialCost"><strong>0원</strong></div>
           </div>
         </div>
 
@@ -980,43 +1029,43 @@
     const FAQ_DATA = [
       {
         q: 'Q. 비용이 정말 안 드나요?',
-        a: '네. 본 사업은 건물주 기준 초기 투자비용 0원을 기본으로 검토합니다.\n설비 도입에 필요한 큰 자금 부담 없이 유휴 지붕만으로 임대수익 사업을 시작하실 수 있습니다.\n즉, 별도 투자 부담은 낮추고 지붕은 수익 자산으로 활용할 수 있는 매우 효율적인 구조입니다.'
+        a: '네. 본 사업은 건물주 기준 <strong>초기 투자비용 0원</strong>을 기본으로 검토합니다.\\n설비 도입에 필요한 큰 자금 부담 없이 유휴 지붕만으로 임대수익 사업을 시작하실 수 있습니다.\\n즉, 별도 투자 부담은 낮추고 지붕은 수익 자산으로 활용할 수 있는 매우 효율적인 구조입니다.'
       },
       {
         q: 'Q. 건물주는 어떤 이익을 얻을 수 있나요?',
-        a: '그동안 사용하지 않던 지붕을 안정적인 수익 자산으로 바꿀 수 있습니다.\n별도 운영 부담 없이 장기간 임대료 수익을 기대할 수 있으며, 조건에 따라 선불지급 방식도 검토할 수 있습니다.\n업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 더욱 안전하게 진행하실 수 있습니다.'
+        a: '그동안 사용하지 않던 지붕을 안정적인 수익 자산으로 바꿀 수 있습니다.\\n별도 운영 부담 없이 장기간 임대료 수익을 기대할 수 있으며, 조건에 따라 선불지급 방식도 검토할 수 있습니다.\\n업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 더욱 안전하게 진행하실 수 있습니다.'
       },
       {
         q: 'Q. 신청 후 진행 절차는 복잡하지 않나요?',
-        a: '복잡하게 준비하실 필요 없습니다.\n기본 정보 접수 후 주소지와 지붕 조건을 바탕으로 검토를 진행하고, 이후 현장 확인, 조건 협의, 계약, 인허가 및 시공 순으로 안내해드립니다.\n처음 상담만 받아보셔도 진행 가능 여부를 빠르게 판단하실 수 있습니다.'
+        a: '복잡하게 준비하실 필요 없습니다.\\n기본 정보 접수 후 주소지와 지붕 조건을 바탕으로 검토를 진행하고, 이후 현장 확인, 조건 협의, 계약, 인허가 및 시공 순으로 안내해드립니다.\\n처음 상담만 받아보셔도 진행 가능 여부를 빠르게 판단하실 수 있습니다.'
       },
       {
         q: 'Q. 오래된 지붕도 검토가 가능한가요?',
-        a: '네. 오래된 지붕도 충분히 검토 가능합니다.\n보수 및 보강을 통해 진행하기 때문에 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.\n현장 점검을 통해 활용 가능성을 먼저 확인해보시는 것이 가장 빠른 방법입니다.'
+        a: '네. 오래된 지붕도 충분히 검토 가능합니다.\\n보수 및 보강을 통해 진행하기 때문에 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.\\n현장 점검을 통해 활용 가능성을 먼저 확인해보시는 것이 가장 빠른 방법입니다.'
       },
       {
         q: 'Q. 설치 후 관리가 번거롭지 않나요?',
-        a: '걱정하지 않으셔도 됩니다.\n관리는 모두 시공전문주체에서 관리합니다.\n건물주는 직접 설비를 운영하거나 유지보수에 신경 쓰지 않으셔도 되는 구조로 검토하실 수 있습니다.'
+        a: '걱정하지 않으셔도 됩니다.\\n관리는 모두 시공전문주체에서 관리합니다.\\n건물주는 직접 설비를 운영하거나 유지보수에 신경 쓰지 않으셔도 되는 구조로 검토하실 수 있습니다.'
       },
       {
         q: 'Q. 수익은 언제부터 받을 수 있나요?',
-        a: '현재 프로모션으로 5년치 임대료를 선불로 지급합니다.\n연금처럼 받고 싶으시다면 연간 임대료를 지급받으시면 됩니다.\n시공이 완료되고 전력송출이 시작되는 시점에서 바로 지급됩니다.'
+        a: '현재 프로모션으로 <strong>5년치 임대료를 선불</strong>로 지급합니다.\\n연금처럼 받고 싶으시다면 연간 임대료를 지급받으시면 됩니다.\\n시공이 완료되고 전력송출이 시작되는 시점에서 바로 지급됩니다.'
       },
       {
-        q: 'Q. 우리 건물도 대상이 될 가능성이 있나요?',
-        a: '공장, 창고, 물류센터, 상업시설, 축사, 주차장 등 모두 가능합니다.\n주소를 기준으로 검토받아보시기 바랍니다.\n면적, 구조, 음영, 안전성 등을 함께 확인하면 보다 정확한 상담이 가능합니다.'
+        q: 'Q. 우리 건물도 가능하나요?',
+        a: '공장, 창고, 물류센터, 상업시설, 축사, 주차장 등 모두 가능합니다.\\n주소를 기준으로 검토받아보시기 바랍니다.\\n면적, 구조, 음영, 안전성 등을 함께 확인하면 보다 정확한 상담이 가능합니다.'
       },
       {
         q: 'Q. 공장 매각 시에는 어떻게 되나요?',
-        a: '공장을 매각하실 경우 기존 계약은 원칙적으로 매수인에게 승계되는 방식으로 진행됩니다.\n따라서 매각 이후에도 사업의 연속성이 유지될 수 있도록 계약 구조를 명확히 안내해드립니다.\n매각 예정이 있으시더라도 사전에 상담받아 두시면 훨씬 안정적으로 검토하실 수 있습니다.'
+        a: '공장을 매각하실 경우 기존 계약은 원칙적으로 매수인에게 승계되는 방식으로 진행됩니다.\\n따라서 매각 이후에도 사업의 연속성이 유지될 수 있도록 계약 구조를 명확히 안내해드립니다.\\n매각 예정이 있으시더라도 사전에 상담받아 두시면 훨씬 안정적으로 검토하실 수 있습니다.'
       },
       {
         q: 'Q. 공장 증축 등으로 이전설치가 필요하면 어떻게 되나요?',
-        a: '공장 증축이나 운영 변경으로 이전설치가 필요한 경우, 시공사에서 현장 여건을 검토한 뒤 이전설치와 관련 절차를 최대한 지원합니다.\n세부 범위는 현장 조건과 계약 내용에 따라 협의되며, 무조건 어렵다고 보실 필요는 없습니다.\n변경 가능성이 있는 현장일수록 미리 상담받아 두시는 것이 유리합니다.'
+        a: '증축이나 시설변경등은 최대한 지원합니다.\\n현장 여건을 빠르게 검토하여 패널을 <strong>안전하게 이동</strong>할 수 있도록 지원할 예정이며, 진행 중에도 실시간으로 협의하고 지원해드리는 방향으로 안내합니다.\\n세부 범위는 현장 조건과 계약 내용에 따라 협의되며, 변경 가능성이 있는 현장일수록 미리 상담받아 두시는 것이 유리합니다.'
       },
       {
         q: 'Q. 지금 검토해볼 만한 사업인가요?',
-        a: '네. 초기 투자비용 없이 지붕 자산을 수익화할 수 있다는 점에서 매우 검토 가치가 높은 사업입니다.\n특히 유휴 지붕을 장기간 안정적인 수익 구조로 전환할 수 있어 부담은 낮고 실익은 분명합니다.\n지금 상담을 받아보시면 설치 가능 여부와 예상 수익을 빠르게 확인하실 수 있습니다.'
+        a: '네. <strong>초기 투자비용 0원</strong> 없이 지붕 자산을 수익화할 수 있다는 점에서 매우 검토 가치가 높은 사업입니다.\\n특히 유휴 지붕을 장기간 안정적인 수익 구조로 전환할 수 있어 부담은 낮고 실익은 분명합니다.\\n지금 상담을 받아보시면 설치 가능 여부와 예상 수익을 빠르게 확인하실 수 있습니다.'
       }
     ];
 
@@ -1026,15 +1075,15 @@
 
     function buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption) {
       const lines = [
-        '본 사업은 유휴 지붕을 활용하여 별도의 초기 투자 없이 장기 임대수익을 확보할 수 있는 구조입니다.',
-        '초기 투자비용 0원을 기준으로 검토할 수 있어 설비 도입에 대한 자금 부담을 크게 줄일 수 있습니다.',
-        '예상 설치용량은 약 ' + estimatedKw.toFixed(1) + 'kW이며 연간 임대료는 ' + formatMoney(yearRent) + '입니다.',
+        '본 사업은 유휴 지붕을 활용하여 별도의 <strong>초기 투자비용 0원</strong>으로 장기 임대수익을 확보할 수 있는 구조입니다.',
+        '초기 <strong>투자비용 0원</strong> 기준으로 검토할 수 있어 설비 도입에 대한 자금 부담을 크게 줄일 수 있습니다.',
+        '예상 설치용량은 약 <strong>' + estimatedKw.toFixed(1) + 'kW</strong>이며 연간 임대료는 <strong>' + formatMoney(yearRent) + '</strong>입니다.',
         prepaidOption === 'yes'
-          ? '현재 프로모션 기준으로 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 선불로 수령할 수 있어 초기 자금운용에도 큰 도움이 됩니다.'
+          ? '현재 프로모션 기준으로 최대 <strong>5년치 임대료 ' + formatMoney(prepaidAmount) + '</strong>를 선불로 수령할 수 있어 초기 자금운용에도 큰 도움이 됩니다.'
           : '선불지급 없이도 매년 안정적인 임대료를 수령하는 방식으로 장기적인 현금흐름을 기대할 수 있습니다.',
         '걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당하므로 건물주의 관리 부담을 줄일 수 있습니다.',
         '오래된 지붕도 보수 및 보강을 통해 충분히 검토 가능하므로, 관리가 필요할수록 더욱 적극적으로 검토해보실 만합니다.',
-        '업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.',
+        '업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.',
         '현장 검토 후 최종 조건이 확정되므로 우선 상담만 받아보셔도 충분한 검토 가치가 있습니다.'
       ];
 
@@ -1151,11 +1200,11 @@
       document.getElementById('outAddress').innerText = '대상 건물: ' + siteAddress;
       document.getElementById('outSalesBottom').innerText = '영업 담당자명 : ' + salesName;
 
-      document.getElementById('outKw').innerText = estimatedKw.toFixed(1) + 'kW';
-      document.getElementById('outYearRent').innerText = formatMoney(yearRent);
-      document.getElementById('outPrepaid').innerText = prepaidOption === 'yes' ? formatMoney(prepaidAmount) : '해당 없음';
-      document.getElementById('outTotalRent').innerText = formatMoney(totalRent);
-      document.getElementById('outInitialCost').innerText = '0원';
+      document.getElementById('outKw').innerHTML = '<strong>' + estimatedKw.toFixed(1) + 'kW</strong>';
+      document.getElementById('outYearRent').innerHTML = '<strong>' + formatMoney(yearRent) + '</strong>';
+      document.getElementById('outPrepaid').innerHTML = prepaidOption === 'yes' ? '<strong>' + formatMoney(prepaidAmount) + '</strong>' : '해당 없음';
+      document.getElementById('outTotalRent').innerHTML = '<strong>' + formatMoney(totalRent) + '</strong>';
+      document.getElementById('outInitialCost').innerHTML = '<strong>0원</strong>';
 
       document.getElementById('tableRoof').innerHTML = '<strong>' + roofPyeong.toLocaleString('ko-KR') + '평</strong>';
       document.getElementById('tableAreaRule').innerHTML = '<strong>2평당 1kW</strong>';
@@ -1175,23 +1224,23 @@
 
       document.getElementById('proposalPoints').innerHTML = `
         <li>건물주는 지붕을 임대 제공하고 태양광 설비 설치를 통해 안정적인 임대수익을 확보할 수 있습니다.</li>
-        <li>초기 투자비용은 0원 기준으로 검토 가능하여 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
-        <li>예상 설치용량은 약 ${estimatedKw.toFixed(1)}kW이며, 연간 임대료는 ${formatMoney(yearRent)}, 20년간 총 임대료는 ${formatMoney(totalRent)}입니다.</li>
-        <li>${prepaidOption === 'yes' ? '현재 프로모션 기준 최대 5년치 임대료 ' + formatMoney(prepaidAmount) + '를 선불로 수령할 수 있습니다.' : '선불지급 없이도 매년 안정적으로 임대료를 수령할 수 있습니다.'}</li>
+        <li>초기 <strong>투자비용 0원</strong> 기준으로 검토 가능하여 별도 설비 투자 부담 없이 사업 진행이 가능합니다.</li>
+        <li>예상 설치용량은 약 <strong>${estimatedKw.toFixed(1)}kW</strong>이며, 연간 임대료는 <strong>${formatMoney(yearRent)}</strong>, 20년간 총 임대료는 <strong>${formatMoney(totalRent)}</strong>입니다.</li>
+        <li>${prepaidOption === 'yes' ? '현재 프로모션 기준 최대 <strong>5년치 임대료 ' + formatMoney(prepaidAmount) + '</strong>를 선불로 수령할 수 있습니다.' : '선불지급 없이도 매년 안정적으로 임대료를 수령할 수 있습니다.'}</li>
         <li>걱정하지 않으셔도 됩니다. 관리와 운영은 모두 시공전문주체에서 담당합니다.</li>
         <li>오래된 지붕도 보수 및 보강을 통해 진행하므로 관리가 필요할수록 더욱 적극적으로 검토해보시기 바랍니다.</li>
-        <li>업체 선정 시에는 10년 이상 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.</li>
+        <li>업체 선정 시에는 <strong>10년 이상</strong> 꾸준히 임대료를 지급해온 안정적이고 기술력이 확보된 곳을 선택하셔야 합니다.</li>
         <li>현장 확인 및 협의 후 최종 계약 조건이 확정되므로 우선 부담 없이 상담을 진행하실 수 있습니다.</li>
       `;
 
       document.getElementById('persuasionText').innerHTML =
         buildAdvantageHTML(estimatedKw, yearRent, prepaidAmount, prepaidOption);
 
-      document.getElementById('footnoteText').innerText =
-        '※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.\n'
-        + '※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.\n'
-        + '※ 오래된 지붕은 상태 점검 후 보수 및 보강 범위를 협의하여 진행 여부가 확정됩니다.\n'
-        + '※ 공장 매각 시에는 계약이 매수인에게 승계되는 방식으로 검토될 수 있으며, 증축 등으로 이전설치가 필요한 경우 시공사에서 최대한 지원합니다.\n'
+      document.getElementById('footnoteText').innerHTML =
+        '※ 본 견적은 입력 면적과 고정 기준 단가에 따른 예상 산출값입니다.\\n'
+        + '※ 실제 설치용량은 지붕 구조, 일조량, 음영, 방위, 안전성 검토 결과에 따라 조정될 수 있습니다.\\n'
+        + '※ 오래된 지붕은 상태 점검 후 보수 및 보강 범위를 협의하여 진행 여부가 확정됩니다.\\n'
+        + '※ 공장 매각 시에는 계약이 매수인에게 승계되는 방식으로 검토될 수 있으며, 증축 등으로 이전설치가 필요한 경우 시공사에서 <strong>최대한 지원</strong>합니다.\\n'
         + '※ 본 자료는 상담용 견적서이며, 현장 확인 및 협의 후 최종 계약 조건이 확정됩니다.';
     }
 
