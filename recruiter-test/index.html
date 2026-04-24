@@ -1,1693 +1,1763 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>채용문제 진단 및 분석 리포트</title>
-  <meta name="description" content="채용담당자가 질문에 답하면 현재 채용 문제를 진단하고 LinkedIn 솔루션, 서치펌 매핑서비스, LinkedIn 기업Page 운영대행까지 함께 추천하는 자가진단 리포트입니다." />
-  <style>
-    :root{
-      --bg:#0b0f14;
-      --card:#111827;
-      --line:#1f2937;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --soft:#ffffff10;
-      --shadow:0 18px 45px #00000050;
-
-      --blue:#2563eb;
-      --blue2:#1d4ed8;
-      --purple:#7c3aed;
-      --purple2:#5b21b6;
-      --green:#22c55e;
-      --amber:#f59e0b;
-      --red:#ef4444;
-      --cyan:#06b6d4;
-      --chip:#0b1220;
-
-      --paperText:#e5e7eb;
-      --paperMuted:#b8c2cf;
-      --paperLine:#334155;
-
-      --reportBg1:#0f172a;
-      --reportBg2:#111827;
-      --summaryBg:#08111f;
-      --summaryLine:#1f3a5f;
-
-      --accentBoxBg:linear-gradient(135deg,#eff6ff 0%,#eef2ff 100%);
-      --accentBoxText:#111827;
-      --accentBoxLine:#93c5fd;
-      --accentBadge:#1d4ed8;
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>채용문제 진단 및 HR Point 솔루션 추천</title>
+<meta content="채용 병목을 진단하고 HR Point의 기업 페이지 운영대행, 채용브랜딩, 기술홍보, CEO/HR 프로필 브랜딩, LinkedIn 교육 및 기업용 솔루션 객관 분석을 추천하는 진단 도구" name="description"/>
+<style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #d8e0ec;
+      --primary: #0a66c2;
+      --primary-dark: #004182;
+      --primary-soft: #e8f3ff;
+      --accent: #111827;
+      --good: #027a48;
+      --warn: #b54708;
+      --danger: #b42318;
+      --radius: 22px;
+      --shadow: 0 20px 50px rgba(15, 35, 70, 0.10);
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,Helvetica,Arial;
-      background:
-        radial-gradient(1200px 700px at 15% 10%, #0b1b33 0%, transparent 60%),
-        radial-gradient(1000px 600px at 85% 22%, #140a33 0%, transparent 55%),
-        linear-gradient(180deg,#070a0f,#0b0f14 40%);
-      color:var(--text);
-    }
-    a{color:inherit;text-decoration:none}
-
-    .wrap{
-      max-width:1680px;
-      margin:0 auto;
-      padding:26px 18px 40px;
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top left, #dceeff 0, transparent 34%), var(--bg);
+      color: var(--ink);
+      line-height: 1.62;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      overflow-x: hidden;
+      -webkit-touch-callout: none;
+      touch-action: manipulation;
     }
 
-    .top{
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    main { overflow-x: clip; }
+    .hero { min-height: 100vh; display: grid; align-items: center; padding: 56px 0; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 28px; align-items: center; }
+    .hero-card, .panel, .report-card, .gate-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(216,224,236,0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero-card { padding: clamp(30px, 5vw, 56px); }
+    .hero-top-banner-wrap { margin-bottom: 22px; }
+    .hero-top-banner {
+      padding: 18px 22px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #e8f3ff 0%, #f8fbff 100%);
+      border: 1px solid #b9dcff;
+      box-shadow: 0 18px 40px rgba(10,102,194,.10);
+      color: var(--primary-dark);
+      font-size: clamp(14px, 2.1vw, 30px);
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      line-height: 1.18;
+      white-space: normal;
+      text-align: center;
+    }
+    .hero-top-banner-sub {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(12px, 1.2vw, 15px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: #475467;
+    }
+    .hero-top-banner-main {
+      display: block;
+      font-size: clamp(18px, 2.2vw, 28px);
+      font-weight: 950;
+      letter-spacing: -0.035em;
+      line-height: 1.22;
+      color: var(--primary-dark);
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-dark); font-size: 14px; font-weight: 800; }
+    h1 { margin: 18px 0 12px; font-size: clamp(34px, 5vw, 58px); line-height: 1.08; letter-spacing: -0.045em; }
+    h2 { margin: 0 0 14px; font-size: clamp(25px, 3vw, 36px); letter-spacing: -0.035em; line-height: 1.2; }
+    h3 { margin: 0 0 12px; font-size: 21px; letter-spacing: -0.02em; }
+    p { margin: 0 0 12px; }
+    .lead { color: #344054; font-size: 18px; margin-bottom: 26px; }
+    .partner-line { display: inline-block; margin-top: 12px; font-weight: 900; color: var(--primary-dark); line-height: 1.38; white-space: normal; }
+    .hero-partner-line { white-space: nowrap; font-size: clamp(12px, 2.2vw, 14px); }
+    .partner-line.nowrap { white-space: nowrap; }
+    .partner-line.nowrap .partner-break { display: inline; }
+    .hero-partner-line .partner-break { display: inline; }
+    .partner-mark { display: inline-block; font-size: .58em; vertical-align: baseline; font-weight: 900; letter-spacing: -0.01em; margin: 0 0 0 4px; }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+    .hero-logo-wrap { width: 112px; flex: 0 0 112px; display: block; background: transparent !important; padding: 0; border: 0 !important; border-radius: 0; box-shadow: none !important; outline: 0; }
+    .hero-logo-wrap img { width: 100%; height: auto; object-fit: contain; border: 0 !important; border-radius: 0; outline: 0; display: block; background: transparent !important; box-shadow: none !important; pointer-events: none; -webkit-user-drag: none; user-select: none; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 28px; }
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px 20px;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      text-decoration: none;
+      min-height: 52px;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 12px 24px rgba(10, 102, 194, .22); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary { background: #eef2f7; color: #111827; }
+    .btn-outline { background: #fff; border: 1px solid var(--line); color: var(--primary-dark); }
+    .btn-ghost { background: transparent; color: var(--muted); padding-left: 4px; padding-right: 4px; }
+    .btn:disabled { opacity: .48; cursor: not-allowed; transform: none; box-shadow: none; }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 28px; }
+    .stat { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+    .stat strong { display: block; font-size: 25px; letter-spacing: -0.03em; }
+    .stat span { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .solution-cloud { padding: 28px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start; min-height: 430px; position: relative; }
+    .solution-cloud-head { width: 100%; margin-bottom: 8px; }
+    .solution-cloud-title { margin: 0 0 8px; font-size: clamp(26px, 3vw, 38px); letter-spacing: -0.04em; line-height: 1.15; }
+    .solution-cloud-copy { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
+    .chip { padding: 9px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: #344054; font-size: 14px; font-weight: 750; }
+    .chip.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .chip.soft { background: var(--primary-soft); color: var(--primary-dark); border-color: #b9dcff; }
+    .section { padding: 44px 0; display: none; }
+    .section.active { display: block; }
+
+    .topbar { position: sticky; top: 0; z-index: 50; background: rgba(244,247,251,.88); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(216,224,236,.8); display: none; }
+    .topbar.active { display: block; }
+    .topbar-inner { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 950; letter-spacing: -0.02em; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 10px; background: var(--primary); color: #fff; display: grid; place-items: center; font-weight: 950; }
+    .progress-wrap { min-width: 250px; flex: 1; max-width: 520px; }
+    .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin-bottom: 6px; font-weight: 750; }
+    .progress { height: 10px; border-radius: 999px; background: #dce4ef; overflow: hidden; }
+    .progress > span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), #47a3ff); border-radius: 999px; transition: width .25s ease; }
+
+    .quiz-layout { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: start; }
+    .panel { padding: clamp(22px, 4vw, 36px); }
+    .question-kicker { color: var(--primary-dark); font-weight: 900; margin-bottom: 8px; }
+    .question-title { font-size: clamp(25px, 3vw, 36px); line-height: 1.18; letter-spacing: -0.04em; margin: 0 0 8px; }
+    .question-desc { color: var(--muted); font-size: 16px; margin-bottom: 24px; }
+    .options { display: grid; gap: 12px; }
+    .option {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 12px;
+      padding: 17px 18px;
+      border: 1.5px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .option:hover { border-color: #9dc9f5; box-shadow: 0 10px 26px rgba(15,35,70,.07); }
+    .option.selected { border-color: var(--primary); background: #f4faff; box-shadow: 0 12px 26px rgba(10,102,194,.10); }
+    .radio { width: 22px; height: 22px; border: 2px solid #98a2b3; border-radius: 50%; margin-top: 2px; position: relative; }
+    .option.selected .radio { border-color: var(--primary); }
+    .option.selected .radio::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--primary); }
+    .option-title { font-weight: 900; font-size: 16px; margin-bottom: 4px; display:block; }
+    .option-desc { color: var(--muted); font-size: 14px; display:block; }
+    .nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+    .side { display: grid; gap: 14px; }
+    .side-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: 0 14px 36px rgba(15,35,70,.05); }
+    .side-card h4 { margin: 0 0 10px; font-size: 15px; color: #344054; }
+    .summary-row { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1f7; padding-top: 10px; margin-top: 10px; font-size: 14px; }
+    .summary-row span:first-child { color: var(--muted); }
+    .summary-row span:last-child { text-align: right; font-weight: 850; }
+    .mini-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .mini-list li { margin: 6px 0; }
+
+    .gate-card { padding: clamp(24px, 4vw, 42px); max-width: 820px; margin: 0 auto; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin: 24px 0 12px; }
+    .field label { display: block; font-size: 14px; font-weight: 850; margin-bottom: 7px; color: #344054; }
+    .field input { width: 100%; border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px; font-size: 16px; background: #fff; }
+    .field input:focus { outline: 3px solid rgba(10,102,194,.15); border-color: var(--primary); }
+    .field.full { grid-column: 1 / -1; }
+    .consent { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; margin: 16px 0 22px; color: #475467; font-size: 14px; }
+    .consent input { width: 19px; height: 19px; margin-top: 2px; }
+    .status { min-height: 24px; color: var(--muted); font-size: 14px; margin-top: 10px; }
+    .status.error { color: var(--danger); font-weight: 850; }
+
+    .report { display: none; padding: 44px 0 70px; }
+    .report.active { display: block; }
+    .report-head {
+      background: linear-gradient(145deg, #0f172a 0%, #111827 50%, #1f2937 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: clamp(26px, 5vw, 40px);
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .report-head-grid { display:grid; grid-template-columns: 1fr 120px; gap: 24px; align-items:start; }
+    .report-logo-wrap {
+      justify-self: end;
+      width: 122px;
+      display: block;
+      background: transparent !important;
+      padding: 0;
+      border: 0 !important;
+      border-radius: 0;
+      box-shadow: none !important;
+      outline: 0;
+    }
+    .report-logo-wrap img { width: 100%; height: auto; object-fit: contain; border: 0 !important; border-radius: 0; outline: 0; display: block; background: transparent !important; box-shadow: none !important; pointer-events: none; -webkit-user-drag: none; user-select: none; }
+    .title-prefix { display: block; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.1; color: #9fd0ff; font-weight: 850; margin-bottom: 8px; letter-spacing: -0.03em; }
+    .title-main { display: block; }
+    .report-head .muted { color: #d2d8e2; }
+    .report-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .report-actions .btn-secondary { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.22); }
+    .report-grid { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: start; }
+    .report-card { padding: clamp(22px, 3vw, 30px); margin-bottom: 18px; }
+    .label { font-size: 15px; font-weight: 950; color: var(--primary-dark); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 10px; }
+    .diagnosis-title { font-size: clamp(27px, 4vw, 42px); margin: 0 0 8px; letter-spacing: -0.045em; line-height: 1.12; }
+    .tagline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .overview-alert {
+      border-radius: 18px;
+      border: 1px solid #fecaca;
+      border-left: 6px solid #ef4444;
+      background: linear-gradient(180deg, #fff5f5 0%, #fffaf5 100%);
+      padding: 18px;
+    }
+    .overview-urgency {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #fecaca;
+      color: #b42318;
+      font-size: 13px;
+      font-weight: 950;
+      margin-bottom: 12px;
+      letter-spacing: .02em;
+    }
+    .overview-alert h3 { margin: 0 0 8px; font-size: 25px; letter-spacing: -0.03em; line-height: 1.25; }
+    .overview-alert p { margin: 0; color: #7a271a; font-size: 15px; }
+    .problem-list { display: grid; gap: 12px; }
+    .problem { border-left: 4px solid var(--primary); padding: 12px 14px; background: #f8fbff; border-radius: 12px; }
+    .problem strong { display: block; margin-bottom: 4px; }
+    .solution-cards { display:grid; gap: 16px; }
+    .solution-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(15,35,70,.05);
+    }
+    .solution-top { display:flex; align-items:flex-start; justify-content:space-between; gap: 12px; margin-bottom: 14px; }
+    .rank-badge { display:inline-flex; align-items:center; justify-content:center; min-width: 88px; height: 34px; padding: 0 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-dark); font-weight: 950; }
+    .solution-name { font-size: 20px; font-weight: 900; margin: 0; line-height: 1.25; }
+    .solution-body { display:grid; gap: 14px; }
+    .solution-block { border-top: 1px solid #edf1f7; padding-top: 14px; }
+    .solution-block-title { font-size: 15px; font-weight: 900; margin-bottom: 8px; color: #344054; }
+    .solution-text { font-size: 15px; color: #344054; margin: 0; }
+    .solution-list { margin: 0; padding-left: 18px; color: #344054; font-size: 15px; }
+    .solution-list li { margin: 6px 0; }
+    .effect-box { margin-top: 2px; padding: 14px; border-radius: 14px; background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf3 100%); border: 1px solid #abefc6; box-shadow: inset 0 0 0 1px rgba(2,122,72,.03); }
+    .effect-box .solution-block-title { color: #027a48; }
+    .flow-wrap { display: grid; gap: 14px; }
+    .flow-chart { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+    .flow-node {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      padding: 18px;
+      position: relative;
+      min-height: 100%;
+    }
+    .flow-node:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -28px;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 18px rgba(15,35,70,.08);
+      display: grid;
+      place-items: center;
+      color: var(--primary-dark);
+      font-weight: 900;
+      z-index: 2;
+    }
+    .flow-step { font-size: 12px; font-weight: 900; color: var(--primary-dark); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+    .flow-title { font-size: 18px; font-weight: 900; margin-bottom: 8px; line-height: 1.3; }
+    .flow-text { color: #475467; font-size: 14px; }
+    .budget-note {
       display:flex;
-      gap:16px;
-      justify-content:space-between;
       align-items:flex-start;
-      flex-wrap:wrap;
-      margin-bottom:16px;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fffaeb;
+      border: 1px solid #fedf89;
+      color: #7a4504;
+      font-size: 14px;
     }
-
-    h1{
-      margin:0 0 8px 0;
-      font-size:26px;
-      letter-spacing:-0.2px;
-    }
-
-    .sub{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-      max-width:780px;
-    }
-
-    .pillrow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-
-    .pill{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:var(--soft);
-      color:#cbd5e1;
-    }
-
-    .grid{
+    .steps { display: grid; gap: 12px; }
+    .step { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: #fff; }
+    .step small { display:block; color: var(--primary-dark); font-weight: 900; margin-bottom: 6px; }
+    .step strong { display: block; margin-bottom: 6px; font-size: 17px; }
+    .share-list { display:grid; gap: 12px; }
+    .share-item {
       display:grid;
-      grid-template-columns:minmax(0,1fr) 360px;
-      gap:14px;
+      grid-template-columns: 26px 1fr;
+      gap: 12px;
       align-items:start;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #edf1f7;
+      background: #fff;
     }
-
-    .grid.results-mode{
-      grid-template-columns:minmax(0,1fr);
+    .share-item input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--primary); }
+    .share-title { display:block; font-weight: 900; color: #111827; margin-bottom: 4px; }
+    .share-text { color: #475467; font-size: 14px; }
+    .contact-card {
+      background: linear-gradient(135deg, #eef6ff 0%, #f8fbff 100%);
+      border: 1px solid #b9dcff;
+      box-shadow: 0 18px 42px rgba(10,102,194,.08);
     }
-
-    @media (max-width: 1100px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    .card{
-      background:linear-gradient(180deg,#111827,#0f172a);
-      border:1px solid var(--line);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-      padding:16px;
-      min-width:0;
-    }
-
-    .card h2{
-      margin:0 0 10px 0;
-      font-size:16px;
-      letter-spacing:-0.2px;
-    }
-
-    .progress{
-      display:flex;
+    .contact-grid { display:grid; grid-template-columns: 1fr auto; gap: 20px; align-items:center; }
+    .contact-title { font-size: clamp(13px, 1.9vw, 22px); font-weight: 900; margin: 0 0 8px; }
+    .contact-title .partner-line { margin-top: 0; white-space: normal; line-height: 1.28; }
+    .contact-meta { display:flex; flex-wrap:wrap; gap: 10px 18px; margin-top: 14px; }
+    .contact-pill {
+      display:inline-flex;
       align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      padding:10px 12px;
-      border-radius:14px;
-      background:var(--soft);
-      border:1px solid var(--line);
-      margin-bottom:12px;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+      border: 0;
+      color: #ffffff;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 14px 26px rgba(10,102,194,.18);
+    }
+    .contact-pill[href^="mailto"] {
+      background: linear-gradient(135deg, #1f4aa8 0%, #0a66c2 100%);
+    }
+    .contact-pill.blog-pill {
+      background: linear-gradient(135deg, #03C75A 0%, #02b351 100%);
+      color: #ffffff;
+      white-space: nowrap;
+      box-shadow: 0 14px 26px rgba(3,199,90,.20);
+    }
+    .contact-side {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .section-label-row .label { margin: 0; }
+    .section-label-logo {
+      width: 40px;
+      flex: 0 0 40px;
+      display: block;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    .section-label-logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    .fine-print { font-size: 12px; color: #667085; margin-top: 14px; }
+    .hidden { display: none !important; }
+
+    /* sizing refinement */
+    body { font-size: 15px; }
+    .wrap, .topbar-inner { width: min(1220px, calc(100% - 32px)); }
+    h1 { font-size: clamp(30px, 4.6vw, 52px); }
+    h2 { font-size: clamp(23px, 2.8vw, 32px); }
+    h3 { font-size: 19px; }
+    .lead { font-size: 17px; }
+    .eyebrow { font-size: 13px; }
+    .hero-logo-wrap { width: 56px; flex: 0 0 56px; }
+    .report-logo-wrap { width: 61px; }
+    .btn { font-size: 15px; min-height: 50px; }
+    .stat strong { font-size: 23px; }
+    .stat span,
+    .solution-cloud-copy,
+    .chip,
+    .progress-meta,
+    .question-desc,
+    .summary-row,
+    .mini-list,
+    .field label,
+    .status,
+    .flow-text,
+    .budget-note,
+    .share-text,
+    .fine-print { font-size: 13px; }
+    .solution-cloud-title { font-size: clamp(23px, 2.8vw, 34px); }
+    .quiz-layout { grid-template-columns: 1fr 280px; }
+    .question-title {
+      font-size: clamp(17px, 1.65vw, 22px);
+      white-space: normal;
+      overflow-wrap: normal;
+      word-break: keep-all;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+    .option-title { font-size: 15px; }
+    .option-desc { font-size: 13px; }
+    .field input { font-size: 15px; }
+    .label { font-size: 14px; }
+    .diagnosis-title { font-size: clamp(24px, 3vw, 38px); }
+    .overview-alert h3 { font-size: 22px; }
+    .overview-alert p { font-size: 14px; }
+    .solution-name { font-size: 18px; }
+    .solution-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 0;
+      max-width: 100%;
+      padding: 13px 18px;
+      border-radius: 16px;
+      border: 1px solid #8ec2ff;
+      background: linear-gradient(135deg, #dfeeff 0%, #edf5ff 52%, #f9fbff 100%);
+      box-shadow: 0 14px 28px rgba(10,102,194,.14), inset 0 1px 0 rgba(255,255,255,.7);
+      color: #111827;
+      line-height: 1.35;
+    }
+    .solution-button .solution-name-base {
+      color: #111827;
+      font-weight: 900;
+    }
+    .solution-button .solution-focus {
+      color: #0a66c2;
+      font-weight: 950;
+    }
+    .solution-button.detail-solution-button {
+      font-size: 17px;
+      font-weight: 900;
+      padding: 14px 18px;
+      box-shadow: 0 16px 30px rgba(10,102,194,.16), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .solution-button.summary-solution-button {
+      padding: 10px 14px;
+      border-radius: 13px;
+      font-size: 14px;
+      box-shadow: 0 10px 20px rgba(10,102,194,.08);
+    }
+    .summary-ranked-item .solution-button {
+      width: 100%;
+    }
+    .solution-block-title { font-size: 14px; }
+    .solution-text, .solution-list { font-size: 14px; }
+    .effect-box {
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #eef6ff 0%, #f7fbff 100%);
+      border: 1px solid #b9dcff;
+      box-shadow: inset 0 0 0 1px rgba(10,102,194,.04);
+    }
+    .effect-box .solution-block-title { color: #004182; }
+    .solution-name-base { color: #111827; }
+    .solution-focus { color: var(--primary); font-weight: 900; }
+    .summary-ranked-list { display: grid; gap: 8px; }
+    .summary-ranked-item { display: flex; gap: 8px; align-items: flex-start; font-size: 15px; font-weight: 850; line-height: 1.45; color: #111827; }
+    .summary-ranked-item strong { color: var(--primary-dark); min-width: 18px; }
+    .overview-title-line { display: block; }
+    .overview-solution-line { display: block; margin-top: 4px; }
+    .question-title, .question-desc, .options, .option, .option > span, .side, .side-card, .panel, .quiz-layout { max-width: 100%; }
+    .quiz-layout, .panel, .options, .option, .side, .side-card { overflow-x: clip; }
+    .option {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      text-align: left;
+      background-clip: padding-box;
+    }
+    .option::-moz-focus-inner { border: 0; }
+    .option:focus-visible { outline: 3px solid rgba(10,102,194,.18); outline-offset: 1px; }
+    .option, .option *, .question-title, .question-desc, .lead, .chip, .summary-row, .mini-list li, .btn, .hero-card, .report-card, .side-card {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    input, textarea, select { user-select: text; -webkit-user-select: text; -webkit-touch-callout: default; }
+    .flow-title { font-size: 16px; }
+    .step strong { font-size: 16px; }
+    .contact-title { font-size: clamp(13px, 1.9vw, 22px); }
+
+    .lead-break { display: block; }
+    .partner-line .partner-break { display: block; }
+    .copy-break { display: block; margin-top: 4px; }
+    .quiz-layout > *, .report-grid > *, .report-head-grid > *, .contact-grid > * { min-width: 0; }
+    .panel, .options, .option, .option > span:last-child, .solution-card, .report-card { min-width: 0; }
+    .option {
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .btn, .chip, .hero-card, .report-card {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    input, textarea, select {
+      user-select: text;
+      -webkit-user-select: text;
+      -webkit-touch-callout: default;
+    }
+    .solutions-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .overview-solution-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: 0 12px 30px rgba(15,35,70,.05);
+    }
+    .overview-solution-title {
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+    .overview-solution-copy {
+      color: #475467;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .overview-focus-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .bar{
-      flex:1;
-      min-width:160px;
-      height:10px;
-      border-radius:999px;
-      background:#0b1220;
-      border:1px solid var(--line);
-      overflow:hidden;
+    .report-summary-card {
+      background: linear-gradient(135deg, #fffaf2 0%, #ffffff 48%, #f5f8ff 100%);
+      border: 1px solid #ead5a2;
+      box-shadow: 0 18px 42px rgba(120, 82, 16, .08);
+      margin-bottom: 22px;
+    }
+    .report-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+    .summary-hero-box,
+    .summary-mini-box {
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 100%;
+    }
+    .summary-hero-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #fff1d6 0%, #fff9ee 48%, #eef5ff 100%);
+      border: 1px solid #ebd39f;
+      color: #111827;
+      box-shadow: 0 16px 34px rgba(120,82,16,.10);
+    }
+    .summary-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #cfe2ff;
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .summary-headline {
+      font-size: clamp(21px, 2.5vw, 30px);
+      font-weight: 900;
+      line-height: 1.22;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+      color: #111827;
+    }
+    .summary-subline {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #475467;
+    }
+    .summary-mini-box {
+      background: rgba(255,255,255,.92);
+      border: 1px solid #dbeafe;
+      box-shadow: 0 12px 28px rgba(15,35,70,.05);
+    }
+    .summary-mini-label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #0a66c2;
+      margin-bottom: 10px;
+    }
+    .summary-mini-value {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .summary-mini-copy {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #475467;
     }
 
-    .bar > i{
-      display:block;
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,var(--blue),var(--purple));
-    }
-
-    .steptext{
-      font-size:12px;
-      color:#cbd5e1;
-    }
-
-    .qwrap{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .qtitle{
-      font-size:15px;
-      line-height:1.5;
-      padding:12px;
-      border-radius:14px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--line);
-    }
-
-    .opts{
-      display:grid;
-      gap:10px;
-    }
-
-    .opt{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      padding:12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,0.03);
-      cursor:pointer;
-      transition:transform .06s ease, border-color .12s ease, background .12s ease;
-      user-select:none;
-    }
-
-    .opt:hover{
-      transform:translateY(-1px);
-      border-color:#334155;
-      background:rgba(255,255,255,0.05);
-    }
-
-    .opt input{
-      margin-top:2px;
-    }
-
-    .opt .label{
-      flex:1;
-    }
-
-    .opt .label b{
-      font-weight:700;
-    }
-
-    .opt .hint{
-      color:var(--muted);
-      font-size:12.5px;
-      line-height:1.45;
-      margin-top:4px;
-    }
-
-    .nav{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-
-    .btnrow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    button{
-      appearance:none;
-      border:1px solid transparent;
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:700;
-      cursor:pointer;
-      color:var(--text);
-      background:var(--soft);
-      transition:transform .06s ease, filter .12s ease, background .12s ease, border-color .12s ease, opacity .12s ease;
-    }
-
-    button:hover:not(:disabled){
-      transform:translateY(-1px);
-      filter:brightness(1.05);
-    }
-
-    button:disabled{
-      opacity:.5;
-      cursor:not-allowed;
-      transform:none;
-      filter:none;
-    }
-
-    .primary{
-      background:linear-gradient(180deg,var(--blue),var(--blue2));
-      border-color:#1e3a8a;
-    }
-
-    .ghost{
-      background:transparent;
-      border-color:var(--line);
-      color:#cbd5e1;
-    }
-
-    .kpi{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .box{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,0.03);
-      border-radius:14px;
-      padding:12px;
-      min-width:0;
-    }
-
-    .box .t{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .box .v{
-      font-size:18px;
-      font-weight:800;
-      margin-top:4px;
-      word-break:keep-all;
-    }
-
-    .note{
-      color:#b9c3d1;
-      font-size:12.8px;
-      line-height:1.65;
-      border:1px dashed #334155;
-      border-radius:14px;
-      padding:12px;
-      background:rgba(255,255,255,0.02);
-      margin-top:10px;
-    }
-
-    .hide{
-      display:none !important;
-    }
-
-    .report-layout{
-      display:grid;
-      grid-template-columns:280px minmax(0,1fr);
-      gap:18px;
-      align-items:start;
-      width:100%;
-    }
-
-    @media (max-width: 1100px){
-      .report-layout{
-        grid-template-columns:1fr;
+    @media (max-width: 960px) {
+      .report-summary-grid { grid-template-columns: 1fr 1fr; }
+      .hero-top-banner { font-size: clamp(13px, 2vw, 20px); padding: 16px 18px; }
+      .hero-top-banner-main { font-size: clamp(17px, 2.1vw, 22px); }
+      .hero-top-banner-sub { font-size: 12px; }
+      .summary-hero-box { grid-column: 1 / -1; }
+      .question-title { white-space: normal; }
+      .hero-grid, .quiz-layout, .report-grid, .report-head-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-top { align-items: center; }
+      .hero-logo-wrap { width: 56px; flex-basis: 56px; }
+      .solution-cloud { min-height: auto; }
+      .side { order: -1; }
+      .topbar-inner { flex-wrap: wrap; }
+      .progress-wrap { min-width: 100%; }
+      .report-logo-wrap { justify-self: start; }
+      .contact-side { justify-content: flex-start; }
+      .flow-chart { grid-template-columns: 1fr; }
+      .flow-node:not(:last-child)::after {
+        content: "↓";
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: -18px;
+        transform: translateX(-50%);
       }
     }
-
-    .summary-panel{
-      background:linear-gradient(180deg,var(--summaryBg),#0b1424);
-      border:1px solid var(--summaryLine);
-      border-radius:18px;
-      padding:16px;
-      position:sticky;
-      top:14px;
-      box-shadow:0 14px 28px rgba(0,0,0,.24);
-      align-self:start;
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 22px, 1120px); }
+      .hero-top-banner { padding: 14px 16px; font-size: 13px; }
+      .hero-top-banner-main { font-size: 16px; }
+      .hero-top-banner-sub { font-size: 11px; margin-bottom: 6px; }
+      .section-label-logo { width: 34px; flex-basis: 34px; }
+      .hero { padding: 28px 0; }
+      .hero-top { gap: 12px; }
+      .hero-logo-wrap { width: 48px; flex-basis: 48px; }
+      .hero-card, .panel, .gate-card, .report-card, .report-head { border-radius: 18px; }
+      .stat-grid, .form-grid, .solutions-overview-grid { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .nav .btn { width: auto; flex: 1; }
+      .contact-meta { flex-direction: row; align-items: center; }
+      .contact-side { justify-content: flex-start; }
+      .report-summary-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 1100px){
-      .summary-panel{
-        position:static;
-        top:auto;
-        order:-1;
-      }
-    }
-
-    .summary-panel h3{
-      margin:0 0 12px 0;
-      font-size:16px;
-      color:#f3f7ff;
-    }
-
-    .summary-panel .mini{
-      color:#c9d5e5;
-      font-size:12.8px;
-      line-height:1.7;
-      margin-bottom:12px;
-    }
-
-    .report-area{
-      background:linear-gradient(180deg,var(--reportBg1),var(--reportBg2));
-      border:1px solid #263244;
-      border-radius:20px;
-      padding:24px;
-      box-shadow:0 18px 40px rgba(0,0,0,.24);
-      width:100%;
-      min-width:0;
-      min-height:calc(297mm * 0.9);
-    }
-
-    @media (min-width: 1280px){
-      .report-area{
-        padding:28px 30px;
-      }
-    }
-
-    .report{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      max-width:100%;
-    }
-
-    .report-head{
-      border:1px solid #2b3c55;
-      border-radius:16px;
-      padding:20px;
-      background:linear-gradient(180deg, rgba(37,99,235,.16), rgba(124,58,237,.11));
-    }
-
-    .report-head h3{
-      margin:0;
-      font-size:20px;
-      line-height:1.35;
-    }
-
-    .report-head p{
-      margin:10px 0 0 0;
-      color:#dbe4f0;
-      line-height:1.7;
-      font-size:14px;
-    }
-
-    .priority-solution-box{
-      margin-top:14px;
-      padding:16px;
-      border-radius:16px;
-      border:2px solid var(--accentBoxLine);
-      background:var(--accentBoxBg);
-      color:var(--accentBoxText);
-      box-shadow:0 10px 22px rgba(59,130,246,.12);
-    }
-
-    .priority-badge{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:var(--accentBadge);
-      color:#fff;
-      font-size:12px;
-      font-weight:800;
-      margin-bottom:10px;
-    }
-
-    .priority-name{
-      font-size:24px;
-      font-weight:900;
-      line-height:1.3;
-      color:#111827;
-      letter-spacing:-.2px;
-    }
-
-    .priority-desc{
-      margin-top:8px;
-      font-size:14px;
-      line-height:1.7;
-      color:#374151;
-      font-weight:700;
-    }
-
-    .section{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px;
-      background:rgba(255,255,255,0.03);
-    }
-
-    .section h3{
-      margin:0 0 10px 0;
-      font-size:15px;
-    }
-
-    .section p{
-      margin:0;
-      color:#e3e8ef;
-      font-size:13.8px;
-      line-height:1.7;
-    }
-
-    .issue-strong{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid #3b82f6;
-      background:rgba(59,130,246,0.12);
-      color:#eaf2ff;
-      font-size:13.8px;
-      line-height:1.65;
-      font-weight:700;
-    }
-
-    .list{
-      display:grid;
-      gap:10px;
-      margin-top:8px;
-    }
-
-    .item{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      background:rgba(255,255,255,0.03);
-    }
-
-    .rank{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    .rank-left{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      min-width:260px;
-      flex:1;
-      min-width:0;
-    }
-
-    .badge{
-      width:34px;
-      height:34px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,0.06);
-      flex:0 0 34px;
-    }
-
-    .rank h4{
-      margin:0;
-      font-size:15px;
-    }
-
-    .desc{
-      margin-top:4px;
-      font-size:12.8px;
-      color:#b7c0cd;
-      line-height:1.5;
-    }
-
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:8px;
-    }
-
-    .chip{
-      font-size:12px;
-      color:#d4dbe5;
-      background:var(--chip);
-      border:1px solid var(--line);
-      padding:6px 10px;
-      border-radius:999px;
-    }
-
-    .meter{
-      width:260px;
-      max-width:100%;
-      height:10px;
-      border-radius:999px;
-      background:#0b1220;
-      border:1px solid var(--line);
-      overflow:hidden;
-      flex:0 0 auto;
-    }
-
-    .meter i{
-      display:block;
-      height:100%;
-      width:0%;
-    }
-
-    .g1{background:linear-gradient(90deg,#22c55e,#16a34a)}
-    .g2{background:linear-gradient(90deg,#3b82f6,#2563eb)}
-    .g3{background:linear-gradient(90deg,#a855f7,#7c3aed)}
-    .g4{background:linear-gradient(90deg,#f59e0b,#b45309)}
-    .g5{background:linear-gradient(90deg,#ef4444,#b91c1c)}
-    .g6{background:linear-gradient(90deg,#06b6d4,#0891b2)}
-    .g7{background:linear-gradient(90deg,#84cc16,#65a30d)}
-
-    .priority{
-      display:grid;
-      gap:10px;
-    }
-
-    .prio{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      background:rgba(255,255,255,0.03);
-    }
-
-    .prio-num{
-      width:28px;
-      height:28px;
-      border-radius:10px;
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      background:#0b1220;
-      border:1px solid var(--line);
-      flex:0 0 28px;
-    }
-
-    .pick-wrap{
-      display:grid;
-      gap:12px;
-      margin-top:8px;
-    }
-
-    .pick-card{
-      border:1px solid #334155;
-      border-radius:16px;
-      padding:14px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));
-    }
-
-    .pick-title{
-      font-size:15px;
-      font-weight:800;
-      margin-bottom:6px;
-      color:#f3f6fb;
-    }
-
-    .pick-desc{
-      color:#d2dae4;
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .pick-chiprow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .pick-chip{
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      color:#e5edf9;
-      background:#0b1220;
-      border:1px solid #334155;
-    }
-
-    .copybox{
-      width:100%;
-      min-height:190px;
-      resize:vertical;
-      background:#0b1220;
-      color:#e5e7eb;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      font-size:12.8px;
-      line-height:1.65;
-    }
-
-    .paper-report{
-      margin-top:18px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015));
-      color:var(--paperText);
-      border:1px solid var(--paperLine);
-      border-radius:18px;
-      padding:18px;
-      box-shadow:none;
-    }
-
-    .paper-title{
-      font-size:18px;
-      font-weight:800;
-      margin:0 0 8px 0;
-      color:#f3f6fb;
-    }
-
-    .paper-sub{
-      font-size:13.5px;
-      line-height:1.7;
-      color:var(--paperMuted);
-      margin-bottom:14px;
-      font-weight:600;
-    }
-
-    .paper-box{
-      border:1px solid #334155;
-      border-radius:14px;
-      padding:14px;
-      background:rgba(255,255,255,0.02);
-      margin-top:12px;
-    }
-
-    .paper-box h4{
-      margin:0 0 8px 0;
-      font-size:14px;
-      color:#f3f6fb;
-    }
-
-    .paper-box p{
-      margin:0;
-      font-size:13.5px;
-      line-height:1.75;
-      color:#d4dde8;
-      font-weight:600;
-    }
-
-    .paper-contact{
-      margin-top:14px;
-      border:1px solid #334155;
-      background:rgba(255,255,255,0.02);
-      border-radius:14px;
-      padding:14px 16px;
-    }
-
-    .paper-contact b{
-      display:block;
-      font-size:14px;
-      margin-bottom:8px;
-      color:#f3f6fb;
-    }
-
-    .paper-contact .line{
-      font-size:13.8px;
-      color:#d4dde8;
-      line-height:1.9;
-      font-weight:700;
-    }
-
-    .muted{
-      color:#c5cfdb;
-      font-size:12.8px;
-      line-height:1.7;
-      margin-top:10px;
-    }
-
-    @media (min-width: 1200px){
-      #results .report-area{
-        padding:24px 26px;
-      }
-      #results .report{
-        gap:16px;
-      }
-      #results .section{
-        padding:18px;
-      }
-    }
-
-    @media (max-width: 760px){
-      .wrap{
-        padding:18px 12px 28px;
-      }
-
-      h1{
-        font-size:22px;
-      }
-
-      .report-area{
-        padding:16px;
-        min-height:auto;
-      }
-
-      .report-head{
-        padding:16px;
-      }
-
-      .priority-name{
-        font-size:21px;
-      }
-
-      .rank{
-        align-items:flex-start;
-      }
-
-      .meter{
-        width:100%;
-      }
-
-      .kpi{
-        grid-template-columns:1fr;
-      }
-
-      .nav{
-        align-items:stretch;
-      }
-
-      .btnrow{
-        width:100%;
-      }
-
-      .btnrow button,
-      .nav > button{
-        flex:1 1 auto;
-      }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { background: #fff; }
+      .topbar, .hero, .section, .report-actions, .btn, .gate-card { display: none !important; }
+      .report { display: block !important; padding: 0; }
+      .report-grid { grid-template-columns: 1fr; gap: 14px; }
+      .report-card, .report-head { box-shadow: none; break-inside: avoid; }
+      .report-head, .contact-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .report-head { color: #fff !important; }
+      .solution-card, .flow-node, .problem, .step, .share-item { break-inside: avoid; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <h1>채용문제 진단 및 분석 리포트</h1>
-        <div class="sub">
-          채용담당자가 체크리스트에 응답하면 현재 채용의 병목을 진단하고,
-          <b>LinkedIn 기업용 솔루션</b>뿐 아니라 <b>서치펌 활용 매핑서비스</b>,
-          <b>LinkedIn 기업Page 운영대행</b>까지 함께 추천하는 레포트형 진단 도구입니다.
-        </div>
-        <div class="pillrow">
-          <span class="pill">체크리스트 점수화</span>
-          <span class="pill">문제 유형 자동진단</span>
-          <span class="pill">멀티 솔루션 추천</span>
-          <span class="pill">레포트형 결과</span>
-        </div>
-      </div>
-    </div>
+<div class="topbar" id="topbar">
+<div class="topbar-inner">
+<div class="brand"><span class="brand-mark">HR</span><span>채용문제 진단</span></div>
+<div class="progress-wrap">
+<div class="progress-meta"><span id="progressText">1 / 19</span><span>진단 진행률</span></div>
+<div class="progress"><span id="progressBar"></span></div>
+</div>
+</div>
+</div>
+<main>
+<section class="hero" id="landing">
+<div class="wrap hero-top-banner-wrap">
+<div class="hero-top-banner"><span class="hero-top-banner-sub">전문성을 가지고 문제를 해결합니다.</span><span class="hero-top-banner-main">Linkedin Korea Partner 7년 / 국내외 1900개 기업 컨설팅 / 20년간 10만회 이상 교육</span></div>
+</div>
+<div class="wrap hero-grid">
+<div class="hero-card">
+<div class="hero-top">
+<span class="eyebrow">HR Point 채용·브랜딩 솔루션 진단</span>
+<div aria-label="회사 로고" class="hero-logo-wrap">
+<img alt="회사 로고" src="data:image/png;base64,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"/>
+</div>
+</div>
+<h1>채용문제 진단하기</h1>
+<p class="lead"><span class="lead-break">19개 문항으로 채용 병목을 진단하고,</span><span class="lead-break">귀사의 상황에 맞는 최적의 솔루션 3가지를 바로 확인해보세요.</span></p>
+<div class="hero-actions">
+<button class="btn btn-primary" id="startBtn">채용문제 진단하기 →</button>
+</div>
+<div class="stat-grid">
+<div class="stat"><strong>3분</strong><span>응답 후 리포트 확인</span></div>
+<div class="stat"><strong>19문항</strong><span>채용·브랜딩 병목 진단</span></div>
+<div class="stat"><strong>추천 3가지</strong><span>핵심 추천 솔루션 제안</span></div>
+<div class="stat"><strong>즉시확인</strong><span>담당자 정보 입력 후 리포트 확인</span></div>
+</div>
+</div>
+<div aria-label="추천 솔루션 범위" class="hero-card solution-cloud">
+<div class="solution-cloud-head">
+<h3 class="solution-cloud-title">솔루션 추천</h3>
+<p class="solution-cloud-copy">HR Point가 현재 지원할 수 있는 핵심 서비스를 한눈에 확인해보세요.<span class="copy-break">매핑서비스는 글로벌 서치펌 전문가가 함께 진행합니다.</span></p>
+</div>
+<span class="chip primary">#기업 페이지 운영대행</span>
+<span class="chip soft">#채용브랜딩 중심</span>
+<span class="chip soft">#기술홍보 중심</span>
+<span class="chip soft">#기업브랜딩 중심</span>
+<span class="chip soft">#CEO브랜딩 중심</span>
+<span class="chip soft">#글로벌기업브랜딩 중심</span>
+<span class="chip">#인사담당자 프로필 최적화</span>
+<span class="chip">#LinkedIn 교육/이해</span>
+<span class="chip">#LinkedIn 기업용 솔루션 객관 분석·교육</span>
+<span class="chip">#채용 채널·인재시장 객관 분석</span>
+<span class="chip">#매핑서비스(글로벌 서치펌 전문가)</span>
+</div>
+</div>
+</section>
+<section class="section" id="quizSection">
+<div class="wrap quiz-layout">
+<div class="panel">
+<div class="question-kicker" id="questionKicker">1 / 19</div>
+<h2 class="question-title" id="questionTitle"></h2>
+<p class="question-desc" id="questionDesc"></p>
+<div class="options" id="options"></div>
+<div class="nav">
+<button class="btn btn-secondary" id="prevBtn">← 이전</button>
+<div style="display:flex; gap:10px; flex:1; justify-content:flex-end; flex-wrap:wrap;">
+<button class="btn btn-ghost" id="resetBtn">초기화</button>
+<button class="btn btn-primary" disabled="" id="nextBtn">다음 →</button>
+</div>
+</div>
+</div>
+<aside class="side">
+<div class="side-card">
+<h4>현재 입력 요약</h4>
+<div class="summary-row"><span>기업 규모</span><span id="sumSize">-</span></div>
+<div class="summary-row"><span>연 채용 규모</span><span id="sumHiring">-</span></div>
+<div class="summary-row"><span>채용 목적</span><span id="sumPurpose">-</span></div>
+<div class="summary-row"><span>핵심 병목</span><span id="sumBottleneck">-</span></div>
+</div>
+<div class="side-card">
+<h4>보고서 해석 포인트</h4>
+<ul class="mini-list">
+<li>최종 결과는 HR Point가 실제로 지원할 수 있는 서비스 기준으로 정리됩니다.</li>
+<li>추천 결과는 최적의 솔루션 3가지만 보여주고, 각 솔루션별 기대효과를 함께 제공합니다.</li>
+<li>리포트 하단에서 견적 및 운영 세부 문의 정보를 확인할 수 있습니다.</li>
+</ul>
+</div>
+</aside>
+</div>
+</section>
+<section class="section" id="gateSection">
+<div class="wrap">
+<div class="gate-card">
+<span class="eyebrow">진단 완료</span>
+<h2>결과 리포트를 확인하려면 담당자 정보를 입력해 주세요.</h2>
+<p class="lead" style="margin-bottom:0;">담당자 정보 입력 후 결과 리포트를 바로 확인하실 수 있습니다.</p>
+<form id="leadForm" novalidate="">
+<div class="form-grid">
+<div class="field"><label for="managerName">담당자 이름 *</label><input autocomplete="name" id="managerName" name="managerName" placeholder="예: 김담당" required=""/></div>
+<div class="field"><label for="companyName">기업명 *</label><input autocomplete="organization" id="companyName" name="companyName" placeholder="예: HR Point" required=""/></div>
+<div class="field"><label for="phone">연락처 *</label><input autocomplete="tel" id="phone" name="phone" placeholder="예: 010-0000-0000" required=""/></div>
+<div class="field"><label for="email">이메일 *</label><input autocomplete="email" id="email" name="email" placeholder="예: name@company.com" required="" type="email"/></div>
+</div>
+<label class="consent">
+<input id="privacyConsent" required="" type="checkbox"/>
+<span>입력한 담당자 정보를 기준으로 진단 리포트를 확인하는 것에 동의합니다.</span>
+</label>
+<button class="btn btn-primary" id="showReportBtn" type="submit">리포트 보기 →</button>
+<div class="status" id="saveStatus"></div>
+</form>
+</div>
+</div>
+</section>
+<section class="report" id="reportSection">
+<div class="wrap">
+<div class="report-head">
+<div class="report-head-grid">
+<div>
+<div class="label" style="color:#9fd0ff;">Final Report</div>
+<h2 class="diagnosis-title" id="finalTitle"></h2>
+<p class="muted" id="finalSubtitle"></p>
+<div class="tagline" id="finalTags"></div>
+<div class="report-actions">
+<button class="btn btn-secondary" id="pdfBtn" type="button">PDF 보고서</button>
+<button class="btn btn-secondary" id="quoteScrollBtn" type="button">솔루션별 견적 문의하기</button>
+</div>
+</div>
+<div aria-label="회사 로고" class="report-logo-wrap">
+<img alt="회사 로고" src="data:image/png;base64,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"/>
+</div>
+</div>
+</div>
+<div class="report-card report-summary-card">
+<div class="report-summary-grid">
+<div class="summary-hero-box">
+<div class="summary-kicker">한눈에 보는 진단 요약</div>
+<div class="summary-headline" id="summaryHeadline"></div>
+<div class="summary-subline" id="summarySubline"></div>
+</div>
+<div class="summary-mini-box">
+<div class="summary-mini-label">가장 시급한 과제</div>
+<div class="summary-mini-value" id="summaryUrgent"></div>
+<div class="summary-mini-copy" id="summaryUrgentCopy"></div>
+</div>
+<div class="summary-mini-box">
+<div class="summary-mini-label">우선 검토 솔루션</div>
+<div class="summary-mini-value" id="summaryBest"></div>
+<div class="summary-mini-copy" id="summaryBestCopy"></div>
+</div>
+<div class="summary-mini-box">
+<div class="summary-mini-label">핵심 기대효과</div>
+<div class="summary-mini-value" id="summaryEffect"></div>
+<div class="summary-mini-copy" id="summaryEffectCopy"></div>
+</div>
+</div>
+</div>
+<div class="report-grid">
+<div>
+<div class="report-card">
+<div class="label">1. 진단 개요</div>
+<div class="overview-alert">
+<div class="overview-urgency">긴급 진단</div>
+<h3 id="overviewTitle"></h3>
+<p id="overviewText"></p>
+</div>
+</div>
+<div class="report-card">
+<div class="label">2. 우리회사의 문제점</div>
+<div class="problem-list" id="problemList"></div>
+</div>
+<div class="report-card">
+<div class="label">3. 최적의 솔루션 3가지를 제안드립니다.</div>
+<div class="solution-cards" id="solutionCards"></div>
+</div>
+<div class="report-card">
+<div class="label">4. 운영방향</div>
+<div class="flow-wrap">
+<div class="flow-chart" id="flowChart"></div>
+<div class="budget-note"><strong>안내</strong><span>예산 300만원부터 진단 결과와 운영 범위에 따라 맞춤 제안됩니다.</span></div>
+</div>
+</div>
+</div>
+<aside>
+<div class="report-card">
+<div class="label">5. 추천실행 방향</div>
+<div class="steps" id="roadmap"></div>
+</div>
+<div class="report-card">
+<div class="label">6. 현재 입력 요약</div>
+<div id="answerSummary"></div>
+</div>
+<div class="report-card">
+<div class="label">7. 내부 공유용 요약</div>
+<div class="share-list" id="shareSummary"></div>
+</div>
+</aside>
+</div>
+<div class="report-card">
+<div class="section-label-row">
+<div class="label">HR Point의 전체 솔루션 소개</div>
+<div aria-hidden="true" class="section-label-logo">
+<img alt="회사 로고" src="data:image/png;base64,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"/>
+</div>
+</div>
+<div class="solutions-overview-grid" id="allSolutionsIntro"></div>
+</div>
+<div class="report-card contact-card" id="contactSection">
+<div class="contact-grid">
+<div>
+<div class="label">솔루션별 견적 및 운영 세부 문의</div>
+<h3 class="contact-title"><span class="partner-line">Linkedin Korea Partner 7년 / 국내외 1900개 기업 컨설팅 / 20년간 10만회 이상 교육</span></h3>
+<p>추천 솔루션별 운영 범위, 월별 진행 방식, 예상 예산, 세부 견적은 아래 연락처로 문의해 주세요.</p>
+<div class="contact-meta">
+<a class="contact-pill" href="tel:0264054446">연락처: 02-6405-4446</a>
+<a class="contact-pill" href="mailto:help@hrpoint.co.kr">이메일: help@hrpoint.co.kr</a>
+<a class="contact-pill blog-pill" href="https://blog.naver.com/hr_point" rel="noopener noreferrer" target="_blank">Blog</a></div>
+<p class="fine-print">본 결과는 현재 응답 내용을 바탕으로 도출된 참고용 진단 리포트입니다. 실제 제안은 채용 직무, 지역, 목표 인원, 포지션 희소성, 운영 리소스에 따라 달라질 수 있습니다.</p>
+</div>
+<div class="contact-side"><div aria-hidden="true" class="report-logo-wrap">
+<img alt="" src="data:image/png;base64,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"/>
+</div>
 
-    <div class="grid" id="mainGrid">
-      <div class="card">
-        <div class="progress">
-          <div class="steptext" id="stepText">1 / 18</div>
-          <div class="bar"><i id="barFill"></i></div>
-          <div class="steptext">기업 규모 → 채용 목적 → 병목 진단 → 외부 지원 필요성</div>
-        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+    
+    const CONTACT_CONFIG = {
+      partnerName: "Linkedin Korea Partner 7년 / 국내외 1900개 기업 컨설팅 / 20년간 10만회 이상 교육",
+      phone: "02-6405-4446",
+      email: "help@hrpoint.co.kr",
+      blogUrl: "https://blog.naver.com/hr_point"
+    };
 
-        <div id="quiz">
-          <div class="qwrap">
-            <div class="qtitle" id="qTitle"></div>
-            <div class="opts" id="optList"></div>
-          </div>
-
-          <div class="nav">
-            <button class="ghost" id="prevBtn">이전</button>
-            <div class="btnrow">
-              <button class="ghost" id="resetBtn">초기화</button>
-              <button class="primary" id="nextBtn">다음</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="results" class="hide">
-          <div class="report-layout">
-            <aside class="summary-panel">
-              <h3>현재 입력 요약</h3>
-              <div class="mini">최종 보고서 해석 전에 현재 응답 기준을 먼저 확인해 보세요.</div>
-
-              <div class="kpi">
-                <div class="box">
-                  <div class="t">기업 규모</div>
-                  <div class="v" id="kpiCompanyResult">-</div>
-                </div>
-                <div class="box">
-                  <div class="t">연 채용 규모</div>
-                  <div class="v" id="kpiHireResult">-</div>
-                </div>
-                <div class="box">
-                  <div class="t">채용 목적</div>
-                  <div class="v" id="kpiGoalResult">-</div>
-                </div>
-                <div class="box">
-                  <div class="t">핵심 병목</div>
-                  <div class="v" id="kpiBottleneckResult">-</div>
-                </div>
-              </div>
-
-              <div class="note">
-                <b>보고서 해석 포인트</b><br/>
-                • 현재 채용의 병목이 소싱, 공고 운영, 브랜딩, 평가, 시장 맵핑 중 어디에 있는지 확인합니다.<br/>
-                • 최우선 추천 솔루션은 가장 시급한 문제 해결용입니다.<br/>
-                • 하단 경쟁사 Pick 조합은 실제 활용 흐름을 참고하기 위한 예시입니다.
-              </div>
-            </aside>
-
-            <div class="report-area">
-              <div class="report">
-                <div class="report-head">
-                  <h3>채용문제 진단 최종 리포트</h3>
-                  <div class="priority-solution-box">
-                    <div class="priority-badge">최우선 추천 솔루션</div>
-                    <div class="priority-name" id="prioritySolutionName">-</div>
-                    <div class="priority-desc" id="prioritySolutionDesc">-</div>
-                  </div>
-                  <p id="reportSummary"></p>
-                </div>
-
-                <div class="section">
-                  <h3>1. 진단 개요</h3>
-                  <p id="overviewText"></p>
-                </div>
-
-                <div class="section">
-                  <h3>2. 우리회사의 문제점</h3>
-                  <p id="issueText"></p>
-                  <div class="issue-strong">
-                    아래 결과를 신중히 검토하시고 경쟁사에 부족함이 없는 우수인재를 확보하세요.
-                  </div>
-                </div>
-
-                <div class="section">
-                  <h3>3. 추천 솔루션 우선순위</h3>
-                  <div class="list" id="rankList"></div>
-                </div>
-
-                <div class="section">
-                  <h3>4. 권장 조합</h3>
-                  <p id="comboText"></p>
-                </div>
-
-                <div class="section">
-                  <h3>5. 실행 우선순위</h3>
-                  <div class="priority" id="priorityList"></div>
-                </div>
-
-                <div class="section">
-                  <h3>6. 경쟁사 Pick</h3>
-                  <div class="pick-wrap">
-                    <div class="pick-card">
-                      <div class="pick-title">기본조합</div>
-                      <div class="pick-desc">
-                        자체적으로 기업 브랜딩을 운영하면서 직접 소싱과 공고 운영을 병행하는 가장 보편적인 구성입니다.
-                      </div>
-                      <div class="pick-chiprow">
-                        <span class="pick-chip">기업Page 직접운영</span>
-                        <span class="pick-chip">Recruiter 1개</span>
-                        <span class="pick-chip">Job Slot 3개</span>
-                      </div>
-                    </div>
-
-                    <div class="pick-card">
-                      <div class="pick-title">확장조합</div>
-                      <div class="pick-desc">
-                        채용 규모가 커지고 브랜딩 운영 리소스가 부족할 때 많이 검토하는 단계입니다. 운영 효율과 노출 규모를 함께 끌어올릴 수 있습니다.
-                      </div>
-                      <div class="pick-chiprow">
-                        <span class="pick-chip">기업Page 전문운영대행</span>
-                        <span class="pick-chip">Recruiter 2개</span>
-                        <span class="pick-chip">Job Slot 5개</span>
-                      </div>
-                    </div>
-
-                    <div class="pick-card">
-                      <div class="pick-title">고도화조합</div>
-                      <div class="pick-desc">
-                        경쟁사 대비 브랜딩 우위를 만들고, 타겟 광고와 팔로워 확대까지 함께 강화하려는 기업이 검토하는 상위 단계입니다.
-                      </div>
-                      <div class="pick-chiprow">
-                        <span class="pick-chip">기업Page 전문운영대행</span>
-                        <span class="pick-chip">Recruiter 2개 이상</span>
-                        <span class="pick-chip">Job Slot 5개 이상</span>
-                        <span class="pick-chip">Life Page</span>
-                        <span class="pick-chip">타겟 광고</span>
-                        <span class="pick-chip">팔로워 확대</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="section">
-                  <h3>7. 내부 공유용 요약</h3>
-                  <textarea id="copyText" class="copybox" spellcheck="false"></textarea>
-                </div>
-
-                <div class="paper-report">
-                  <div class="paper-title">문의안내 및 제안 검토 가이드</div>
-                  <div class="paper-sub">
-                    본 결과는 현재 응답 내용을 바탕으로 도출된 참고용 진단 리포트입니다.
-                    실제 제안은 채용 직무, 채용 지역, 목표 인원, 포지션 희소성, 운영 리소스에 따라 달라질 수 있으므로
-                    필요 시 별도 상담을 통해 보다 구체적인 제안을 받아보시기 바랍니다.
-                  </div>
-
-                  <div class="paper-box">
-                    <h4>검토 포인트</h4>
-                    <p>
-                      1) 현재 가장 큰 병목이 소싱인지, 공고 운영인지, 브랜딩인지 명확히 구분해 보시기 바랍니다.<br/>
-                      2) 희소 인재 포지션이라면 LinkedIn 솔루션과 함께 시장 맵핑 서비스 검토가 필요할 수 있습니다.<br/>
-                      3) 기업 인지도와 콘텐츠 운영 역량이 부족하다면 LinkedIn 기업Page 운영대행을 함께 고려하는 것이 효과적일 수 있습니다.<br/>
-                      4) 경쟁사에서 많이 활용하는 기본조합과 확장조합을 비교해 보며 우리 회사의 다음 단계를 설정해 보시기 바랍니다.
-                    </p>
-                  </div>
-
-                  <div class="paper-contact">
-                    <b>문의안내</b>
-                    <div class="line">Linkedin Korea Partner</div>
-                    <div class="line">연락처: 02-6405-4446</div>
-                    <div class="line">이메일: help@hrpoint.co.kr</div>
-                    <div class="line">견적 확인: https://tool.linkedinkorea.com/solution/</div>
-                  </div>
-                </div>
-
-                <div class="nav">
-                  <button class="ghost" id="backToQuizBtn">질문 다시보기</button>
-                  <div class="btnrow">
-                    <button class="ghost" id="copyBtn">요약 복사</button>
-                    <button class="primary" id="quoteBtn">견적서 도구로 이동</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" id="sidePanel">
-        <h2>현재 입력 요약</h2>
-        <div class="kpi">
-          <div class="box">
-            <div class="t">기업 규모</div>
-            <div class="v" id="kpiCompany">-</div>
-          </div>
-          <div class="box">
-            <div class="t">연 채용 규모</div>
-            <div class="v" id="kpiHire">-</div>
-          </div>
-          <div class="box">
-            <div class="t">채용 목적</div>
-            <div class="v" id="kpiGoal">-</div>
-          </div>
-          <div class="box">
-            <div class="t">핵심 병목</div>
-            <div class="v" id="kpiBottleneck">-</div>
-          </div>
-        </div>
-
-        <div class="note">
-          <b>추천 범위</b><br/>
-          • LinkedIn Recruiter<br/>
-          • LinkedIn Job Slot<br/>
-          • AI Hiring Assistant<br/>
-          • Life Page<br/>
-          • LTI<br/>
-          • 서치펌 활용 매핑서비스<br/>
-          • LinkedIn 기업Page 운영대행
-        </div>
-
-        <div class="note">
-          <b>진단 로직</b><br/>
-          기업의 규모, 채용 규모, 채용 목적, 소싱 난이도, 공고 운영, 브랜딩 필요성,
-          후보자 매핑 필요성, 내부 운영 리소스 등을 기준으로 점수화하여
-          가장 적합한 솔루션 조합을 추천합니다.
-        </div>
-
-        <div class="note">
-          <b>안내</b><br/>
-          본 결과는 참고용 진단 리포트이며, 실제 제안은 직무 수, 지역, 채용 시급도,
-          시장 난이도, 운영 리소스에 따라 달라질 수 있습니다.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SOL = {
-      R: {
-        name: "Recruiter",
-        short: "소싱·서칭",
-        desc: "직접 후보자를 발굴하고 컨택하는 아웃바운드 중심의 핵심 솔루션입니다."
+    const SOLUTIONS = {
+      pageOps: {
+        name: "기업 페이지 운영대행 - 기업브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 기업브랜딩 중심",
+        why: "후보자와 시장이 회사를 이해할 수 있는 기업 페이지 운영 체계와 브랜드 메시지 정비가 우선입니다.",
+        problem: "기업 페이지가 회사의 사업, 문화, 성장 스토리를 충분히 전달하지 못해 후보자 신뢰 자산이 약합니다.",
+        serviceText: "HR Point는 기업브랜딩 관점에서 기업 페이지 구조, 운영 메시지, 콘텐츠 방향을 정리합니다.",
+        services: ["기업 페이지 구조 및 메시지 정비", "기업브랜드 관점 콘텐츠 기획", "월간 운영 캘린더 설계", "성과 리포트 및 운영 개선"],
+        effects: ["후보자가 회사를 더 명확하게 이해할 수 있습니다.", "기업 브랜드 메시지가 일관되게 축적됩니다.", "채용 접점 이전 단계의 시장 신뢰를 높일 수 있습니다."]
       },
-      J: {
-        name: "Job Slot",
-        short: "채용 공고",
-        desc: "다수 공고 운영, 상시 채용, 인바운드 지원자 확대에 적합한 솔루션입니다."
+      employerBrand: {
+        name: "기업 페이지 운영대행 - 채용브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 채용브랜딩 중심",
+        why: "지원자 유입과 설득을 위해서는 채용공고 외에도 후보자 관점의 채용브랜드 메시지가 선명해야 합니다.",
+        problem: "직무 매력, 조직문화, 성장 포인트가 기업 페이지에서 채용브랜드 메시지로 충분히 전달되지 않고 있습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 채용브랜딩 중심의 콘텐츠와 메시지 체계를 설계합니다.",
+        services: ["채용브랜딩 중심 콘텐츠 기획", "직무·문화·성장 메시지 정리", "후보자 설득형 콘텐츠 캘린더 운영", "기업 페이지 기반 채용 캠페인 구조화"],
+        effects: ["지원 전 단계에서 회사와 직무에 대한 이해도가 높아집니다.", "적합 지원자 유입과 면접 전환에 도움이 됩니다.", "채용 커뮤니케이션 포인트가 더 명확해집니다."]
       },
-      A: {
-        name: "AI Hiring Assistant",
-        short: "AI 평가·추천",
-        desc: "지원자 검토, 우선순위 정리, 추천 자동화를 통해 검토 시간을 줄이는 솔루션입니다."
+      techPR: {
+        name: "기업 페이지 운영대행 - 기술홍보 중심",
+        shortName: "기업 페이지 운영대행 - 기술홍보 중심",
+        why: "기술 인재는 기술 스토리와 팀의 전문성이 보이는 기업 페이지 운영에 더 민감하게 반응합니다.",
+        problem: "기술 후보자가 확인할 만한 제품, 기술스택, 개발문화, 협업 방식이 기업 페이지에서 충분히 드러나지 않습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 기술홍보 중심의 콘텐츠와 개발팀 스토리를 기획합니다.",
+        services: ["기술 리더·개발팀 인터뷰 콘텐츠", "제품·서비스·기술 스토리 구성", "개발문화/협업 방식 메시지 정리", "기술직 후보자 대상 페이지 운영"],
+        effects: ["기술 포지션 후보자에게 회사의 전문성이 더 명확하게 전달됩니다.", "개발자·데이터 인재 설득력과 관심도를 높일 수 있습니다.", "기술채용에서 차별화된 브랜드 포인트를 만들 수 있습니다."]
       },
-      L: {
-        name: "Life Page",
-        short: "채용 브랜딩",
-        desc: "기업 스토리와 EVP를 효과적으로 전달하여 지원 전환율과 브랜드 매력을 높이는 솔루션입니다."
+      ceoBrand: {
+        name: "기업 페이지 운영대행 - CEO브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - CEO브랜딩 중심",
+        why: "리더십 메시지는 기업 페이지 신뢰도와 후보자 설득력 모두를 끌어올리는 핵심 자산입니다.",
+        problem: "대표 및 핵심 리더의 메시지가 기업 페이지와 연결되지 않아 회사의 비전과 성장성이 약하게 전달되고 있습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 CEO브랜딩 관점의 메시지와 콘텐츠 방향을 함께 설계합니다.",
+        services: ["CEO 메시지 방향 정리", "리더십 관점 콘텐츠 기획", "기업 페이지와 CEO 메시지 연계", "리더십 스토리 운영 가이드"],
+        effects: ["후보자가 회사를 성장 스토리와 비전 관점에서 이해하기 쉬워집니다.", "대표 메시지를 통한 시장 신뢰와 관심도를 높일 수 있습니다.", "기업 브랜드와 채용브랜드를 함께 강화할 수 있습니다."]
       },
-      T: {
-        name: "LTI",
-        short: "인사이트·분석",
-        desc: "경쟁사, 시장, 인재풀, 스킬 흐름 분석을 통해 전략적 채용 의사결정을 지원합니다."
+      globalBrand: {
+        name: "기업 페이지 운영대행 - 글로벌기업브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 글로벌기업브랜딩 중심",
+        why: "글로벌 조직 또는 글로벌 채용이 중요한 경우 기업 페이지에서 국제적 신뢰와 일관된 브랜드 메시지가 필요합니다.",
+        problem: "글로벌 후보자나 해외 이해관계자가 확인할 기업 페이지 상의 글로벌 브랜드 스토리와 신뢰 신호가 충분하지 않습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 글로벌기업브랜딩 중심의 메시지 구조와 콘텐츠 방향을 설계합니다.",
+        services: ["글로벌 타깃 메시지 구조 정리", "영문/글로벌 관점 콘텐츠 방향 제안", "국내외 후보자 관점 브랜드 포인트 정리", "글로벌 브랜드 일관성 점검"],
+        effects: ["글로벌 후보자 관점에서 회사 이해도와 신뢰도를 높일 수 있습니다.", "국내외 채용 메시지의 일관성을 확보하기 쉽습니다.", "글로벌 조직 이미지 구축에 도움이 됩니다."]
       },
-      M: {
-        name: "서치펌 활용 매핑서비스",
-        short: "시장 맵핑",
-        desc: "희소 포지션, 특정 산업/직무, 시니어 인재군에 대해 실제 시장 맵을 정리하고 타깃 인재군을 구조화하는 서비스입니다."
+      hrProfile: {
+        name: "인사담당자 프로필 최적화",
+        shortName: "HR 프로필 최적화",
+        why: "후보자는 메시지를 받은 뒤 담당자 프로필을 확인하고 응답 여부를 판단합니다.",
+        problem: "담당자 프로필이 채용 전문성, 회사 매력, 신뢰도를 충분히 전달하지 못하고 있습니다.",
+        serviceText: "HR Point는 채용담당자 프로필과 메시지 구조를 정리해 후보자 응답률 개선을 지원합니다.",
+        services: ["Headline/About/Experience 구조 개선", "후보자 접점용 메시지 템플릿 정리", "프로필 신뢰 요소 강화", "프로필-회사 콘텐츠-메시지 연계 가이드"],
+        effects: ["후보자 응답률과 첫 인상 신뢰도를 높이는 데 도움이 됩니다.", "담당자별 편차를 줄인 표준화된 메시지 운영이 가능해집니다.", "채용담당자와 회사 브랜드가 함께 보이도록 정리됩니다."]
       },
-      P: {
-        name: "LinkedIn 기업Page 운영대행",
-        short: "Page 운영대행",
-        desc: "LinkedIn 기업 Page의 콘텐츠 기획·운영을 지원하여 기업 브랜딩과 채용 유입 기반을 강화하는 서비스입니다."
+      eduBasic: {
+        name: "LinkedIn 교육/이해 과정",
+        shortName: "LinkedIn 교육",
+        why: "팀 내 활용 이해도가 낮으면 브랜딩, 프로필, 후보자 접근이 각각 따로 움직이게 됩니다.",
+        problem: "LinkedIn을 채용, 브랜딩, 네트워크, 콘텐츠 관점에서 연결해 운영하는 체계가 부족합니다.",
+        serviceText: "HR Point는 실무자가 LinkedIn을 이해하고 직접 활용할 수 있도록 교육과 실습을 제공합니다.",
+        services: ["LinkedIn 기초 이해 교육", "채용 활용 구조 설명", "프로필/네트워크/콘텐츠 실습", "팀 공통 운영 기준 정리"],
+        effects: ["실무자별 편차를 줄이고 팀 단위 활용도를 높일 수 있습니다.", "프로필, 콘텐츠, 채용접점이 하나의 운영 체계로 연결됩니다.", "내부 활용 역량을 함께 쌓을 수 있습니다."]
+      },
+      eduSolution: {
+        name: "LinkedIn 기업용 솔루션 객관 분석·교육",
+        shortName: "기업용 솔루션 객관 분석·교육",
+        why: "도입 여부보다 현재 채용 문제와 예산, 운영 역량에 맞는지 객관적으로 판단하는 것이 중요합니다.",
+        problem: "기업용 솔루션 검토 또는 활용은 하고 있으나 도입 기준, 운영 방법, KPI가 명확하지 않습니다.",
+        serviceText: "HR Point는 특정 제품 판매보다 채용 목적에 맞는 도입 필요성, 활용 기준, 운영 교육을 객관적으로 정리합니다.",
+        services: ["도입 필요성 객관 분석", "운영 프로세스 및 KPI 정리", "실무자 교육 및 활용 가이드", "채용 목표 기준의 대안 비교"],
+        effects: ["무엇을 도입해야 하는지보다 왜 필요한지가 먼저 정리됩니다.", "보유 솔루션의 활용도와 운영 효율을 높이는 데 도움이 됩니다.", "예산 대비 우선순위를 객관적으로 판단하기 쉬워집니다."]
+      },
+      marketAudit: {
+        name: "채용 채널·인재시장 객관 분석",
+        shortName: "채용 채널·인재시장 분석",
+        why: "채용 난이도와 경쟁 환경을 데이터로 봐야 예산과 실행 우선순위를 제대로 정할 수 있습니다.",
+        problem: "인재시장 규모, 경쟁사 포지션, 후보군 특성, 채널 적합도를 데이터로 확인하지 못하고 있습니다.",
+        serviceText: "HR Point는 채용 채널과 인재시장을 객관적으로 분석해 실행 우선순위와 전략 방향을 제안합니다.",
+        services: ["타겟 인재시장 및 경쟁사 분석", "후보군 규모·직무 난이도 점검", "채널별 적합도 및 우선순위 분석", "채용전략 리포트 제공"],
+        effects: ["감이 아닌 데이터 기반으로 채용전략을 설계할 수 있습니다.", "경쟁사 대비 우리 회사의 포지션을 더 명확하게 볼 수 있습니다.", "어떤 채널과 메시지에 예산을 써야 할지 판단이 쉬워집니다."]
+      },
+      searchMapping: {
+        name: "매핑서비스(인재확보)",
+        shortName: "매핑서비스(인재확보)",
+        why: "핵심 포지션은 후보군을 빠르게 파악하고 접근 우선순위를 정하는 작업이 먼저 필요하며, 글로벌 서치펌 전문가 시야가 중요합니다.",
+        problem: "내부 리소스만으로는 타겟 후보군을 충분히 탐색하고 구조화하기 어렵고, 글로벌 인재시장 관점의 접근이 부족할 수 있습니다.",
+        serviceText: "HR Point는 글로벌 서치펌 전문가와 함께 핵심 포지션 중심으로 타겟 기업, 후보군, 접근 우선순위를 정리하는 매핑서비스를 제공합니다.",
+        services: ["글로벌 서치펌 전문가 기반 타겟 기업/후보군 매핑", "후보군 롱리스트 및 시장 시야 정리", "접근 우선순위 및 탐색 방향 제안", "희소 포지션 인재확보 전략 정리"],
+        effects: ["핵심 포지션의 타겟 후보군을 더 빠르고 정교하게 구조화할 수 있습니다.", "글로벌 서치펌 전문가 관점으로 어느 후보군부터 볼지 우선순위를 명확하게 잡을 수 있습니다.", "희소 인재 채용에서 초기 탐색 시간을 줄이고 접근 방향을 더 분명하게 잡을 수 있습니다."]
       }
     };
 
+    const PAGE_OPS_FOCUS = {
+      pageOps: {
+        name: "기업 페이지 운영대행 - 기업브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 기업브랜딩 중심",
+        focusLabel: "기업브랜딩 중심",
+        why: "후보자와 시장이 회사를 이해할 수 있는 공식 페이지 운영과 기업브랜드 메시지 정비가 우선입니다.",
+        problem: "기업 페이지가 회사의 사업·문화·성장 스토리를 충분히 전달하지 못해 브랜드 신뢰 자산이 약합니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 기업브랜딩 중심의 메시지 구조와 월간 운영 방향을 설계합니다.",
+        services: ["기업 페이지 구조 및 브랜드 메시지 정비", "사업·문화·성장 스토리 콘텐츠 기획", "월간 운영 캘린더 및 운영대행", "성과 리포트 및 운영 개선"],
+        effects: ["후보자와 시장이 회사를 더 명확하게 이해할 수 있습니다.", "기업 브랜드 메시지가 일관되게 축적됩니다.", "채용 접점 이전 단계의 시장 신뢰를 높일 수 있습니다."],
+        diagTitle: "기업 페이지 운영대행·기업브랜딩 집중형",
+        diagDesc: "기업 페이지를 기업브랜딩 관점으로 다시 설계해 회사의 사업, 문화, 성장 스토리를 먼저 선명하게 보여줄 필요가 있습니다."
+      },
+      employerBrand: {
+        name: "기업 페이지 운영대행 - 채용브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 채용브랜딩 중심",
+        focusLabel: "채용브랜딩 중심",
+        why: "지원자 유입과 설득을 위해서는 채용공고 외에도 후보자 관점의 채용브랜드 메시지가 선명해야 합니다.",
+        problem: "직무 매력, 조직문화, 성장 포인트가 기업 페이지에서 채용브랜드 메시지로 충분히 전달되지 않고 있습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 채용브랜딩 중심의 콘텐츠와 메시지 체계를 설계합니다.",
+        services: ["채용브랜딩 중심 콘텐츠 기획", "직무·문화·성장 메시지 정리", "후보자 설득형 콘텐츠 캘린더 운영", "기업 페이지 기반 채용 캠페인 구조화"],
+        effects: ["지원 전 단계에서 회사와 직무에 대한 이해도가 높아집니다.", "적합 지원자 유입과 면접 전환에 도움이 됩니다.", "채용 커뮤니케이션 포인트가 더 명확해집니다."],
+        diagTitle: "기업 페이지 운영대행·채용브랜딩 집중형",
+        diagDesc: "기업 페이지를 채용브랜딩 중심으로 운영해 후보자 관점의 직무 매력, 조직문화, 성장 포인트를 더 분명하게 보여줄 필요가 있습니다."
+      },
+      techPR: {
+        name: "기업 페이지 운영대행 - 기술홍보 중심",
+        shortName: "기업 페이지 운영대행 - 기술홍보 중심",
+        focusLabel: "기술홍보 중심",
+        why: "기술 인재는 기술 스토리와 팀의 전문성이 보이는 기업 페이지 운영에 더 민감하게 반응합니다.",
+        problem: "기술 후보자가 확인할 만한 제품, 기술스택, 개발문화, 협업 방식이 기업 페이지에서 충분히 드러나지 않습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 기술홍보 중심의 콘텐츠와 개발팀 스토리를 기획합니다.",
+        services: ["기술 리더·개발팀 인터뷰 콘텐츠", "제품·서비스·기술 스토리 구성", "개발문화/협업 방식 메시지 정리", "기술직 후보자 대상 페이지 운영"],
+        effects: ["기술 포지션 후보자에게 회사의 전문성이 더 명확하게 전달됩니다.", "개발자·데이터 인재 설득력과 관심도를 높일 수 있습니다.", "기술채용에서 차별화된 브랜드 포인트를 만들 수 있습니다."],
+        diagTitle: "기업 페이지 운영대행·기술홍보 집중형",
+        diagDesc: "기업 페이지를 기술홍보 중심으로 운영해 기술 후보자가 궁금해하는 개발문화, 기술 스토리, 팀 전문성을 더 분명하게 보여줄 필요가 있습니다."
+      },
+      ceoBrand: {
+        name: "기업 페이지 운영대행 - CEO브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - CEO브랜딩 중심",
+        focusLabel: "CEO브랜딩 중심",
+        why: "리더십 메시지는 기업 페이지 신뢰도와 후보자 설득력 모두를 끌어올리는 핵심 자산입니다.",
+        problem: "대표 및 핵심 리더의 메시지가 기업 페이지와 연결되지 않아 회사의 비전과 성장성이 약하게 전달되고 있습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 CEO브랜딩 관점의 메시지와 콘텐츠 방향을 함께 설계합니다.",
+        services: ["CEO 메시지 방향 정리", "리더십 관점 콘텐츠 기획", "기업 페이지와 CEO 메시지 연계", "리더십 스토리 운영 가이드"],
+        effects: ["후보자가 회사를 성장 스토리와 비전 관점에서 이해하기 쉬워집니다.", "대표 메시지를 통한 시장 신뢰와 관심도를 높일 수 있습니다.", "기업 브랜드와 채용브랜드를 함께 강화할 수 있습니다."],
+        diagTitle: "기업 페이지 운영대행·CEO브랜딩 집중형",
+        diagDesc: "기업 페이지 운영과 리더십 메시지를 연결해 회사의 비전, 성장 방향, 대표의 신뢰 신호를 더 강하게 보여줄 필요가 있습니다."
+      },
+      globalBrand: {
+        name: "기업 페이지 운영대행 - 글로벌기업브랜딩 중심",
+        shortName: "기업 페이지 운영대행 - 글로벌기업브랜딩 중심",
+        focusLabel: "글로벌기업브랜딩 중심",
+        why: "글로벌 조직 또는 글로벌 채용이 중요한 경우 기업 페이지에서 국제적 신뢰와 일관된 브랜드 메시지가 필요합니다.",
+        problem: "글로벌 후보자나 해외 이해관계자가 확인할 기업 페이지 상의 글로벌 브랜드 스토리와 신뢰 신호가 충분하지 않습니다.",
+        serviceText: "HR Point는 기업 페이지 운영대행 안에서 글로벌기업브랜딩 중심의 메시지 구조와 콘텐츠 방향을 설계합니다.",
+        services: ["글로벌 타깃 메시지 구조 정리", "영문/글로벌 관점 콘텐츠 방향 제안", "국내외 후보자 관점 브랜드 포인트 정리", "글로벌 브랜드 일관성 점검"],
+        effects: ["글로벌 후보자 관점에서 회사 이해도와 신뢰도를 높일 수 있습니다.", "국내외 채용 메시지의 일관성을 확보하기 쉽습니다.", "글로벌 조직 이미지 구축에 도움이 됩니다."],
+        diagTitle: "기업 페이지 운영대행·글로벌기업브랜딩 집중형",
+        diagDesc: "기업 페이지를 글로벌기업브랜딩 중심으로 정비해 국내외 후보자와 시장이 이해하기 쉬운 글로벌 브랜드 신뢰를 구축할 필요가 있습니다."
+      }
+    };
+
+    const ALL_SOLUTIONS_OVERVIEW = [
+      {
+        title: "기업 페이지 운영대행",
+        copy: "기업 페이지 운영대행을 기본으로 두고 채용브랜딩 중심, 기술홍보 중심, 기업브랜딩 중심, CEO브랜딩 중심, 글로벌기업브랜딩 중심 중 어떤 축에 집중할지 진단 결과에 따라 제안합니다.",
+        tags: ["#채용브랜딩 중심", "#기술홍보 중심", "#기업브랜딩 중심", "#CEO브랜딩 중심", "#글로벌기업브랜딩 중심"]
+      },
+      {
+        title: "인사담당자 프로필 최적화",
+        copy: "채용담당자 프로필과 메시지 구조를 정리해 후보자 첫 인상과 응답률 개선을 지원합니다.",
+        tags: ["#프로필 정비", "#메시지 구조", "#응답률 개선"]
+      },
+      {
+        title: "LinkedIn 교육/이해",
+        copy: "실무자가 LinkedIn을 이해하고 직접 활용할 수 있도록 교육과 실습 중심으로 지원합니다.",
+        tags: ["#기초 이해", "#실무 활용", "#팀 운영 기준"]
+      },
+      {
+        title: "LinkedIn 기업용 솔루션 객관 분석·교육",
+        copy: "특정 제품 판매보다 현재 채용 문제와 예산, 운영 역량에 맞는 활용 방향을 객관적으로 분석하고 교육합니다.",
+        tags: ["#도입 기준", "#운영 KPI", "#객관 분석"]
+      },
+      {
+        title: "채용 채널·인재시장 객관 분석",
+        copy: "타겟 인재시장, 경쟁사, 채널 적합도를 분석해 실행 우선순위와 전략 방향을 제안합니다.",
+        tags: ["#시장 분석", "#경쟁사 분석", "#채널 우선순위"]
+      },
+      {
+        title: "매핑서비스(인재확보)",
+        copy: "글로벌 서치펌 전문가와 함께 핵심 포지션의 타겟 기업, 후보군, 접근 우선순위를 빠르게 구조화합니다.",
+        tags: ["#글로벌 서치펌 전문가", "#후보군 매핑", "#핵심 포지션"]
+      }
+    ];
+
+    const SCORE_ALIASES = {
+      recruiter: "searchMapping",
+      jobSlot: "employerBrand",
+      lifePage: "pageOps",
+      talentInsights: "marketAudit",
+      aiHiring: "eduSolution"
+    };
+
     const QUESTIONS = [
+
       {
-        id:"companySize",
-        title:"1) 귀사 규모(재직자 수)는 어느 정도인가요?",
-        opts:[
-          { label:"1~50명", hint:"초기 조직/스타트업", val:"1~50명", w:{J:1,R:1,L:1,P:1} },
-          { label:"51~200명", hint:"성장기 조직", val:"51~200명", w:{J:2,R:2,L:2,P:1,A:1} },
-          { label:"201~1,000명", hint:"중견/대기업", val:"201~1,000명", w:{J:2,R:3,L:2,A:2,T:1,P:1} },
-          { label:"1,000명 이상", hint:"대기업/그룹", val:"1,000명+", w:{J:2,R:3,L:3,A:2,T:2,P:1} }
+        id: "companySize", axis: "기본정보", title: "현재 기업 규모는 어디에 가깝나요?", desc: "조직 규모에 따라 필요한 채용 시스템과 브랜딩 운영 방식이 달라집니다.", summaryKey: "size",
+        options: [
+          { label: "50명 미만 스타트업/스몰팀", desc: "인지도와 채용 메시지 정립이 함께 필요합니다.", scores: { pageOps: 2, employerBrand: 2, ceoBrand: 2, eduBasic: 1 } },
+          { label: "50~300명 성장기업", desc: "채용 규모 확대와 브랜드 신뢰 확보가 동시에 중요합니다.", scores: { pageOps: 2, employerBrand: 2, recruiter: 1, hrProfile: 1 } },
+          { label: "300~1,000명 중견기업", desc: "공고/소싱/브랜딩을 체계적으로 분업해야 합니다.", scores: { eduSolution: 2, jobSlot: 2, lifePage: 1, talentInsights: 1, globalBrand: 1 } },
+          { label: "1,000명 이상 대기업/글로벌 조직", desc: "기업용 솔루션 운영과 채용브랜드 고도화가 중요합니다.", scores: { eduSolution: 2, lifePage: 2, talentInsights: 2, aiHiring: 1, globalBrand: 3 } }
         ]
       },
       {
-        id:"hireVolume",
-        title:"2) 연간 채용 규모(전체 채용 TO)는?",
-        opts:[
-          { label:"1~10명", hint:"핵심 인재 위주 채용", val:"1~10명", w:{R:2,M:1} },
-          { label:"11~30명", hint:"정기/상시 혼합", val:"11~30명", w:{R:2,J:2,A:1} },
-          { label:"31~100명", hint:"다수 직무 동시 채용", val:"31~100명", w:{R:2,J:3,A:2,L:1,T:1} },
-          { label:"100명 이상", hint:"대규모/상시 채용", val:"100명+", w:{R:2,J:3,A:3,L:2,T:2,P:1} }
+        id: "annualHiring", axis: "기본정보", title: "올해 예상 채용 규모는 어느 정도인가요?", desc: "연간 채용 수요는 유입 확대, 직접소싱, 운영지원 범위를 결정하는 핵심 기준입니다.", summaryKey: "hiring",
+        options: [
+          { label: "10명 미만", desc: "핵심 포지션 중심의 집중 접근이 필요합니다.", scores: { recruiter: 1, searchMapping: 2, ceoBrand: 1 } },
+          { label: "10~50명", desc: "직접소싱과 기본 채용브랜딩의 균형이 필요합니다.", scores: { recruiter: 2, hrProfile: 1, employerBrand: 1, pageOps: 1 } },
+          { label: "50~150명", desc: "공고 운영, 소싱, 브랜딩을 동시에 확장해야 합니다.", scores: { jobSlot: 2, recruiter: 2, pageOps: 2, eduSolution: 1 } },
+          { label: "150명 이상", desc: "기업용 솔루션 운영체계와 자동화가 중요합니다.", scores: { jobSlot: 3, eduSolution: 2, aiHiring: 2, lifePage: 1 } }
         ]
       },
       {
-        id:"goal",
-        title:"3) 이번 채용에서 가장 중요한 목적은 무엇인가요?",
-        opts:[
-          { label:"빠른 충원", hint:"타임투필 단축이 최우선", val:"속도", w:{A:3,J:2,R:1} },
-          { label:"우수 인재 확보", hint:"지원자 수보다 적합도와 품질이 중요", val:"품질", w:{R:3,A:2,M:2,T:1} },
-          { label:"지원자 풀 확대", hint:"지원량과 유입 확대가 필요", val:"풀 확대", w:{J:3,L:2,P:2} },
-          { label:"시장/전략 정교화", hint:"경쟁사/시장 데이터 기반 의사결정이 중요", val:"전략", w:{T:3,M:2,R:1} }
+        id: "purpose", axis: "채용목적", title: "가장 중요한 채용 목적은 무엇인가요?", desc: "목적에 따라 브랜딩, 소싱, 교육, 솔루션 운영의 우선순위가 달라집니다.", summaryKey: "purpose",
+        options: [
+          { label: "핵심 경력직/희소인재 확보", desc: "일반 공고보다 직접소싱과 시장 맵핑이 중요합니다.", scores: { recruiter: 3, searchMapping: 2, talentInsights: 1, hrProfile: 1 } },
+          { label: "기술인재 채용 강화", desc: "기술홍보와 개발문화 메시지가 후보자 설득에 필요합니다.", scores: { techPR: 3, pageOps: 2, recruiter: 1, ceoBrand: 1 } },
+          { label: "회사 인지도/채용브랜드 강화", desc: "지원 전 단계에서 회사를 알리는 체계가 필요합니다.", scores: { pageOps: 3, employerBrand: 3, lifePage: 2, ceoBrand: 1, globalBrand: 1 } },
+          { label: "채용팀의 LinkedIn 활용 역량 강화", desc: "교육과 운영 가이드가 선행되어야 합니다.", scores: { eduBasic: 3, eduSolution: 3, hrProfile: 1 } }
         ]
       },
       {
-        id:"sourcingDifficulty",
-        title:"4) 원하는 후보자를 직접 찾는 것(소싱)은 얼마나 어려운가요?",
-        opts:[
-          { label:"크게 어렵지 않다", hint:"후보자 풀을 어느 정도 확보 가능", val:"낮음", w:{J:1} },
-          { label:"가끔 어렵다", hint:"일부 직무만 어려움", val:"중간", w:{R:2} },
-          { label:"대부분 어렵다", hint:"핵심 포지션의 발굴이 상시 이슈", val:"높음", w:{R:3,M:2} },
-          { label:"매우 어렵다", hint:"희소 직무/시니어/특정 산업 인재가 필요", val:"매우 높음", w:{R:4,M:4,T:1} }
+        id: "mainBottleneck", axis: "핵심병목", title: "현재 가장 큰 채용 병목은 무엇인가요?", desc: "가장 시급한 문제를 기준으로 최우선 추천 솔루션이 결정됩니다.", summaryKey: "bottleneck",
+        options: [
+          { label: "지원자가 부족하다", desc: "공고 노출과 후보자 유입 채널을 강화해야 합니다.", scores: { jobSlot: 3, employerBrand: 1, pageOps: 1 } },
+          { label: "원하는 수준의 후보자를 찾기 어렵다", desc: "직접소싱과 인재풀 맵핑이 필요합니다.", scores: { recruiter: 3, searchMapping: 2, talentInsights: 2 } },
+          { label: "후보자가 회사를 잘 모른다", desc: "기업브랜딩과 채용브랜딩 콘텐츠가 필요합니다.", scores: { pageOps: 3, employerBrand: 3, lifePage: 1 } },
+          { label: "후보자 응답률이 낮다", desc: "담당자 프로필, CEO/회사 신뢰, 메시지 개선이 필요합니다.", scores: { hrProfile: 3, ceoBrand: 2, pageOps: 1, recruiter: 1 } }
         ]
       },
       {
-        id:"outboundNeed",
-        title:"5) 후보자에게 직접 메시지/접촉(아웃바운드)이 필요한가요?",
-        opts:[
-          { label:"거의 필요 없다", hint:"인바운드 지원자 중심", val:"낮음", w:{J:2,L:1} },
-          { label:"가끔 필요하다", hint:"일부 포지션만 직접 접촉", val:"중간", w:{R:2} },
-          { label:"자주 필요하다", hint:"핵심 포지션 다수가 아웃바운드 필요", val:"높음", w:{R:3,M:2} }
+        id: "brandAwareness", axis: "브랜딩", title: "타겟 후보자에게 우리 회사 인지도가 충분한가요?", desc: "인지도 부족은 지원율과 메시지 응답률을 동시에 낮춥니다.",
+        options: [
+          { label: "거의 알려져 있지 않다", desc: "초기 인지도 형성과 신뢰 콘텐츠가 시급합니다.", scores: { pageOps: 3, employerBrand: 3, ceoBrand: 2, lifePage: 1 } },
+          { label: "업계 일부만 알고 있다", desc: "타겟 직무군 중심의 콘텐츠 확장이 필요합니다.", scores: { pageOps: 2, employerBrand: 2, techPR: 1, lifePage: 1, globalBrand: 1 } },
+          { label: "인지도는 있으나 채용 매력은 약하다", desc: "채용브랜딩 메시지와 직원 스토리가 필요합니다.", scores: { employerBrand: 3, lifePage: 2, pageOps: 1 } },
+          { label: "인지도와 채용 매력이 모두 충분하다", desc: "브랜딩보다 운영 효율과 소싱 고도화가 우선입니다.", scores: { recruiter: 1, eduSolution: 1, aiHiring: 1 } }
         ]
       },
       {
-        id:"jobPosting",
-        title:"6) 다수의 공고를 동시에 운영하거나 상시 모집이 많은 편인가요?",
-        opts:[
-          { label:"아니다", hint:"공고 수가 적음", val:"낮음", w:{} },
-          { label:"보통이다", hint:"분기/반기 단위 운영", val:"중간", w:{J:2,L:1} },
-          { label:"그렇다", hint:"상시 또는 다수 공고를 꾸준히 운영", val:"높음", w:{J:3,A:1,L:1} }
+        id: "pageStatus", axis: "기업Page", title: "LinkedIn 기업 페이지는 어떻게 운영되고 있나요?", desc: "기업 페이지는 후보자 검증, 채용브랜딩, 기술홍보의 기본 허브입니다.",
+        options: [
+          { label: "페이지가 없거나 거의 방치되어 있다", desc: "기초 세팅과 운영대행이 필요합니다.", scores: { pageOps: 4, employerBrand: 2, eduBasic: 1 } },
+          { label: "회사 소식만 가끔 올린다", desc: "채용/기술/문화 콘텐츠 체계가 필요합니다.", scores: { pageOps: 3, employerBrand: 2, techPR: 1 } },
+          { label: "정기 운영은 하지만 채용 성과와 연결이 약하다", desc: "콘텐츠 목적과 KPI를 재설계해야 합니다.", scores: { pageOps: 2, lifePage: 2, eduSolution: 1 } },
+          { label: "채용 캠페인과 연동해 잘 운영 중이다", desc: "성과 분석과 고도화가 다음 단계입니다.", scores: { talentInsights: 1, aiHiring: 1, eduSolution: 1, globalBrand: 1 } }
         ]
       },
       {
-        id:"applicantVolume",
-        title:"7) 현재 지원자 수(인바운드)는 충분한가요?",
-        opts:[
-          { label:"부족하다", hint:"지원 유입이 약함", val:"부족", w:{J:3,L:2,P:2} },
-          { label:"보통이다", hint:"일부 직무는 괜찮으나 편차 있음", val:"보통", w:{J:2,L:1} },
-          { label:"많다", hint:"유입은 충분하나 선별이 부담", val:"많음", w:{A:3} }
+        id: "contentResource", axis: "운영리소스", title: "채용/브랜드 콘텐츠를 내부에서 꾸준히 만들 수 있나요?", desc: "콘텐츠 운영 리소스가 부족하면 운영대행 효과가 커집니다.",
+        options: [
+          { label: "전담자가 없고 거의 어렵다", desc: "기획부터 제작·운영까지 외부 지원이 필요합니다.", scores: { pageOps: 4, employerBrand: 2, techPR: 1 } },
+          { label: "소재는 있으나 콘텐츠화가 어렵다", desc: "인터뷰와 메시지화 지원이 필요합니다.", scores: { pageOps: 3, employerBrand: 2, techPR: 2 } },
+          { label: "콘텐츠는 만들지만 LinkedIn 운영 노하우가 부족하다", desc: "교육과 운영 가이드가 필요합니다.", scores: { eduBasic: 2, eduSolution: 2, pageOps: 1 } },
+          { label: "내부에서 안정적으로 운영 가능하다", desc: "성과 분석과 솔루션 활용 고도화가 우선입니다.", scores: { eduSolution: 1, talentInsights: 1, aiHiring: 1 } }
         ]
       },
       {
-        id:"screeningPain",
-        title:"8) 서류 검토/후보자 평가에 시간이 과도하게 소요되나요?",
-        opts:[
-          { label:"아니다", hint:"현재 운영이 원활함", val:"낮음", w:{} },
-          { label:"가끔 그렇다", hint:"특정 채용에서 병목", val:"중간", w:{A:2} },
-          { label:"상시 그렇다", hint:"검토량이 많아 선별이 가장 큰 병목", val:"높음", w:{A:4,J:1} }
+        id: "techHiring", axis: "기술채용", title: "기술/개발/데이터 직군 채용 비중은 어느 정도인가요?", desc: "기술직 채용은 기술홍보, 리더십 신뢰, 직접소싱의 영향이 큽니다.",
+        options: [
+          { label: "매우 높다", desc: "기술홍보와 개발자 후보자 설득이 핵심입니다.", scores: { techPR: 4, recruiter: 2, ceoBrand: 1, talentInsights: 1 } },
+          { label: "일부 핵심 포지션만 있다", desc: "핵심 직무별 타겟 메시지가 필요합니다.", scores: { techPR: 2, searchMapping: 2, recruiter: 1 } },
+          { label: "비기술 직군 중심이다", desc: "채용브랜딩과 공고 운영 효율이 중요합니다.", scores: { employerBrand: 1, jobSlot: 1, hrProfile: 1 } },
+          { label: "향후 기술직 채용을 늘릴 예정이다", desc: "기술 브랜드 자산을 선제적으로 쌓아야 합니다.", scores: { techPR: 3, pageOps: 2, talentInsights: 1 } }
         ]
       },
       {
-        id:"brandNeed",
-        title:"9) 기업 인지도/고용브랜드가 채용 성과에 영향을 주고 있나요?",
-        opts:[
-          { label:"영향이 적다", hint:"브랜드 측면이 큰 이슈는 아님", val:"낮음", w:{} },
-          { label:"어느 정도 있다", hint:"직무에 따라 편차가 있음", val:"중간", w:{L:2,P:2} },
-          { label:"영향이 크다", hint:"지원자 설득과 인지도 제고가 필요", val:"높음", w:{L:4,P:4,J:1} }
+        id: "ceoPresence", axis: "리더십", title: "CEO 또는 핵심 리더의 LinkedIn 존재감은 어떤가요?", desc: "리더십 메시지는 후보자가 회사의 성장성과 신뢰도를 판단하는 신호입니다.",
+        options: [
+          { label: "프로필이 없거나 거의 활동하지 않는다", desc: "대표/리더 프로필 세팅과 메시지 기획이 필요합니다.", scores: { ceoBrand: 4, pageOps: 1, employerBrand: 1 } },
+          { label: "프로필은 있지만 회사 비전이 잘 드러나지 않는다", desc: "리더십 스토리와 시장 관점 콘텐츠가 필요합니다.", scores: { ceoBrand: 3, techPR: 1, employerBrand: 1 } },
+          { label: "가끔 활동하지만 채용과 연결되지는 않는다", desc: "채용브랜드와 CEO 메시지를 연결해야 합니다.", scores: { ceoBrand: 2, employerBrand: 2, pageOps: 1 } },
+          { label: "활발히 활동하며 신뢰도가 높다", desc: "기업 페이지와 솔루션 운영으로 확장하면 됩니다.", scores: { pageOps: 1, eduSolution: 1, talentInsights: 1 } }
         ]
       },
       {
-        id:"insightNeed",
-        title:"10) 경쟁사/시장 인력 데이터 분석이 필요한가요?",
-        opts:[
-          { label:"거의 필요 없다", hint:"내부 기준으로 운영 가능", val:"낮음", w:{} },
-          { label:"가끔 필요하다", hint:"전략 수립 시 참고 필요", val:"중간", w:{T:2,M:1} },
-          { label:"매우 필요하다", hint:"시장 맵, 경쟁사, 인재군 파악이 중요", val:"높음", w:{T:4,M:3} }
+        id: "hrProfile", axis: "담당자접점", title: "채용담당자/리크루터 프로필은 후보자 설득에 충분한가요?", desc: "후보자는 InMail과 메시지를 받은 뒤 담당자의 프로필을 확인합니다.",
+        options: [
+          { label: "프로필 완성도가 낮고 활동도 거의 없다", desc: "신뢰도 개선과 메시지 템플릿이 필요합니다.", scores: { hrProfile: 4, eduBasic: 1, recruiter: 1 } },
+          { label: "기본 정보는 있으나 전문성이 약해 보인다", desc: "Headline/About/경험 구조를 개선해야 합니다.", scores: { hrProfile: 3, eduBasic: 1 } },
+          { label: "프로필은 괜찮지만 후보자 메시지 반응이 낮다", desc: "프로필과 메시지, 회사 콘텐츠의 연결이 필요합니다.", scores: { hrProfile: 2, recruiter: 1, pageOps: 1, ceoBrand: 1 } },
+          { label: "프로필과 활동 모두 잘 관리된다", desc: "솔루션 활용과 데이터 기반 개선이 다음 단계입니다.", scores: { eduSolution: 1, talentInsights: 1 } }
         ]
       },
       {
-        id:"positionScarcity",
-        title:"11) 채용하려는 포지션은 시장에서 얼마나 희소한 편인가요?",
-        opts:[
-          { label:"일반적이다", hint:"대체 가능한 후보군이 있음", val:"낮음", w:{J:1} },
-          { label:"다소 희소하다", hint:"경력/산업 조건이 까다로움", val:"중간", w:{R:2,M:2,T:1} },
-          { label:"매우 희소하다", hint:"특정 기업군/경쟁사 중심으로만 존재", val:"높음", w:{R:3,M:4,T:2} }
+        id: "linkedinUnderstanding", axis: "교육", title: "채용팀의 LinkedIn 이해도는 어느 정도인가요?", desc: "조직 이해도가 낮으면 프로필, 콘텐츠, 소싱, 광고가 분리되어 운영됩니다.",
+        options: [
+          { label: "기본 개념부터 교육이 필요하다", desc: "LinkedIn 생태계와 채용 활용 구조부터 정리해야 합니다.", scores: { eduBasic: 4, hrProfile: 1, pageOps: 1 } },
+          { label: "개인적으로는 쓰지만 채용 활용은 약하다", desc: "채용 실무 중심의 워크숍이 필요합니다.", scores: { eduBasic: 3, recruiter: 1, hrProfile: 1 } },
+          { label: "일부 담당자만 잘 활용한다", desc: "팀 표준 운영 방식과 교육 체계가 필요합니다.", scores: { eduBasic: 2, eduSolution: 2, aiHiring: 1 } },
+          { label: "팀 전체가 비교적 잘 이해한다", desc: "도구별 KPI와 고도화 교육이 적합합니다.", scores: { eduSolution: 2, talentInsights: 1 } }
         ]
       },
       {
-        id:"mappingNeed",
-        title:"12) 실제 타깃 기업/후보군을 구조화한 ‘인재 맵핑’이 필요한가요?",
-        opts:[
-          { label:"필요 없다", hint:"대략적인 타깃만 있으면 됨", val:"낮음", w:{} },
-          { label:"검토 중이다", hint:"일부 포지션에서만 필요", val:"중간", w:{M:2,T:1} },
-          { label:"반드시 필요하다", hint:"시장 전체를 구조화해서 접근해야 함", val:"높음", w:{M:5,T:2,R:1} }
+        id: "solutionReadiness", axis: "기업용솔루션", title: "LinkedIn 기업용 솔루션 사용/도입 상태는 어떤가요?", desc: "솔루션 보유 여부와 운영 숙련도에 따라 교육·컨설팅 범위가 달라집니다.",
+        options: [
+          { label: "도입 전이며 무엇을 써야 할지 모르겠다", desc: "문제별 솔루션 이해와 도입 설계가 필요합니다.", scores: { eduSolution: 4, talentInsights: 1, jobSlot: 1, recruiter: 1 } },
+          { label: "일부 도구를 쓰지만 활용률이 낮다", desc: "사용법과 운영 프로세스를 재정비해야 합니다.", scores: { eduSolution: 4, aiHiring: 1, recruiter: 1, jobSlot: 1 } },
+          { label: "도구는 쓰지만 성과 측정이 어렵다", desc: "KPI, 리포트, 개선 루프가 필요합니다.", scores: { eduSolution: 3, talentInsights: 2, aiHiring: 1 } },
+          { label: "성과 관리까지 잘 되고 있다", desc: "브랜딩/시장 분석 확장이 다음 단계입니다.", scores: { talentInsights: 1, pageOps: 1, lifePage: 1 } }
         ]
       },
       {
-        id:"internalResearch",
-        title:"13) 내부에서 리서치/소싱을 전담할 여력이 충분한가요?",
-        opts:[
-          { label:"충분하다", hint:"내부 인력으로 대응 가능", val:"충분", w:{R:1} },
-          { label:"보통이다", hint:"일부는 외부 지원이 있으면 좋음", val:"보통", w:{R:1,M:1,P:1} },
-          { label:"부족하다", hint:"외부 지원/대행이 필요", val:"부족", w:{M:3,P:3,A:1} }
+        id: "directSourcing", axis: "소싱", title: "직접소싱은 충분히 되고 있나요?", desc: "경력직과 희소인재 채용에서는 공고 의존도를 낮추는 것이 중요합니다.",
+        options: [
+          { label: "거의 하지 못한다", desc: "직접소싱 체계와 담당자 프로필/메시지 정비가 필요합니다.", scores: { recruiter: 4, hrProfile: 2, eduBasic: 1 } },
+          { label: "하고 있지만 후보자 풀이 좁다", desc: "검색 전략과 시장 맵핑이 필요합니다.", scores: { recruiter: 3, talentInsights: 2, searchMapping: 2 } },
+          { label: "후보자는 찾지만 응답 전환이 낮다", desc: "프로필 신뢰와 회사/리더 콘텐츠가 필요합니다.", scores: { hrProfile: 2, recruiter: 2, pageOps: 1, ceoBrand: 1 } },
+          { label: "안정적으로 운영 중이다", desc: "자동화와 성과 분석 고도화가 적합합니다.", scores: { aiHiring: 1, talentInsights: 1, eduSolution: 1 } }
         ]
       },
       {
-        id:"pageStatus",
-        title:"14) 현재 LinkedIn 기업 Page 운영 상태는 어떤가요?",
-        opts:[
-          { label:"거의 운영하지 않는다", hint:"페이지는 있으나 관리가 미흡", val:"미흡", w:{P:4,L:2} },
-          { label:"가끔만 운영한다", hint:"정기성/콘텐츠 품질이 불안정", val:"보통", w:{P:3,L:2} },
-          { label:"정기적으로 잘 운영한다", hint:"내부 운영 체계가 있음", val:"운영중", w:{L:1} }
+        id: "jobAdPerformance", axis: "공고", title: "채용공고 성과는 어떤가요?", desc: "지원자 유입이 낮으면 공고 메시지, 채용브랜딩, 지원자 신뢰 자산을 함께 점검해야 합니다.",
+        options: [
+          { label: "공고를 올려도 지원자가 거의 없다", desc: "공고 노출과 채용브랜드 신뢰가 부족합니다.", scores: { jobSlot: 4, employerBrand: 2, lifePage: 1 } },
+          { label: "지원자는 있으나 적합도가 낮다", desc: "타겟 메시지와 직무 매력 정리가 필요합니다.", scores: { jobSlot: 2, employerBrand: 2, talentInsights: 1 } },
+          { label: "포지션별 편차가 크다", desc: "직무별 공고 운영 방식과 데이터 분석이 필요합니다.", scores: { jobSlot: 2, eduSolution: 2, talentInsights: 1 } },
+          { label: "공고 성과는 양호하다", desc: "직접소싱과 브랜딩 고도화가 다음 단계입니다.", scores: { recruiter: 1, pageOps: 1, aiHiring: 1 } }
         ]
       },
       {
-        id:"contentCapacity",
-        title:"15) 채용 브랜딩용 콘텐츠를 꾸준히 만들 내부 리소스가 있나요?",
-        opts:[
-          { label:"충분하다", hint:"내부 제작 역량이 있음", val:"충분", w:{L:1} },
-          { label:"조금 부족하다", hint:"기획/제작이 들쭉날쭉함", val:"부족", w:{P:2,L:1} },
-          { label:"매우 부족하다", hint:"운영대행이 더 적합할 수 있음", val:"매우 부족", w:{P:4,L:1} }
+        id: "candidateTrust", axis: "후보자신뢰", title: "후보자가 지원 전 확인할 만한 신뢰 자산이 충분한가요?", desc: "지원 전 검색 결과, 기업 페이지, 리더/담당자 프로필, 직원 콘텐츠가 모두 신뢰 자산입니다.",
+        options: [
+          { label: "거의 없다", desc: "기업 페이지, CEO, 담당자 프로필을 동시에 정비해야 합니다.", scores: { pageOps: 3, ceoBrand: 3, hrProfile: 2, employerBrand: 1 } },
+          { label: "회사 소개 자료는 있지만 LinkedIn에는 약하다", desc: "LinkedIn 상의 공식 신뢰 자산을 만들어야 합니다.", scores: { pageOps: 3, employerBrand: 2, lifePage: 1 } },
+          { label: "콘텐츠는 있으나 후보자 관점은 약하다", desc: "채용브랜드 메시지로 재구성해야 합니다.", scores: { employerBrand: 3, hrProfile: 1, lifePage: 1 } },
+          { label: "충분하다", desc: "후보자 접점 운영과 솔루션 고도화가 우선입니다.", scores: { recruiter: 1, eduSolution: 1, aiHiring: 1 } }
         ]
       },
       {
-        id:"evpNeed",
-        title:"16) 기업 브랜딩/EVP 메시지 정리가 필요한 상태인가요?",
-        opts:[
-          { label:"아니다", hint:"메시지가 이미 정리되어 있음", val:"낮음", w:{} },
-          { label:"일부 필요하다", hint:"직무/타깃별 메시지 정리가 필요", val:"중간", w:{L:2,P:2} },
-          { label:"매우 필요하다", hint:"대외적으로 무엇을 강조할지부터 정리 필요", val:"높음", w:{L:3,P:4} }
+        id: "marketData", axis: "시장정보", title: "타겟 인재 시장과 경쟁사 현황을 데이터로 보고 있나요?", desc: "시장 데이터가 없으면 난이도, 보상, 채널, 후보자 풀이 감으로 결정됩니다.",
+        options: [
+          { label: "거의 없다", desc: "인재시장 분석과 후보자 매핑이 필요합니다.", scores: { talentInsights: 4, searchMapping: 2, recruiter: 1 } },
+          { label: "경험 기반으로만 판단한다", desc: "직무별 인재풀과 경쟁사를 데이터로 확인해야 합니다.", scores: { talentInsights: 3, searchMapping: 2 } },
+          { label: "일부 데이터는 있으나 채용전략과 연결이 약하다", desc: "분석 리포트를 실행계획으로 연결해야 합니다.", scores: { talentInsights: 2, eduSolution: 1, aiHiring: 1 } },
+          { label: "정기적으로 데이터 기반 의사결정을 한다", desc: "브랜딩과 운영 효율 개선에 집중할 수 있습니다.", scores: { aiHiring: 1, pageOps: 1 } }
         ]
       },
       {
-        id:"processMaturity",
-        title:"17) 현재 채용 운영 성숙도는 어떤가요?",
-        opts:[
-          { label:"수기/엑셀 중심", hint:"프로세스 표준화가 약함", val:"낮음", w:{A:2,J:1,P:1} },
-          { label:"기본 ATS 사용", hint:"일부 자동화는 가능", val:"중간", w:{A:2} },
-          { label:"상당히 체계적이다", hint:"운영 프로세스가 정리되어 있음", val:"높음", w:{R:1,T:1} }
+        id: "hiringOps", axis: "운영효율", title: "채용 운영 업무량은 적정한가요?", desc: "담당자의 반복 업무가 많을수록 소싱과 후보자 경험 관리가 약해집니다.",
+        options: [
+          { label: "반복 업무가 많아 전략 업무를 못 한다", desc: "자동화와 운영 프로세스 개선이 필요합니다.", scores: { aiHiring: 4, eduSolution: 1 } },
+          { label: "공고/소싱/콘텐츠를 모두 담당해 과부하가 있다", desc: "기업 페이지 운영대행과 솔루션 교육을 병행해야 합니다.", scores: { pageOps: 2, aiHiring: 2, eduSolution: 2 } },
+          { label: "도구는 많지만 운영 기준이 정리되지 않았다", desc: "솔루션 교육과 KPI 체계가 필요합니다.", scores: { eduSolution: 3, aiHiring: 2 } },
+          { label: "운영은 안정적이다", desc: "시장 분석과 브랜딩 고도화가 적합합니다.", scores: { talentInsights: 1, employerBrand: 1 } }
         ]
       },
       {
-        id:"urgency",
-        title:"18) 현재 채용의 긴급도는 어느 정도인가요?",
-        opts:[
-          { label:"여유 있다", hint:"전략·브랜딩까지 병행 가능", val:"낮음", w:{T:1,L:1,P:1} },
-          { label:"보통이다", hint:"소싱과 공고 운영을 균형 있게 봐야 함", val:"중간", w:{R:2,J:2,A:1} },
-          { label:"매우 급하다", hint:"빠른 충원과 검토 속도가 중요", val:"높음", w:{A:3,J:2,R:1} }
+        id: "urgency", axis: "시급도", title: "채용 문제 해결의 시급도는 어느 정도인가요?", desc: "시급도가 높을수록 바로 성과를 낼 수 있는 소싱/공고/매핑 솔루션을 우선 배치합니다.",
+        options: [
+          { label: "즉시 채용해야 하는 핵심 포지션이 있다", desc: "직접소싱과 후보자 매핑을 먼저 실행해야 합니다.", scores: { recruiter: 3, searchMapping: 3, hrProfile: 1 } },
+          { label: "1~3개월 내 채용 성과가 필요하다", desc: "공고, 소싱, 프로필 개선을 빠르게 병행해야 합니다.", scores: { jobSlot: 2, recruiter: 2, hrProfile: 1, eduSolution: 1 } },
+          { label: "6개월 이상 장기 채용브랜드를 만들고 싶다", desc: "기업 페이지와 채용/기술 콘텐츠 운영이 적합합니다.", scores: { pageOps: 3, employerBrand: 2, techPR: 1, ceoBrand: 1, globalBrand: 1 } },
+          { label: "내부 역량 구축이 우선이다", desc: "교육과 운영체계 정비를 우선해야 합니다.", scores: { eduBasic: 3, eduSolution: 3 } }
+        ]
+      },
+      {
+        id: "decisionStyle", axis: "도입방식", title: "가장 선호하는 지원 방식은 무엇인가요?", desc: "실행 방식 선호도에 따라 운영대행, 교육, 솔루션 조합을 다르게 추천합니다.",
+        options: [
+          { label: "외부 전문가가 운영까지 맡아줬으면 한다", desc: "기업 페이지 운영대행과 브랜딩 패키지가 적합합니다.", scores: { pageOps: 4, employerBrand: 2, techPR: 1, ceoBrand: 1 } },
+          { label: "우리 팀이 배워서 직접 운영하고 싶다", desc: "LinkedIn 교육과 기업용 솔루션 교육이 적합합니다.", scores: { eduBasic: 3, eduSolution: 3, hrProfile: 1 } },
+          { label: "솔루션을 도입하고 성과를 관리하고 싶다", desc: "기업용 솔루션의 도입 검토와 운영 기준 정리가 필요합니다.", scores: { eduSolution: 3, recruiter: 2, jobSlot: 2, talentInsights: 1 } },
+          { label: "핵심 포지션만 빠르게 해결하고 싶다", desc: "시장 매핑과 직접소싱이 우선입니다.", scores: { searchMapping: 3, recruiter: 2, hrProfile: 1 } }
         ]
       }
     ];
 
-    const state = {
-      idx: 0,
-      answers: {},
-      scores: {R:0,J:0,A:0,L:0,T:0,M:0,P:0},
-      meta: {
-        companySize: "-",
-        hireVolume: "-",
-        goal: "-",
-        bottleneck: "-"
-      }
+    
+    const DIAGNOSIS_COPY = {
+      pageOpsPack: { title: "기업 페이지 운영대행 집중형", desc: "기업 페이지 운영대행을 기본으로 두고 현재 가장 시급한 초점 축을 먼저 정리해야 하는 상태입니다." },
+      hrProfile: { title: "후보자 접점 신뢰 개선형", desc: "채용담당자 프로필과 메시지 구조를 정리하면 응답률과 신뢰도 개선에 도움이 됩니다." },
+      eduBasic: { title: "LinkedIn 활용 역량 구축형", desc: "실무자가 LinkedIn을 이해하고 직접 활용할 수 있도록 교육과 기준 정리가 필요한 상태입니다." },
+      eduSolution: { title: "기업용 솔루션 객관 점검형", desc: "도입 필요성, 운영 방식, KPI를 객관적으로 점검하고 교육할 필요가 있습니다." },
+      marketAudit: { title: "채널·인재시장 분석 필요형", desc: "시장 데이터와 채널 효율을 객관적으로 분석해 채용전략을 다시 정리해야 합니다." },
+      searchMapping: { title: "핵심 후보군 매핑 우선형", desc: "중요 포지션은 글로벌 서치펌 전문가 관점으로 후보군을 빠르게 파악하고 우선순위를 정하는 매핑 작업이 우선입니다." }
     };
 
-    const $ = id => document.getElementById(id);
+    const state = {
+      current: 0,
+      answers: {},
+      lead: null,
+      report: null
+    };
 
-    const qTitle = $("qTitle");
-    const optList = $("optList");
-    const prevBtn = $("prevBtn");
-    const nextBtn = $("nextBtn");
-    const resetBtn = $("resetBtn");
-    const stepText = $("stepText");
-    const barFill = $("barFill");
+    const $ = (id) => document.getElementById(id);
 
-    const quiz = $("quiz");
-    const results = $("results");
-    const sidePanel = $("sidePanel");
-    const gridEl = $("mainGrid");
-
-    const kpiCompany = $("kpiCompany");
-    const kpiHire = $("kpiHire");
-    const kpiGoal = $("kpiGoal");
-    const kpiBottleneck = $("kpiBottleneck");
-
-    const kpiCompanyResult = $("kpiCompanyResult");
-    const kpiHireResult = $("kpiHireResult");
-    const kpiGoalResult = $("kpiGoalResult");
-    const kpiBottleneckResult = $("kpiBottleneckResult");
-
-    const reportSummary = $("reportSummary");
-    const overviewText = $("overviewText");
-    const issueText = $("issueText");
-    const rankList = $("rankList");
-    const comboText = $("comboText");
-    const priorityList = $("priorityList");
-    const copyText = $("copyText");
-    const prioritySolutionName = $("prioritySolutionName");
-    const prioritySolutionDesc = $("prioritySolutionDesc");
-
-    const backToQuizBtn = $("backToQuizBtn");
-    const copyBtn = $("copyBtn");
-    const quoteBtn = $("quoteBtn");
-
-    function clamp(n, min, max){
-      return Math.max(min, Math.min(max, n));
+    function startQuiz() {
+      $("landing").style.display = "none";
+      $("topbar").classList.add("active");
+      $("quizSection").classList.add("active");
+      $("gateSection").classList.remove("active");
+      $("reportSection").classList.remove("active");
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function calcScores(){
-      const s = {R:0,J:0,A:0,L:0,T:0,M:0,P:0};
-      for(const q of QUESTIONS){
-        const idx = state.answers[q.id];
-        if(idx === undefined) continue;
-        const opt = q.opts[idx];
-        const w = opt.w || {};
-        Object.keys(s).forEach(key => {
-          s[key] += (w[key] || 0);
-        });
-      }
-      state.scores = s;
+    function renderQuestion() {
+      const q = QUESTIONS[state.current];
+      const total = QUESTIONS.length;
+      const selectedIndex = state.answers[q.id]?.index;
+      $("questionKicker").textContent = `${state.current + 1} / ${total} · ${q.axis}`;
+      $("questionTitle").textContent = q.title;
+      $("questionDesc").textContent = q.desc;
+      $("progressText").textContent = `${state.current + 1} / ${total}`;
+      $("progressBar").style.width = `${((state.current + 1) / total) * 100}%`;
+      $("prevBtn").disabled = state.current === 0;
+      $("nextBtn").textContent = state.current === total - 1 ? "진단 완료 →" : "다음 →";
+      $("nextBtn").disabled = selectedIndex === undefined;
+
+      $("options").innerHTML = q.options.map((opt, i) => `
+        <button type="button" class="option ${selectedIndex === i ? "selected" : ""}" data-index="${i}" aria-pressed="${selectedIndex === i}">
+          <span class="radio" aria-hidden="true"></span>
+          <span>
+            <span class="option-title">${escapeHtml(opt.label)}</span>
+            <span class="option-desc">${escapeHtml(opt.desc)}</span>
+          </span>
+        </button>
+      `).join("");
+
+      document.querySelectorAll(".option").forEach(el => {
+        el.addEventListener("click", () => selectOption(Number(el.dataset.index)));
+      });
+
+      updateSideSummary();
     }
 
-    function updateMeta(){
-      const getVal = (qid) => {
-        const q = QUESTIONS.find(x => x.id === qid);
-        const ai = state.answers[qid];
-        return (q && ai !== undefined) ? q.opts[ai].val : "-";
+    function selectOption(index) {
+      const q = QUESTIONS[state.current];
+      const opt = q.options[index];
+      state.answers[q.id] = {
+        index,
+        label: opt.label,
+        desc: opt.desc,
+        scores: opt.scores,
+        axis: q.axis,
+        question: q.title,
+        summaryKey: q.summaryKey || null
       };
-
-      state.meta.companySize = getVal("companySize");
-      state.meta.hireVolume = getVal("hireVolume");
-      state.meta.goal = getVal("goal");
-      state.meta.bottleneck = deriveBottleneck();
-
-      kpiCompany.textContent = state.meta.companySize;
-      kpiHire.textContent = state.meta.hireVolume;
-      kpiGoal.textContent = state.meta.goal;
-      kpiBottleneck.textContent = state.meta.bottleneck;
-
-      if(kpiCompanyResult) kpiCompanyResult.textContent = state.meta.companySize;
-      if(kpiHireResult) kpiHireResult.textContent = state.meta.hireVolume;
-      if(kpiGoalResult) kpiGoalResult.textContent = state.meta.goal;
-      if(kpiBottleneckResult) kpiBottleneckResult.textContent = state.meta.bottleneck;
-    }
-
-    function deriveBottleneck(){
-      const focusWeights = {
-        sourcingDifficulty: "소싱",
-        screeningPain: "평가",
-        brandNeed: "브랜딩",
-        insightNeed: "시장분석",
-        mappingNeed: "맵핑",
-        pageStatus: "페이지운영"
-      };
-
-      const arr = [];
-      Object.keys(focusWeights).forEach(id => {
-        const q = QUESTIONS.find(x => x.id === id);
-        const ai = state.answers[id];
-        if(!q || ai === undefined) return;
-        const opt = q.opts[ai];
-        const intensity = Object.values(opt.w || {}).reduce((a,b) => a+b, 0);
-        arr.push({label: focusWeights[id], intensity});
-      });
-
-      if(!arr.length) return "-";
-      arr.sort((a,b)=>b.intensity-a.intensity);
-      return arr[0].label;
-    }
-
-    function progressPct(){
-      if (QUESTIONS.length <= 1) return 0;
-      return clamp((state.idx / (QUESTIONS.length - 1)) * 100, 0, 100);
-    }
-
-    function updateNextButtonState(){
-      const q = QUESTIONS[state.idx];
-      const answered = state.answers[q.id] !== undefined;
-      nextBtn.disabled = !answered;
-    }
-
-    function renderQuestion(){
-      const q = QUESTIONS[state.idx];
-      stepText.textContent = `${state.idx + 1} / ${QUESTIONS.length}`;
-      barFill.style.width = `${progressPct()}%`;
-
-      qTitle.textContent = q.title;
-      optList.innerHTML = "";
-
-      const picked = state.answers[q.id];
-
-      q.opts.forEach((o, i) => {
-        const label = document.createElement("label");
-        label.className = "opt";
-        label.innerHTML = `
-          <input type="radio" name="opt" ${picked === i ? "checked" : ""} />
-          <div class="label">
-            <b>${o.label}</b>
-            <div class="hint">${o.hint || ""}</div>
-          </div>
-        `;
-        label.addEventListener("click", () => {
-          state.answers[q.id] = i;
-          updateMeta();
-          renderQuestion();
-        });
-        optList.appendChild(label);
-      });
-
-      prevBtn.disabled = state.idx === 0;
-      nextBtn.textContent = state.idx === QUESTIONS.length - 1 ? "결과 보기" : "다음";
-      updateNextButtonState();
-    }
-
-    function getMaxPossible(){
-      const keys = {R:0,J:0,A:0,L:0,T:0,M:0,P:0};
-      QUESTIONS.forEach(q => {
-        Object.keys(keys).forEach(k => {
-          let maxW = 0;
-          q.opts.forEach(o => {
-            maxW = Math.max(maxW, (o.w && o.w[k]) || 0);
-          });
-          keys[k] += maxW;
-        });
-      });
-      return keys;
-    }
-
-    function getPainSummary(scores){
-      const pains = [];
-      if(scores.R >= 8) pains.push("핵심 인재 소싱/서칭의 난이도가 높습니다");
-      if(scores.J >= 8) pains.push("공고 운영과 지원자 유입 확대가 필요합니다");
-      if(scores.A >= 7) pains.push("후보자 검토·선별 속도 개선이 필요합니다");
-      if(scores.L >= 7) pains.push("채용 브랜딩과 기업 메시지 강화가 필요합니다");
-      if(scores.T >= 6) pains.push("시장/경쟁사 인사이트 기반 전략 수립이 필요합니다");
-      if(scores.M >= 6) pains.push("희소 인재군에 대한 시장 맵핑이 중요합니다");
-      if(scores.P >= 6) pains.push("LinkedIn 기업 Page 운영 체계 보완이 필요합니다");
-
-      return pains.length ? pains : ["현재 진단 기준으로는 일부 영역 중심의 선택적 개선이 적합합니다."];
-    }
-
-    function buildRecommendations(){
-      calcScores();
-
-      const maxPossible = getMaxPossible();
-      const ranked = Object.keys(SOL).map(key => {
-        const raw = state.scores[key];
-        const max = maxPossible[key] || 1;
-        const pct = Math.round((raw / max) * 100);
-        return { key, raw, pct: clamp(pct, 0, 100) };
-      }).sort((a,b)=>b.raw-a.raw);
-
-      const pains = getPainSummary(state.scores);
-      const top3 = ranked.slice(0,3);
-      const primary = top3[0]?.key;
-      const secondary = top3[1]?.key;
-      const tertiary = top3[2]?.key;
-
-      let combo = "";
-      if(primary === "R" && top3.some(x=>x.key==="A")){
-        combo = "핵심 후보자 직접 소싱이 중요한 상황입니다. Recruiter를 중심으로 운영하고, 검토 속도 병목이 있다면 AI Hiring Assistant를 함께 검토하는 구성이 적합합니다.";
-      } else if(primary === "J" && top3.some(x=>x.key==="L")){
-        combo = "지원자 유입 확대와 브랜딩 개선이 함께 필요한 상황입니다. Job Slot으로 공고 노출을 확보하고 Life Page 또는 LinkedIn 기업Page 운영대행을 결합하는 구성이 효과적입니다.";
-      } else if(primary === "M"){
-        combo = "희소 인재군 또는 특정 산업군에 대한 시장 맵핑이 중요한 상황입니다. 서치펌 활용 매핑서비스로 타깃 인재 구조를 먼저 정리한 뒤, Recruiter 또는 LTI와 연계하는 구성이 적합합니다.";
-      } else if(primary === "P"){
-        combo = "LinkedIn 기업 Page의 운영 체계 자체가 중요한 과제로 보입니다. LinkedIn 기업Page 운영대행을 통해 콘텐츠/운영 구조를 먼저 세우고, 이후 Life Page나 Job Slot과 연계하는 방식이 적합합니다.";
-      } else if(primary === "T"){
-        combo = "시장 및 경쟁사 분석이 선행되어야 하는 상황입니다. LTI 기반으로 전략을 정리하고, 이후 Recruiter 또는 서치펌 활용 매핑서비스와 연결하는 접근이 적합합니다.";
-      } else if(primary){
-        combo = `${SOL[primary].name} 중심으로 시작하되, ${secondary ? SOL[secondary].name : "보조 솔루션"}를 함께 검토하는 조합이 적합합니다.`;
-      } else {
-        combo = "현재 응답 기준으로는 복수 솔루션을 비교 검토하는 방식이 적합합니다.";
-      }
-
-      const priorities = [];
-      if(primary){
-        priorities.push({
-          title:`1차 우선 도입: ${SOL[primary].name}`,
-          desc:`현재 응답 기준 가장 큰 병목과 직접 연결된 솔루션입니다. ${SOL[primary].desc}`
-        });
-      }
-      if(secondary){
-        priorities.push({
-          title:`2차 보완: ${SOL[secondary].name}`,
-          desc:`1차 솔루션만으로 해결되지 않는 영역을 보완하는 역할입니다. ${SOL[secondary].desc}`
-        });
-      }
-      if(tertiary){
-        priorities.push({
-          title:`3차 확장: ${SOL[tertiary].name}`,
-          desc:`채용 성과를 한 단계 끌어올리기 위한 확장 옵션입니다. ${SOL[tertiary].desc}`
-        });
-      }
-
-      return { ranked, pains, combo, priorities };
-    }
-
-    function meterClassByKey(key){
-      return {
-        R:"g2", J:"g1", A:"g3", L:"g4", T:"g5", M:"g6", P:"g7"
-      }[key] || "g2";
-    }
-
-    function makeOverviewText(){
-      return `본 진단은 기업 규모(${state.meta.companySize}), 연 채용 규모(${state.meta.hireVolume}), 채용 목적(${state.meta.goal})과 함께 소싱 난이도, 공고 운영 구조, 평가 병목, 시장 맵핑 필요성, LinkedIn Page 운영 수준까지 종합적으로 반영하여 작성되었습니다. 현재 기준 핵심 병목은 '${state.meta.bottleneck}' 영역으로 판단됩니다.`;
-    }
-
-    function makeSummaryText(rec){
-      const top = rec.ranked.slice(0,5).map((r,i)=>{
-        return `${i+1}. ${SOL[r.key].name} (${SOL[r.key].short}) - 적합도 ${r.pct}%`;
-      }).join("\n");
-
-      const priority = rec.priorities.map((p,i)=>`${i+1}) ${p.title}\n   - ${p.desc}`).join("\n");
-
-      return `[채용문제 진단 및 분석 리포트]
-
-[기본 정보]
-- 기업 규모: ${state.meta.companySize}
-- 연 채용 규모: ${state.meta.hireVolume}
-- 채용 목적: ${state.meta.goal}
-- 핵심 병목: ${state.meta.bottleneck}
-
-[최우선 추천 솔루션]
-- ${rec.ranked[0] ? SOL[rec.ranked[0].key].name : "-"}
-
-[우리회사의 문제점]
-${rec.pains.map(x=>`- ${x}`).join("\n")}
-
-[안내 메시지]
-- 아래 결과를 신중히 검토하시고 경쟁사에 부족함이 없는 우수인재를 확보하세요.
-
-[추천 솔루션 우선순위]
-${top}
-
-[권장 조합]
-${rec.combo}
-
-[실행 우선순위]
-${priority}
-
-[경쟁사 Pick]
-1) 기본조합: 기업Page 직접운영 + Recruiter 1개 + Job Slot 3개
-2) 확장조합: 기업Page 전문운영대행 + Recruiter 2개 + Job Slot 5개
-3) 고도화조합: 기업Page 전문운영대행 + Recruiter 2개 이상 + Job Slot 5개 이상 + Life Page + 타겟 광고 + 팔로워 확대
-
-문의안내:
-Linkedin Korea Partner
-02-6405-4446
-help@hrpoint.co.kr
-
-견적 확인:
-https://tool.linkedinkorea.com/solution/
-`;
-    }
-
-    function showResults(){
-      const answered = Object.keys(state.answers).length;
-      if(answered < QUESTIONS.length){
-        alert(`아직 답하지 않은 질문이 있습니다. (${answered}/${QUESTIONS.length})`);
-        return;
-      }
-
-      const rec = buildRecommendations();
-      const top = rec.ranked[0];
-
-      prioritySolutionName.textContent = top ? SOL[top.key].name : "-";
-      prioritySolutionDesc.textContent = top ? SOL[top.key].desc : "-";
-      reportSummary.textContent = top
-        ? `현재 응답 기준 가장 우선적으로 검토할 솔루션은 ${SOL[top.key].name}입니다. 단일 솔루션보다 상위 2~3개 조합으로 접근하는 것이 실제 채용 성과 개선에 더 효과적입니다.`
-        : "";
-
-      overviewText.textContent = makeOverviewText();
-      issueText.innerHTML = rec.pains.map(x => `• ${x}`).join("<br>");
-
-      rankList.innerHTML = "";
-      rec.ranked.forEach((r, idx) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <div class="rank">
-            <div class="rank-left">
-              <div class="badge">${idx+1}</div>
-              <div>
-                <h4>${SOL[r.key].name} <span style="color:#bac4d2;font-weight:700">· ${SOL[r.key].short}</span></h4>
-                <div class="desc">${SOL[r.key].desc}</div>
-                <div class="chips">
-                  ${idx < 3 ? '<span class="chip">우선 추천</span>' : ''}
-                  <span class="chip">적합도 ${r.pct}%</span>
-                  <span class="chip">점수 ${r.raw}</span>
-                </div>
-              </div>
-            </div>
-            <div class="meter">
-              <i class="${meterClassByKey(r.key)}" style="width:${r.pct}%"></i>
-            </div>
-          </div>
-        `;
-        rankList.appendChild(item);
-      });
-
-      comboText.textContent = rec.combo;
-
-      priorityList.innerHTML = "";
-      rec.priorities.forEach((p, i) => {
-        const row = document.createElement("div");
-        row.className = "prio";
-        row.innerHTML = `
-          <div class="prio-num">${i+1}</div>
-          <div>
-            <div style="font-weight:800;margin-bottom:4px">${p.title}</div>
-            <div style="font-size:13px;line-height:1.65;color:#e0e6ee">${p.desc}</div>
-          </div>
-        `;
-        priorityList.appendChild(row);
-      });
-
-      copyText.value = makeSummaryText(rec);
-
-      updateMeta();
-      quiz.classList.add("hide");
-      results.classList.remove("hide");
-      sidePanel.classList.add("hide");
-      gridEl.classList.add("results-mode");
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-
-    function nextStep(){
-      const q = QUESTIONS[state.idx];
-      if(state.answers[q.id] === undefined){
-        alert("먼저 하나를 선택해 주세요.");
-        return;
-      }
-
-      if(state.idx === QUESTIONS.length - 1){
-        showResults();
-        return;
-      }
-
-      state.idx++;
       renderQuestion();
     }
 
-    function prevStep(){
-      if(state.idx > 0){
-        state.idx--;
+    function goNext() {
+      if (state.current < QUESTIONS.length - 1) {
+        state.current += 1;
+        renderQuestion();
+      } else {
+        showGate();
+      }
+    }
+
+    function goPrev() {
+      if (state.current > 0) {
+        state.current -= 1;
         renderQuestion();
       }
     }
 
-    function resetAll(){
-      state.idx = 0;
+    function resetQuiz() {
+      if (!confirm("입력한 응답을 모두 초기화할까요?")) return;
+      state.current = 0;
       state.answers = {};
-      state.scores = {R:0,J:0,A:0,L:0,T:0,M:0,P:0};
-      state.meta = {companySize:"-", hireVolume:"-", goal:"-", bottleneck:"-"};
-      updateMeta();
-      results.classList.add("hide");
-      quiz.classList.remove("hide");
-      sidePanel.classList.remove("hide");
-      gridEl.classList.remove("results-mode");
-      renderQuestion();
-      window.scrollTo({top:0, behavior:"smooth"});
+      state.lead = null;
+      state.report = null;
+      $("landing").style.display = "";
+      $("quizSection").classList.remove("active");
+      $("gateSection").classList.remove("active");
+      $("reportSection").classList.remove("active");
+      $("topbar").classList.remove("active");
+      $("leadForm").reset();
+      $("saveStatus").textContent = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    prevBtn.addEventListener("click", prevStep);
-    nextBtn.addEventListener("click", nextStep);
-    resetBtn.addEventListener("click", resetAll);
+    function showGate() {
+      $("quizSection").classList.remove("active");
+      $("gateSection").classList.add("active");
+      $("topbar").classList.remove("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-    backToQuizBtn.addEventListener("click", () => {
-      results.classList.add("hide");
-      quiz.classList.remove("hide");
-      sidePanel.classList.remove("hide");
-      gridEl.classList.remove("results-mode");
-      renderQuestion();
-      window.scrollTo({top:0, behavior:"smooth"});
+    function updateSideSummary() {
+      const get = key => Object.values(state.answers).find(a => a.summaryKey === key)?.label || "-";
+      $("sumSize").textContent = get("size");
+      $("sumHiring").textContent = get("hiring");
+      $("sumPurpose").textContent = get("purpose");
+      $("sumBottleneck").textContent = get("bottleneck");
+    }
+
+    function addScore(scores, key, value) {
+      const normalizedKey = SCORE_ALIASES[key] || key;
+      if (!SOLUTIONS[normalizedKey]) return;
+      scores[normalizedKey] = (scores[normalizedKey] || 0) + value;
+    }
+
+    
+    function buildPageOpsPack(scores) {
+      const focusKeys = ["employerBrand", "techPR", "pageOps", "ceoBrand", "globalBrand"];
+      const focusScores = Object.fromEntries(focusKeys.map(key => [key, scores[key] || 0]));
+      const total = focusKeys.reduce((sum, key) => sum + (focusScores[key] || 0), 0);
+      if (total <= 0) return null;
+
+      const sortedFocus = [...focusKeys].sort((a, b) => {
+        if ((focusScores[b] || 0) === (focusScores[a] || 0)) return focusKeys.indexOf(a) - focusKeys.indexOf(b);
+        return (focusScores[b] || 0) - (focusScores[a] || 0);
+      });
+      const primaryKey = sortedFocus[0];
+      const primary = PAGE_OPS_FOCUS[primaryKey] || PAGE_OPS_FOCUS.pageOps;
+      const secondaryLabels = sortedFocus
+        .filter(key => key !== primaryKey && (focusScores[key] || 0) > 0)
+        .slice(0, 2)
+        .map(key => PAGE_OPS_FOCUS[key].focusLabel);
+      const linkedText = secondaryLabels.length
+        ? ` 현재는 ${primary.focusLabel}을 1순위로 두고 ${secondaryLabels.join("·")}을 보조축으로 연계하는 방향이 적합합니다.`
+        : ` 현재는 ${primary.focusLabel}을 우선순위로 두고 기업 페이지 운영대행을 설계하는 방향이 적합합니다.`;
+
+      return {
+        key: "pageOpsPack",
+        rawKey: primaryKey,
+        score: total,
+        rank: 0,
+        ...primary,
+        why: `${primary.why}${linkedText}`,
+        serviceText: `${primary.serviceText}${linkedText}`,
+        focusScores
+      };
+    }
+
+    function calculateReport() {
+      const scores = Object.fromEntries(Object.keys(SOLUTIONS).map(key => [key, 0]));
+      Object.values(state.answers).forEach(answer => {
+        Object.entries(answer.scores || {}).forEach(([key, value]) => addScore(scores, key, value));
+      });
+
+      const derivedSolutions = [];
+      const pageOpsPack = buildPageOpsPack(scores);
+      if (pageOpsPack) derivedSolutions.push(pageOpsPack);
+
+      const hiddenKeys = new Set(["pageOps", "employerBrand", "techPR", "ceoBrand", "globalBrand"]);
+      Object.entries(scores)
+        .filter(([key, score]) => score > 0 && !hiddenKeys.has(key))
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([key, score]) => derivedSolutions.push({ key, score, ...SOLUTIONS[key] }));
+
+      const ranked = derivedSolutions
+        .sort((a, b) => b.score - a.score)
+        .map((item, index) => ({ ...item, rank: index + 1 }));
+
+      const top = ranked[0];
+      const diag = top?.diagTitle
+        ? { title: top.diagTitle, desc: top.diagDesc }
+        : (DIAGNOSIS_COPY[top?.key] || { title: top?.name || "채용문제 진단 결과", desc: top?.why || "" });
+
+      const problems = ranked.slice(0, 3).map(item => ({ title: item.problem, text: item.why }));
+      const flow = buildFlow(ranked, diag);
+      const roadmap = buildRoadmap(ranked);
+      const answers = QUESTIONS.map(q => ({ question: q.title, answer: state.answers[q.id]?.label || "-", axis: q.axis }));
+
+      return { scores, ranked, top, diag, problems, flow, roadmap, answers, pageOpsPack };
+    }
+
+    function buildFlow(ranked, diag) {
+      const top3 = ranked.slice(0, 3);
+      const first = top3[0];
+      const second = top3[1] || top3[0];
+      const third = top3[2] || top3[1] || top3[0];
+      return [
+        { step: "공통진단", title: "핵심 병목 정리", text: `${diag.title} 관점으로 가장 시급한 병목과 운영 우선순위를 정리합니다.` },
+        { step: "운영축 1", title: `${first.shortName}`, text: `${first.serviceText}` },
+        { step: "운영축 2", title: `${second.shortName}`, text: `${second.serviceText}` },
+        { step: "운영축 3", title: `${third.shortName}`, text: `${third.serviceText}` }
+      ];
+    }
+
+    function buildRoadmap(ranked) {
+      const top3 = ranked.slice(0, 3);
+      const first = top3[0];
+      const second = top3[1] || top3[0];
+      const third = top3[2] || top3[1] || top3[0];
+      return [
+        { phase: "1단계", title: `${first.shortName} 우선 실행`, text: `HR Point는 ${first.services.slice(0, 2).join(", ")} 중심으로 가장 시급한 채용 병목부터 정리합니다.` },
+        { phase: "2단계", title: `${second.shortName} 연계 운영`, text: `이후 ${second.services.slice(0, 2).join(", ")}를 연계해 후보자 유입과 설득 포인트를 함께 강화합니다.` },
+        { phase: "3단계", title: `${third.shortName} 고도화 및 점검`, text: `마지막으로 ${third.services.slice(0, 2).join(", ")}와 성과 점검을 병행해 운영 체계를 안정화합니다.` }
+      ];
+    }
+
+    function renderSolutionsOverview() {
+      $("allSolutionsIntro").innerHTML = ALL_SOLUTIONS_OVERVIEW.map(item => `
+        <div class="overview-solution-card">
+          <div class="overview-solution-title">${renderSolutionLabel(item.title)}</div>
+          <div class="overview-solution-copy">${escapeHtml(item.copy)}</div>
+          <div class="overview-focus-tags">
+            ${(item.tags || []).map(tag => `<span class="chip soft">${escapeHtml(tag)}</span>`).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderReport() {
+      const report = calculateReport();
+      state.report = report;
+      const lead = state.lead || {};
+      const top3 = report.ranked.slice(0, 3);
+
+      $("topbar").classList.remove("active");
+      $("gateSection").classList.remove("active");
+      $("reportSection").classList.add("active");
+
+      $("finalTitle").innerHTML = `<span class="title-prefix">진단결과.</span><span class="title-main">${escapeHtml(report.diag.title)}</span>`;
+      $("finalSubtitle").textContent = `${lead.companyName || "귀사"}의 현재 응답 기준으로 가장 시급하게 정리해야 할 영역은 ‘${report.top.shortName}’입니다. 먼저 요약을 확인한 뒤 상세 리포트에서 운영방향과 실행 포인트를 확인해보세요.`;
+      $("finalTags").innerHTML = top3.map(item => `<span class="chip soft">${renderSolutionLabel(item.shortName)}</span>`).join("");
+
+      $("summaryHeadline").innerHTML = `<span class="overview-title-line">${escapeHtml(lead.companyName || "귀사")} 채용문제는</span><span class="overview-title-line">${renderSolutionLabel(report.top.shortName)} 검토가 가장 시급합니다.</span>`;
+      $("summarySubline").textContent = `현재 응답 기준으로 ${top3.map(item => plainSolutionLabel(item.shortName)).join(", ")} 순서로 검토하는 것이 가장 적합합니다. 아래에서 시급한 과제와 운영방향을 순서대로 확인해보세요.`;
+      $("summaryUrgent").textContent = report.diag.title;
+      $("summaryUrgentCopy").textContent = report.diag.desc;
+      $("summaryBest").innerHTML = `<div class="summary-ranked-list">${top3.map((item, index) => `<div class="summary-ranked-item"><strong>${index + 1}.</strong>${renderSolutionButton(item.shortName, "summary-solution-button")}</div>`).join("")}</div>`;
+      $("summaryBestCopy").textContent = `${plainSolutionLabel(top3[0].name)}를 최우선으로 검토하고, ${top3[1] ? plainSolutionLabel(top3[1].shortName) : plainSolutionLabel(top3[0].shortName)}${top3[2] ? `, ${plainSolutionLabel(top3[2].shortName)}` : ""}를 연계하는 방향이 적합합니다.`;
+      $("summaryEffect").textContent = top3[0].effects[0];
+      $("summaryEffectCopy").textContent = `${top3[0].effects[1]} ${top3[1] ? top3[1].effects[0] : ""}`.trim();
+
+      $("overviewTitle").innerHTML = `<span class="overview-title-line">${escapeHtml(lead.companyName || "귀사")}에서 지금 가장 먼저 검토할 솔루션은</span><span class="overview-solution-line">${renderSolutionLabel(report.top.shortName)}</span>`;
+      $("overviewText").textContent = `${report.diag.desc} 이 상태가 지속되면 후보자 유입, 응답률, 브랜드 신뢰에 동시에 영향을 줄 수 있어 우선 정비가 필요합니다. 현재 기준으로는 ${top3.map((item, index) => `${index + 1}. ${plainSolutionLabel(item.shortName)}`).join(" / ")} 순서로 검토하는 것이 적합합니다.`;
+
+      $("problemList").innerHTML = report.problems.map(problem => `
+        <div class="problem">
+          <strong>${escapeHtml(problem.title)}</strong>
+          <span>${escapeHtml(problem.text)}</span>
+        </div>
+      `).join("");
+
+      $("solutionCards").innerHTML = top3.map((item, index) => `
+        <div class="solution-card">
+          <div class="solution-top">
+            <div>
+              <span class="rank-badge">추천 ${index + 1}</span>
+              <h4 class="solution-name" style="margin-top:10px;">${renderSolutionButton(item.name, "detail-solution-button")}</h4>
+            </div>
+          </div>
+          <div class="solution-body">
+            <div class="solution-block">
+              <div class="solution-block-title">왜 필요한가</div>
+              <p class="solution-text">${escapeHtml(item.why)}</p>
+            </div>
+            <div class="solution-block">
+              <div class="solution-block-title">HR Point 서비스</div>
+              <p class="solution-text">${escapeHtml(item.serviceText)}</p>
+              <ul class="solution-list">
+                ${item.services.map(service => `<li>${escapeHtml(service)}</li>`).join("")}
+              </ul>
+            </div>
+            <div class="solution-block effect-box">
+              <div class="solution-block-title">기대효과</div>
+              <ul class="solution-list">
+                ${item.effects.map(effect => `<li>${escapeHtml(effect)}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      $("flowChart").innerHTML = report.flow.map(node => `
+        <div class="flow-node">
+          <div class="flow-step">${escapeHtml(node.step)}</div>
+          <div class="flow-title">${renderSolutionLabel(node.title)}</div>
+          <div class="flow-text">${escapeHtml(node.text)}</div>
+        </div>
+      `).join("");
+
+      $("roadmap").innerHTML = report.roadmap.map(step => `
+        <div class="step">
+          <small>${escapeHtml(step.phase)}</small>
+          <strong>${escapeHtml(step.title)}</strong>
+          <span>${escapeHtml(step.text)}</span>
+        </div>
+      `).join("");
+
+      const summaryAnswers = report.answers.filter((_, idx) => [0,1,2,3,4,5,8,9,10,11,12,13,14,15].includes(idx));
+      $("answerSummary").innerHTML = summaryAnswers.map(a => `
+        <div class="summary-row">
+          <span>${escapeHtml(a.axis)}</span>
+          <span>${escapeHtml(a.answer)}</span>
+        </div>
+      `).join("");
+
+      $("shareSummary").innerHTML = buildShareSummary(report, lead);
+      renderSolutionsOverview();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function buildShareSummary(report, lead) {
+      const company = lead.companyName || "우리 회사";
+      const top3 = report.ranked.slice(0, 3);
+      const sections = [
+        { title: "진단 유형", text: `${report.diag.title}` },
+        { title: "핵심 문제", text: `${report.diag.desc}` },
+        { title: "추천 솔루션 3가지", text: top3.map((item, index) => `추천 ${index + 1}. ${plainSolutionLabel(item.name)}`).join(" / ") },
+        { title: "운영방향", text: report.flow.map(node => node.title).join(" → ") },
+        { title: "추천실행 방향", text: report.roadmap.map(step => `${step.phase} · ${step.title}`).join(" / ") },
+        { title: "공유 문장", text: `${company}의 채용문제 진단 결과, 현재는 ${plainSolutionLabel(report.top.shortName)}를 중심으로 ${top3.map(item => plainSolutionLabel(item.shortName)).join(", ")} 순서의 실행이 적합합니다.` }
+      ];
+      return sections.map(section => `
+        <div class="share-item">
+          <input type="checkbox" checked disabled />
+          <div>
+            <span class="share-title">${escapeHtml(section.title)}</span>
+            <div class="share-text">${escapeHtml(section.text)}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function getLeadFromForm() {
+      return {
+        managerName: $("managerName").value.trim(),
+        companyName: $("companyName").value.trim(),
+        phone: $("phone").value.trim(),
+        email: $("email").value.trim(),
+        privacyConsent: $("privacyConsent").checked
+      };
+    }
+
+    function validateLead(lead) {
+      if (!lead.managerName || !lead.companyName || !lead.phone || !lead.email) return "필수 정보를 모두 입력해 주세요.";
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email);
+      if (!emailOk) return "이메일 형식을 확인해 주세요.";
+      if (!lead.privacyConsent) return "리포트 확인 동의가 필요합니다.";
+      return "";
+    }
+
+    function splitSolutionLabel(label) {
+      const raw = String(label || "").trim();
+      if (!raw.includes(" - ")) return { base: raw, focus: "" };
+      const [base, ...rest] = raw.split(" - ");
+      return { base: base.trim(), focus: rest.join(" - ").trim() };
+    }
+
+    function renderSolutionLabel(label) {
+      const { base, focus } = splitSolutionLabel(label);
+      if (!focus) return escapeHtml(base);
+      return `<span class="solution-name-base">${escapeHtml(base)} - <span class="solution-focus">${escapeHtml(focus)}</span></span>`;
+    }
+
+    function renderSolutionButton(label, className = "") {
+      const cls = className ? ` ${className}` : "";
+      return `<span class="solution-button${cls}">${renderSolutionLabel(label)}</span>`;
+    }
+
+    function plainSolutionLabel(label) {
+      return String(label || "").replace(/\s+/g, " ").trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+    function downloadPdfReport() {
+      const prevTitle = document.title;
+      const company = state.lead?.companyName || "HR_Point";
+      document.title = `${company}_채용문제진단_보고서`;
+      window.print();
+      window.setTimeout(() => {
+        document.title = prevTitle;
+      }, 1000);
+    }
+
+    function scrollToContact() {
+      $("contactSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      const status = $("saveStatus");
+      status.className = "status";
+      status.textContent = "";
+      const lead = getLeadFromForm();
+      const error = validateLead(lead);
+      if (error) {
+        status.className = "status error";
+        status.textContent = error;
+        return;
+      }
+      state.lead = lead;
+      renderReport();
+    }
+
+    document.addEventListener("selectionchange", () => {
+      const active = document.activeElement;
+      if (active && active.matches("input, textarea, select")) return;
+      const sel = window.getSelection && window.getSelection();
+      if (sel && sel.type === "Range" && sel.removeAllRanges) sel.removeAllRanges();
     });
 
-    copyBtn.addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(copyText.value);
-        copyBtn.textContent = "복사됨";
-        setTimeout(() => copyBtn.textContent = "요약 복사", 1000);
-      }catch(e){
-        copyText.select();
-        document.execCommand("copy");
-        copyBtn.textContent = "복사됨";
-        setTimeout(() => copyBtn.textContent = "요약 복사", 1000);
+    $("startBtn").addEventListener("click", startQuiz);
+    $("prevBtn").addEventListener("click", goPrev);
+    $("nextBtn").addEventListener("click", goNext);
+    $("resetBtn").addEventListener("click", resetQuiz);
+    $("leadForm").addEventListener("submit", handleLeadSubmit);
+    $("pdfBtn").addEventListener("click", downloadPdfReport);
+    $("quoteScrollBtn").addEventListener("click", scrollToContact);
+
+    document.addEventListener("contextmenu", (e) => {
+      if (!e.target.closest("input, textarea, select, a[href^='tel'], a[href^='mailto']")) {
+        e.preventDefault();
       }
     });
-
-    quoteBtn.addEventListener("click", () => {
-      window.open("https://tool.linkedinkorea.com/solution/", "_blank", "noopener");
+    document.addEventListener("dragstart", (e) => {
+      if (!e.target.closest("input, textarea, select")) e.preventDefault();
     });
-
-    updateMeta();
-    renderQuestion();
+    document.addEventListener("selectstart", (e) => {
+      if (!e.target.closest("input, textarea, select")) e.preventDefault();
+    });
   </script>
 </body>
 </html>
